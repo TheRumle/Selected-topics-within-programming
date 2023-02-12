@@ -1,0 +1,13 @@
+# ninja log v5
+1	540	6978974864034267	CMakeFiles/test_polygon.dir/test_polygon.cpp.obj	ca12b9d9df9751f7
+4	660	6978974865184140	CMakeFiles/test_polygon.dir/polygon.cpp.obj	3187a74f50ce6c3e
+1	120	6978975185683926	build.ninja	4fdce0aee9963f59
+3	506	6978975191183713	CMakeFiles/test_polygon.dir/test_polygon.cpp.obj	3b6037741fb59d59
+5	616	6978975192283916	CMakeFiles/test_polygon.dir/polygon.cpp.obj	fb3d74b5c9e8679a
+6	424	6978976274792768	CMakeFiles/test_polygon.dir/polygon.cpp.obj	fb3d74b5c9e8679a
+3	542	6978976275976267	CMakeFiles/test_polygon.dir/test_polygon.cpp.obj	3b6037741fb59d59
+543	620	6978976276685910	test_polygon.exe	af07fe2de41d358b
+2	593	6978976699883929	CMakeFiles/test_polygon.dir/test_polygon.cpp.obj	3b6037741fb59d59
+5	737	6978976701296100	CMakeFiles/test_polygon.dir/polygon.cpp.obj	fb3d74b5c9e8679a
+3	593	6978978265622882	CMakeFiles/test_polygon.dir/polygon.cpp.obj	fb3d74b5c9e8679a
+594	673	6978978266414967	test_polygon.exe	af07fe2de41d358b
