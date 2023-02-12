@@ -10,7 +10,7 @@
 #include <valarray>
 
 struct benchmark_result {
-    int id = -1;
+    const int id = -1;
     long number_of_measurements{0};
     double sum{0}; // the sum of timings
     double sumsq{0}; // the sum of squared timings
@@ -20,11 +20,16 @@ struct benchmark_result {
         sumsq += time * time;
     }
     [[nodiscard]] double mean() const { return sum / number_of_measurements; }
-    [[nodiscard]] double half_conf_interval() const {
-        auto standard_error = std::sqrt((sumsq - sum * sum / number_of_measurements) / (number_of_measurements - 1) / number_of_measurements);
-        return standard_error * 1.960147;
+    [[nodiscard]] double standard_error() const {
+        return std::sqrt((sumsq - sum * sum / number_of_measurements) / (number_of_measurements - 1) / number_of_measurements);
     }
+
+
+    friend std::ostream& operator << (std::ostream &os, const benchmark_result &s);
+
+
 };
+
 
 #endif //SESSION2_BENCHMARK_RESULT_H
 

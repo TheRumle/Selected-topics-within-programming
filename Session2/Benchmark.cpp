@@ -4,9 +4,9 @@
 
 #include "Benchmark.h"
 
-benchmark_result benchmark::benchmark_function(int runs, const std::function<void()> &func) {
+benchmark_result benchmark::bench_rand_vals(int runs, const std::function<void()> &func) {
     std::mt19937 mt(std::random_device{}());
-    std::uniform_int_distribution<int> dist(INT_MIN,INT_MAX);
+    std::uniform_int_distribution<int> dist(0,INT_MAX);
     auto id = dist(mt);
     
     benchmark_result measurement{id};

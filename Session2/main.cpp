@@ -1,8 +1,8 @@
-﻿#include <iostream>
-#include "lecture2.h"
+﻿#include "endian_test.h"
+#include "bench_random.h"
+
 int main() {
 
-    print_type_and_size();
-    print_union();
+    run_bench();
     return 0;
 }

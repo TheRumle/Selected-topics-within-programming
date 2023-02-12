@@ -1,0 +1,10 @@
+^C:\USERS\RASMU\CLIONPROJECTS\SELECTED-TOPICS-WITHIN-PROGRAMMING\SESSION2\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\JetBrains\CLion 2022.2.4\bin\cmake\win\bin\cmake.exe" -SC:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2 -BC:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/cmake-build-debug --check-stamp-file C:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/cmake-build-debug/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
