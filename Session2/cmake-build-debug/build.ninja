@@ -61,6 +61,30 @@ build CMakeFiles/Session2.dir/lecture2.cpp.obj: CXX_COMPILER__Session2_Debug C$:
   OBJECT_DIR = CMakeFiles\Session2.dir
   OBJECT_FILE_DIR = CMakeFiles\Session2.dir
 
+build CMakeFiles/Session2.dir/Benchmark.cpp.obj: CXX_COMPILER__Session2_Debug C$:/Users/rasmus/Desktop/Selected-topics-within-programming/Session2/Benchmark.cpp || cmake_object_order_depends_target_Session2
+  DEP_FILE = CMakeFiles\Session2.dir\Benchmark.cpp.obj.d
+  FLAGS = -g -std=gnu++20
+  OBJECT_DIR = CMakeFiles\Session2.dir
+  OBJECT_FILE_DIR = CMakeFiles\Session2.dir
+
+build CMakeFiles/Session2.dir/timer.cpp.obj: CXX_COMPILER__Session2_Debug C$:/Users/rasmus/Desktop/Selected-topics-within-programming/Session2/timer.cpp || cmake_object_order_depends_target_Session2
+  DEP_FILE = CMakeFiles\Session2.dir\timer.cpp.obj.d
+  FLAGS = -g -std=gnu++20
+  OBJECT_DIR = CMakeFiles\Session2.dir
+  OBJECT_FILE_DIR = CMakeFiles\Session2.dir
+
+build CMakeFiles/Session2.dir/benchmarkResult.cpp.obj: CXX_COMPILER__Session2_Debug C$:/Users/rasmus/Desktop/Selected-topics-within-programming/Session2/benchmarkResult.cpp || cmake_object_order_depends_target_Session2
+  DEP_FILE = CMakeFiles\Session2.dir\benchmarkResult.cpp.obj.d
+  FLAGS = -g -std=gnu++20
+  OBJECT_DIR = CMakeFiles\Session2.dir
+  OBJECT_FILE_DIR = CMakeFiles\Session2.dir
+
+build CMakeFiles/Session2.dir/randomNums.cpp.obj: CXX_COMPILER__Session2_Debug C$:/Users/rasmus/Desktop/Selected-topics-within-programming/Session2/randomNums.cpp || cmake_object_order_depends_target_Session2
+  DEP_FILE = CMakeFiles\Session2.dir\randomNums.cpp.obj.d
+  FLAGS = -g -std=gnu++20
+  OBJECT_DIR = CMakeFiles\Session2.dir
+  OBJECT_FILE_DIR = CMakeFiles\Session2.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Session2
@@ -69,7 +93,7 @@ build CMakeFiles/Session2.dir/lecture2.cpp.obj: CXX_COMPILER__Session2_Debug C$:
 #############################################
 # Link the executable Session2.exe
 
-build Session2.exe: CXX_EXECUTABLE_LINKER__Session2_Debug CMakeFiles/Session2.dir/main.cpp.obj CMakeFiles/Session2.dir/lecture2.cpp.obj
+build Session2.exe: CXX_EXECUTABLE_LINKER__Session2_Debug CMakeFiles/Session2.dir/main.cpp.obj CMakeFiles/Session2.dir/lecture2.cpp.obj CMakeFiles/Session2.dir/Benchmark.cpp.obj CMakeFiles/Session2.dir/timer.cpp.obj CMakeFiles/Session2.dir/benchmarkResult.cpp.obj CMakeFiles/Session2.dir/randomNums.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Session2.dir

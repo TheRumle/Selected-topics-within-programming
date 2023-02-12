@@ -3,4 +3,4 @@ project(Session2)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(Session2 main.cpp lecture2.cpp lecture2.h)
+add_executable(Session2 main.cpp lecture2.cpp lecture2.h Benchmark.cpp Benchmark.h timer.cpp timer.h benchmark_result.h)

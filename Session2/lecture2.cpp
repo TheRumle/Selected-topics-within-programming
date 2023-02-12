@@ -47,33 +47,3 @@ void print_union(){
         auto clock = std::chrono::high_resolution_clock::now();
     }
 }
-struct measurement_t{
-    char* name;
-    size_t count{0};
-    double sum{0}; // the sum of timings
-    double sumsq{0}; // the sum of squared timings
-    void add_measurement(std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>){
-
-    }
-};
-
-class Benchmark {
-    time_point last;
-    std::vector<measurement_t> measurements;
-private:
-    clk::time_point startTime;
-public:
-    void start(){
-        startTime = clk::now();
-    }
-
-    static void click_time_point(){
-        auto t = clk::now();
-
-    }
-
-    double stop(){
-        std::chrono::duration<double, std::milli> fp_ms = clk::now() - startTime;
-        return fp_ms.count();
-    }
-};
