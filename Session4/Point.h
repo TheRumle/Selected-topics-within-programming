@@ -6,8 +6,7 @@
 #define SESSION4_POINT_H
 
 #include <iostream>
-class Point {
-public:
+struct Point {
     double x;
     double y;
     friend std::ostream &operator<<(std::ostream &os, const Point &point);

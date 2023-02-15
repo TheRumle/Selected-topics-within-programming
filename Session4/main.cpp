@@ -42,13 +42,13 @@ int main() {
     line1 += a;
     line1 += b;
 
-    print_Polyline (line1);
+    std::cout << line1;
     print_ruler();
 
     // Demonstrate copy-on-write semantics for exercise 3
     std::cout << "Exercise 3 results:" << std::endl;
     Polyline line2 = line1;
-    print_Polyline (line2);
+    std::cout << line2;
 
     Point c { 10, 20 };
 
@@ -63,7 +63,7 @@ int main() {
     std::cout << "line1: " << std::hex << line1.get() << std::endl;
     std::cout << "line2: " << std::hex << line2.get() << std::endl << std::endl;
 
-    print_Polyline (line2);
+    std::cout << line2;
     print_ruler();
 
     /*

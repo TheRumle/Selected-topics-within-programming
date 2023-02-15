@@ -10,7 +10,7 @@ Polyline &Polyline::operator+=(const Point &p)  {
         std::cout<<"Copy on write!";
         points =  std::make_shared<std::vector<Point>>(std::vector<Point>(*points));
     }
-    points->push_back(p);
+    (*points).push_back(p);
     return *this;
 }
 
@@ -38,8 +38,8 @@ Polyline &Polyline::operator=(const Polyline &other) {
 
 std::ostream &operator<<(std::ostream &os, const Polyline &s) {
     os << s.points->size() << " points were shared with " << s.points.use_count() << "\n";
-    for (auto const &p : *s.points) {
-        os << s;
+    for (auto const p : *s.points) {
+        os << p;
     }
     return os;
 }
