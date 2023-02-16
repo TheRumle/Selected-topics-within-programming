@@ -11,20 +11,6 @@ void eval_line_boolean(const Polyline &line) {
     }
 }
 
-void print_Polyline (const Polyline &line) {
-    std::cout << "{ ";
-
-    for (auto it = line.begin(); it != line.end(); ++it) {
-        const auto &Point = *it;
-        std::cout << Point;
-
-        if (it + 1 != line.end()) {
-            std::cout << ", ";
-        }
-    }
-
-    std::cout << " }" << std::endl;
-}
 
 void print_ruler() {
     std::string ruler(40, '-');
