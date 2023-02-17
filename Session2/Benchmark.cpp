@@ -29,11 +29,19 @@ benchmark_result benchmark::getById(int id) {
     auto begin = results.begin();
     auto end = results.end();
     std::vector<benchmark_result>::iterator result;
-    result = std::find_if(begin, end,[id](benchmark_result b_result)
-    {return b_result.id == id;});
+    result = std::find_if(begin, end,
+                          [id](benchmark_result b_result){return b_result.id == id;});
 
     if (result != end)
         return results.at(result - end);
-
+    
     return benchmark_result{NOT_PRESENT};
+}
+
+benchmark_result benchmark::perform_measurements(const std::function<void()> &func, int num_measurements) {
+    auto measurement = benchmark_result{};
+    for (int i = 0; i < num_measurements; ++i)
+        perform_measurement(func, measurement);
+
+    return measurement;
 }

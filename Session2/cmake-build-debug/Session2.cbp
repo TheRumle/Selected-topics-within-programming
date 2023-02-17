@@ -17,6 +17,50 @@
 					<DistClean command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
+			<Target title="libBenchmark">
+				<Option output="C:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/cmake-build-debug/liblibBenchmark.dll" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/cmake-build-debug/Makefile&quot;  VERBOSE=1 libBenchmark"/>
+					<CompileFile command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="libBenchmark/fast">
+				<Option output="C:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/cmake-build-debug/liblibBenchmark.dll" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../include"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed"/>
+					<Add directory="C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/../lib/gcc/x86_64-w64-mingw32/11.2.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/cmake-build-debug/Makefile&quot;  VERBOSE=1 libBenchmark/fast"/>
+					<CompileFile command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/PROGRA~1/JETBRA~1/CLION2~1.4/bin/mingw/bin/mingw32-make.exe -f &quot;C:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
 			<Target title="Session2">
 				<Option output="C:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/cmake-build-debug/Session2.exe" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="C:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/cmake-build-debug"/>
@@ -83,6 +127,7 @@
 			</Target>
 		</Build>
 		<Unit filename="C:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/Benchmark.cpp">
+			<Option target="libBenchmark"/>
 			<Option target="Session2"/>
 		</Unit>
 		<Unit filename="C:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/Benchmark.h">
@@ -95,12 +140,14 @@
 			<Option target="Session2"/>
 		</Unit>
 		<Unit filename="C:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/benchmark_result.cpp">
+			<Option target="libBenchmark"/>
 			<Option target="Session2"/>
 		</Unit>
 		<Unit filename="C:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/benchmark_result.h">
 			<Option target="Session2"/>
 		</Unit>
 		<Unit filename="C:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/endian_test.cpp">
+			<Option target="libBenchmark"/>
 			<Option target="Session2"/>
 		</Unit>
 		<Unit filename="C:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/endian_test.h">
@@ -110,12 +157,14 @@
 			<Option target="Session2"/>
 		</Unit>
 		<Unit filename="C:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/timer.cpp">
+			<Option target="libBenchmark"/>
 			<Option target="Session2"/>
 		</Unit>
 		<Unit filename="C:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/timer.h">
 			<Option target="Session2"/>
 		</Unit>
 		<Unit filename="C:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/types_and_sizes.cpp">
+			<Option target="libBenchmark"/>
 			<Option target="Session2"/>
 		</Unit>
 		<Unit filename="C:/Users/rasmu/CLionProjects/Selected-topics-within-programming/Session2/types_and_sizes.h">

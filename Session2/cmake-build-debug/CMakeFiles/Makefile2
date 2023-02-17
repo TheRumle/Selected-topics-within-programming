@@ -62,6 +62,7 @@ CMAKE_BINARY_DIR = C:\Users\rasmu\CLionProjects\Selected-topics-within-programmi
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
+all: CMakeFiles/libBenchmark.dir/all
 all: CMakeFiles/Session2.dir/all
 .PHONY : all
 
@@ -70,8 +71,35 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
+clean: CMakeFiles/libBenchmark.dir/clean
 clean: CMakeFiles/Session2.dir/clean
 .PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/libBenchmark.dir
+
+# All Build rule for target.
+CMakeFiles/libBenchmark.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\libBenchmark.dir\build.make CMakeFiles/libBenchmark.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\libBenchmark.dir\build.make CMakeFiles/libBenchmark.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\rasmu\CLionProjects\Selected-topics-within-programming\Session2\cmake-build-debug\CMakeFiles --progress-num=9,10,11,12,13,14 "Built target libBenchmark"
+.PHONY : CMakeFiles/libBenchmark.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/libBenchmark.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\rasmu\CLionProjects\Selected-topics-within-programming\Session2\cmake-build-debug\CMakeFiles 6
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/libBenchmark.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\rasmu\CLionProjects\Selected-topics-within-programming\Session2\cmake-build-debug\CMakeFiles 0
+.PHONY : CMakeFiles/libBenchmark.dir/rule
+
+# Convenience name for target.
+libBenchmark: CMakeFiles/libBenchmark.dir/rule
+.PHONY : libBenchmark
+
+# clean rule for target.
+CMakeFiles/libBenchmark.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\libBenchmark.dir\build.make CMakeFiles/libBenchmark.dir/clean
+.PHONY : CMakeFiles/libBenchmark.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/Session2.dir

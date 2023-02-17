@@ -116,6 +116,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named libBenchmark
+
+# Build rule for target.
+libBenchmark: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 libBenchmark
+.PHONY : libBenchmark
+
+# fast build rule for target.
+libBenchmark/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\libBenchmark.dir\build.make CMakeFiles/libBenchmark.dir/build
+.PHONY : libBenchmark/fast
+
+#=============================================================================
 # Target rules for targets named Session2
 
 # Build rule for target.
@@ -133,6 +146,7 @@ Benchmark.obj: Benchmark.cpp.obj
 
 # target to build an object file
 Benchmark.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\libBenchmark.dir\build.make CMakeFiles/libBenchmark.dir/Benchmark.cpp.obj
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Session2.dir\build.make CMakeFiles/Session2.dir/Benchmark.cpp.obj
 .PHONY : Benchmark.cpp.obj
 
@@ -141,6 +155,7 @@ Benchmark.i: Benchmark.cpp.i
 
 # target to preprocess a source file
 Benchmark.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\libBenchmark.dir\build.make CMakeFiles/libBenchmark.dir/Benchmark.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Session2.dir\build.make CMakeFiles/Session2.dir/Benchmark.cpp.i
 .PHONY : Benchmark.cpp.i
 
@@ -149,6 +164,7 @@ Benchmark.s: Benchmark.cpp.s
 
 # target to generate assembly for a file
 Benchmark.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\libBenchmark.dir\build.make CMakeFiles/libBenchmark.dir/Benchmark.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Session2.dir\build.make CMakeFiles/Session2.dir/Benchmark.cpp.s
 .PHONY : Benchmark.cpp.s
 
@@ -181,6 +197,7 @@ benchmark_result.obj: benchmark_result.cpp.obj
 
 # target to build an object file
 benchmark_result.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\libBenchmark.dir\build.make CMakeFiles/libBenchmark.dir/benchmark_result.cpp.obj
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Session2.dir\build.make CMakeFiles/Session2.dir/benchmark_result.cpp.obj
 .PHONY : benchmark_result.cpp.obj
 
@@ -189,6 +206,7 @@ benchmark_result.i: benchmark_result.cpp.i
 
 # target to preprocess a source file
 benchmark_result.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\libBenchmark.dir\build.make CMakeFiles/libBenchmark.dir/benchmark_result.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Session2.dir\build.make CMakeFiles/Session2.dir/benchmark_result.cpp.i
 .PHONY : benchmark_result.cpp.i
 
@@ -197,6 +215,7 @@ benchmark_result.s: benchmark_result.cpp.s
 
 # target to generate assembly for a file
 benchmark_result.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\libBenchmark.dir\build.make CMakeFiles/libBenchmark.dir/benchmark_result.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Session2.dir\build.make CMakeFiles/Session2.dir/benchmark_result.cpp.s
 .PHONY : benchmark_result.cpp.s
 
@@ -205,6 +224,7 @@ endian_test.obj: endian_test.cpp.obj
 
 # target to build an object file
 endian_test.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\libBenchmark.dir\build.make CMakeFiles/libBenchmark.dir/endian_test.cpp.obj
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Session2.dir\build.make CMakeFiles/Session2.dir/endian_test.cpp.obj
 .PHONY : endian_test.cpp.obj
 
@@ -213,6 +233,7 @@ endian_test.i: endian_test.cpp.i
 
 # target to preprocess a source file
 endian_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\libBenchmark.dir\build.make CMakeFiles/libBenchmark.dir/endian_test.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Session2.dir\build.make CMakeFiles/Session2.dir/endian_test.cpp.i
 .PHONY : endian_test.cpp.i
 
@@ -221,6 +242,7 @@ endian_test.s: endian_test.cpp.s
 
 # target to generate assembly for a file
 endian_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\libBenchmark.dir\build.make CMakeFiles/libBenchmark.dir/endian_test.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Session2.dir\build.make CMakeFiles/Session2.dir/endian_test.cpp.s
 .PHONY : endian_test.cpp.s
 
@@ -253,6 +275,7 @@ timer.obj: timer.cpp.obj
 
 # target to build an object file
 timer.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\libBenchmark.dir\build.make CMakeFiles/libBenchmark.dir/timer.cpp.obj
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Session2.dir\build.make CMakeFiles/Session2.dir/timer.cpp.obj
 .PHONY : timer.cpp.obj
 
@@ -261,6 +284,7 @@ timer.i: timer.cpp.i
 
 # target to preprocess a source file
 timer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\libBenchmark.dir\build.make CMakeFiles/libBenchmark.dir/timer.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Session2.dir\build.make CMakeFiles/Session2.dir/timer.cpp.i
 .PHONY : timer.cpp.i
 
@@ -269,6 +293,7 @@ timer.s: timer.cpp.s
 
 # target to generate assembly for a file
 timer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\libBenchmark.dir\build.make CMakeFiles/libBenchmark.dir/timer.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Session2.dir\build.make CMakeFiles/Session2.dir/timer.cpp.s
 .PHONY : timer.cpp.s
 
@@ -277,6 +302,7 @@ types_and_sizes.obj: types_and_sizes.cpp.obj
 
 # target to build an object file
 types_and_sizes.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\libBenchmark.dir\build.make CMakeFiles/libBenchmark.dir/types_and_sizes.cpp.obj
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Session2.dir\build.make CMakeFiles/Session2.dir/types_and_sizes.cpp.obj
 .PHONY : types_and_sizes.cpp.obj
 
@@ -285,6 +311,7 @@ types_and_sizes.i: types_and_sizes.cpp.i
 
 # target to preprocess a source file
 types_and_sizes.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\libBenchmark.dir\build.make CMakeFiles/libBenchmark.dir/types_and_sizes.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Session2.dir\build.make CMakeFiles/Session2.dir/types_and_sizes.cpp.i
 .PHONY : types_and_sizes.cpp.i
 
@@ -293,6 +320,7 @@ types_and_sizes.s: types_and_sizes.cpp.s
 
 # target to generate assembly for a file
 types_and_sizes.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\libBenchmark.dir\build.make CMakeFiles/libBenchmark.dir/types_and_sizes.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Session2.dir\build.make CMakeFiles/Session2.dir/types_and_sizes.cpp.s
 .PHONY : types_and_sizes.cpp.s
 
@@ -305,6 +333,7 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... Session2
+	@echo ... libBenchmark
 	@echo ... Benchmark.obj
 	@echo ... Benchmark.i
 	@echo ... Benchmark.s

@@ -24,7 +24,8 @@ struct benchmark_result {
         return std::sqrt((sumsq - sum * sum / number_of_measurements) / (number_of_measurements - 1) / number_of_measurements);
     }
 
-
+    
+    
     friend std::ostream& operator << (std::ostream &os, const benchmark_result &s);
 
 
