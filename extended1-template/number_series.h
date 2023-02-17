@@ -56,7 +56,7 @@ namespace data_series
                                            const std::vector<int>& second);
     };
 
-    class number_series_wrap
+    class number_series_wrap : number_series
     {
     public:
         number_series_wrap();

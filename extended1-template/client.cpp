@@ -3,4 +3,3 @@
 //
 
 #include "client.h"
-std::unique_ptr<std::vector<number_series>> series::Client::fill_series() { return nullptr; }
