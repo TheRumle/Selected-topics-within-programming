@@ -56,10 +56,14 @@ namespace data_series
                                            const std::vector<int>& second);
     };
 
-    class number_series_wrap : number_series
+    class number_series_wrap : public number_series
     {
+    private:
+        std::unique_ptr<number_series> _series;
     public:
-        number_series_wrap();
+        number_series_wrap(std::initializer_list<int> init) : number_series(init){
+            
+        }
     };
 
 }  // namespace data_series

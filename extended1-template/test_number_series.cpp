@@ -95,10 +95,7 @@ TEST_CASE("operator< using amplitudes")
     CHECK(ns2 < ns1);
 }
 
-/// number_series_wrap class
-/*
- * 
- * 
+
 TEST_CASE("Maintain minimum and maximum values")
 {
     auto ns = number_series_wrap{};
@@ -183,4 +180,4 @@ TEST_CASE("operator< using amplitudes")
     CHECK(ns2.amplitude() == 3);
     CHECK(ns2 < ns1);
 }
-*/
+
