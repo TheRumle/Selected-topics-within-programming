@@ -6,7 +6,7 @@
 #include <chrono>
 #include <algorithm>
 
-constexpr auto ns_number = 100'000;
+constexpr auto ns_number = 100000;
 constexpr auto ns_length = 100;
 
 int main()
@@ -23,9 +23,12 @@ int main()
     vv.reserve(ns_number);  // preallocate memory
 
     // Populate the vv with data here
+    for (int i = 0; i < ns_number; ++i) 
+        vv.push_back(data_series::number_series::make_random(ns_length));
+    
 
     auto t0 = clk::now();
-    // std::sort(vv.begin(), vv.end());
+    std::sort(vv.begin(), vv.end());
     auto t1 = clk::now();
     cout << "Sorting values: " << duration<double, milli>(t1 - t0).count() << " ms\n";
 
@@ -35,8 +38,11 @@ int main()
     vw.reserve(ns_number);  // preallocate memory
 
     // Populate the vw with data here
+    for (int i = 0; i < ns_number; ++i) 
+        vw.push_back(data_series::number_series_wrap::make_random(ns_length));
+    
     t0 = clk::now();
-    // std::sort(vw.begin(), vw.end());
+    std::sort(vw.begin(), vw.end());
     t1 = clk::now();
     cout << "Sorting wrapped pointers: " << duration<double, milli>(t1 - t0).count() << " ms\n";
 

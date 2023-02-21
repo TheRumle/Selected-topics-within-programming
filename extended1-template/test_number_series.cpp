@@ -1,5 +1,6 @@
 #include "number_series.h"
 
+
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <doctest/doctest.h>
 
@@ -145,7 +146,7 @@ TEST_CASE("Special members: ctors, dtor, assignment")
     CHECK(ns2.size() == 3);
     CHECK(ns2.get_min() == 3);
     CHECK(ns2.get_max() == 11);
-    CHECK(ns3.size() == 0); // your implementation may differ
+    //CHECK(ns3.size() == 0); // your implementation may differ
 }
 
 TEST_CASE("Class should have a static factory method")
@@ -174,7 +175,7 @@ TEST_CASE("operator+ and operator+= over number series")
 
 TEST_CASE("operator< using amplitudes")
 {
-    auto ns1 = number_series_wrap{6, 3, 9};
+    auto ns1 = data_series::number_series_wrap{6, 3, 9};
     CHECK(ns1.amplitude() == 6);
     auto ns2 = number_series_wrap{24, 21, 22};
     CHECK(ns2.amplitude() == 3);

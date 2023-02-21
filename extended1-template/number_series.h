@@ -54,16 +54,52 @@ namespace data_series
         int _max{INT32_MIN};
         static std::vector<int> addVectors(const std::vector<int>& first,
                                            const std::vector<int>& second);
+        
+        int averages[200];
     };
 
-    class number_series_wrap : public number_series
+    class number_series_wrap
     {
     private:
-        std::unique_ptr<number_series> _series;
-    public:
-        number_series_wrap(std::initializer_list<int> init) : number_series(init){
-            
+        explicit number_series_wrap(number_series series);
+        std::unique_ptr<data_series::number_series> _series = std::make_unique<data_series::number_series>();
+        inline void assign_shared(const data_series::number_series& series) {
+            _series = std::make_unique<data_series::number_series>(series);
         }
+    public:
+        number_series_wrap(number_series_wrap&&other) noexcept;
+        
+        number_series_wrap(std::initializer_list<int> init);
+        number_series_wrap();
+            
+        number_series_wrap(std::vector<int> series, int min, int max) noexcept;
+            
+        number_series_wrap(const data_series::number_series_wrap& other) noexcept;
+            
+        [[nodiscard]] size_t size() const noexcept;
+            
+        ~number_series_wrap() = default;
+        number_series_wrap& operator= (const number_series_wrap&other);
+        number_series_wrap& operator= (number_series_wrap&&other) noexcept;
+            
+        static number_series_wrap make_random(std::size_t size);
+        [[nodiscard]] int get_min() const noexcept;
+        [[nodiscard]] int get_max() const noexcept;
+        /**
+             * Add series element wise and appends remaining elements to structure.
+             * Does not modify existing structure. 
+         */
+        number_series_wrap operator+(const number_series_wrap&other) const;
+        bool operator<(const number_series_wrap&other) const;
+        /**
+             * Add series element wise and appends remaining elements to structure.
+             * Does not modify existing structure
+         */
+        number_series_wrap& operator+=(const number_series_wrap&other);
+        void add_value(int value) noexcept;
+        [[nodiscard]] int amplitude() const noexcept;
+
+        //int averages[120];
     };
 
 }  // namespace data_series

@@ -15,14 +15,12 @@ namespace data_series
         _series = other._series;
         _min = other._min;
         _max = other._max;
-        std::cout << "Copy constructor" << std::endl;
     }
 
     number_series::number_series(std::vector<int> series, int min, int max) noexcept {
         _series = std::move(series);
         _min = min;
         _max = max;
-        std::cout << "Custom constructor"<< std::endl;;
     }
     
 
