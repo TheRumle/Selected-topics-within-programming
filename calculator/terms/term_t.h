@@ -7,8 +7,6 @@
 
 #include <vector>
 
-#       
-
 class term_t {
 protected:
 
