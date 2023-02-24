@@ -8,7 +8,7 @@
 namespace data_series
 {
 
-    data_series::number_series_wrap::number_series_wrap(std::initializer_list<int> init)
+    data_series::number_series_wrap::number_series_wrap(const std::initializer_list<int> init)
     {
         assign_shared(data_series::number_series{init});
     }
@@ -26,7 +26,7 @@ namespace data_series
     }
     data_series::number_series_wrap data_series::number_series_wrap::make_random(std::size_t size)
     {
-        return number_series_wrap{data_series::number_series::make_random(size)};
+        return {data_series::number_series::make_random(size)};
     }
 
     data_series::number_series_wrap& data_series::number_series_wrap::operator=(number_series_wrap&& other) noexcept

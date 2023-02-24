@@ -59,7 +59,7 @@ namespace data_series
     }
 
     number_series& number_series::operator+=(const number_series&other) {
-        _series = addVectors(_series, other._series);
+        _series = std::move(addVectors(_series, other._series));
         return *this;
     }
 
@@ -88,7 +88,7 @@ namespace data_series
            << std::addressof(series._series) << " with vector ranging from "  //NOTICE! The object has same address as the vector!
            << series._min <<" to " << series._max << std::endl << " {";
 
-        for (int element : series._series) 
+        for (const int& element : series._series) 
             os << element << ", ";
         for (auto const& val: series._series)
             os << val << ",";
@@ -116,7 +116,7 @@ namespace data_series
     }
     int number_series::amplitude() const noexcept { return _max - _min; }
     number_series& number_series::operator=(number_series&& other) noexcept {
-        _series = std::move(other._series); //good practice is to postpone deletion of other's members until its destruction
+        std::swap(other._series, _series); //good practice is to postpone deletion of other's members until its destruction
         std::swap(_max, other._max);
         std::swap(_min, other._min);
         return *this;    }

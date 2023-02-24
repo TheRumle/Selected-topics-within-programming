@@ -61,7 +61,7 @@ namespace data_series
     class number_series_wrap
     {
     private:
-        explicit number_series_wrap(number_series series);
+        number_series_wrap(number_series series);
         std::unique_ptr<data_series::number_series> _series = std::make_unique<data_series::number_series>();
         inline void assign_shared(const data_series::number_series& series) {
             _series = std::make_unique<data_series::number_series>(series);
