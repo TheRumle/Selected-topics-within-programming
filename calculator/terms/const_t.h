@@ -15,7 +15,8 @@ public:
     explicit const_t(double value) : value(value) {}
     const_t(int value) : value(value) {}
 
-    double operator()(state_t& _) override{
+    //inline simple operations
+    inline double operator()(state_t& _) override{
         return value;
     }
 };

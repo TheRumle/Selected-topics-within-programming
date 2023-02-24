@@ -45,9 +45,9 @@ TEST_CASE("Calculate expressions lazily")
         CHECK((c += b - a * c)(state) == 1);
         CHECK(c(state) == 1);
         
-        /*
+        
         CHECK_THROWS_MESSAGE((c - a += b - c), "assignment destination must be a variable expression");
-        */
+        
     }
     SUBCASE("Parenthesis")
     {

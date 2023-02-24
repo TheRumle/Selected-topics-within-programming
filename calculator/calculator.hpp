@@ -1,6 +1,7 @@
 #ifndef INCLUDE_ALGEBRA_HPP
 #define INCLUDE_ALGEBRA_HPP
 
+#include <utility>
 #include <vector>
 #include <string>
 #include <memory>
@@ -14,12 +15,7 @@
 
 namespace calculator
 {
-    /** Type to capture the state of entire calculator (one number per variable): */
     using state_t = term_t::state_t;
-    
-
-    /** Forward declarations to get around circular dependencies: */
-
     struct expr_t
     {
         std::shared_ptr<term_t>term;
@@ -35,9 +31,6 @@ namespace calculator
             return  (*term)(s);
         }
     };
-
-    /** Class representing a variable */
-
     class symbol_table_t
     {
         std::vector<std::string> names;
@@ -53,65 +46,71 @@ namespace calculator
         [[nodiscard]] state_t state() const { return {initial}; }
     };
 
-    static expr_t create_composite_assign(std::shared_ptr<term_t>first, std::shared_ptr<term_t>second, op_t oprator){
-        std::shared_ptr<term_t> newVal = std::make_shared<binary_t>(binary_t{first, first, oprator});
-
-        std::shared_ptr<var_t> derived =
-                std::dynamic_pointer_cast<var_t> (first);
-        auto q = assign_t{derived, second};
+    static expr_t create_assign(std::shared_ptr<var_t> variable, const std::shared_ptr<term_t>& value){
+        auto q = assign_t{std::move(variable), value};
         std::shared_ptr<term_t> assign = std::make_shared<assign_t>(q);
         return expr_t{assign};
     }
 
+
+    static expr_t create_composite_assign(const std::shared_ptr<term_t>&first, 
+                                          const std::shared_ptr<term_t>&second, binary_t::bin_ops oprator){
+        std::shared_ptr<term_t> new_val = std::make_shared<binary_t>(binary_t{first, second, oprator});
+        std::shared_ptr<var_t> variable =
+                std::dynamic_pointer_cast<var_t> (first);
+        if (variable == nullptr)
+            throw std::logic_error{"assignment destination must be a variable expression"};
+        
+        return create_assign(variable, new_val);
+    }
+    
+
     /** assignment operation */
     /** unary operators: */
     inline expr_t operator+(const expr_t& e) {
-        std::shared_ptr<term_t> q = std::make_shared<unary_t>(unary_t{e.term, plus});
+        std::shared_ptr<term_t> q = std::make_shared<unary_t>(unary_t{e.term, unary_t::plus});
         return expr_t{q};
     }
     
     inline expr_t operator-(const expr_t& e) {
-        std::shared_ptr<term_t> q = std::make_shared<unary_t>(unary_t{e.term, minus});
+        std::shared_ptr<term_t> q = std::make_shared<unary_t>(unary_t{e.term, unary_t::minus});
         return expr_t{q};
     }
     inline expr_t operator/(const expr_t& e, const expr_t& e1) {
-        std::shared_ptr<term_t> q = std::make_shared<binary_t>(binary_t{e.term, e1.term, divide});
+        std::shared_ptr<term_t> q = std::make_shared<binary_t>(binary_t{e.term, e1.term, binary_t::divide});
         return expr_t{q};
     }
     inline expr_t operator*(const expr_t& e, const expr_t& e1) {
-        std::shared_ptr<term_t> q = std::make_shared<binary_t>(binary_t{e.term, e1.term, mul});
+        std::shared_ptr<term_t> q = std::make_shared<binary_t>(binary_t{e.term, e1.term, binary_t::mul});
         return expr_t{q};
     }
 
     /** binary operators: */
     inline expr_t operator+(const expr_t& e1, const expr_t& e2) {
-        std::shared_ptr<term_t> q = std::make_shared<binary_t>(binary_t{e1.term, e2.term, plus});
+        std::shared_ptr<term_t> q = std::make_shared<binary_t>(binary_t{e1.term, e2.term, binary_t::plus});
         return expr_t{q};
     }
     inline expr_t operator-(const expr_t& e1, const expr_t& e2) {
-        std::shared_ptr<term_t> q = std::make_shared<binary_t>(binary_t{e1.term, e2.term, minus});
+        std::shared_ptr<term_t> q = std::make_shared<binary_t>(binary_t{e1.term, e2.term, binary_t::minus});
         return expr_t{q};
     }
     
     inline expr_t operator<<=(const expr_t& v, const expr_t& e) {
-        //if v is not varable
-        std::shared_ptr<var_t> derived =
-                std::dynamic_pointer_cast<var_t> (v.term);
-        auto q = assign_t{derived, e.term};
-        std::shared_ptr<term_t> assign = std::make_shared<assign_t>(q);
-        return expr_t{assign}; }
+        std::shared_ptr<var_t> derived = std::dynamic_pointer_cast<var_t> (v.term);
+        return create_assign(derived, e.term);
+    }
 
     inline expr_t operator+=(const expr_t& e1, const expr_t& e2) {
-        return create_composite_assign(e1.term, e2.term, plus);
+        return create_composite_assign(e1.term, e2.term, binary_t::plus);
     }
 
 
     inline expr_t operator*=(const expr_t& e1, const expr_t& e2) {
-        return create_composite_assign(e1.term, e2.term, mul);
+        return create_composite_assign(e1.term, e2.term, binary_t::mul);
     }
 
     inline expr_t operator-=(const expr_t& e1, const expr_t& e2) {
-        return create_composite_assign(e1.term, e2.term, minus);
+        return create_composite_assign(e1.term, e2.term, binary_t::mul);
     }
 }
 
