@@ -10,6 +10,7 @@
 #include "terms/var_t.h"
 #include "terms/unary_t.h"
 #include "terms/binary_t.h"
+#include "terms/const_t.h"
 
 namespace calculator
 {
@@ -25,7 +26,12 @@ namespace calculator
         explicit expr_t(std::shared_ptr<term_t>term) : term{std::move(term)}{
         }
         
-        double operator()(state_t& s) const {
+        expr_t(double val) : term{std::make_shared<const_t>(const_t{val})}{
+            
+        }
+        expr_t(int val) : term{std::make_shared<const_t>(const_t{val})} {
+        }
+            double operator()(state_t& s) const {
             return  (*term)(s);
         }
     };

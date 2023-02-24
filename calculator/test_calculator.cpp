@@ -67,7 +67,7 @@ TEST_CASE("Calculate expressions lazily")
         CHECK((a - b / a)(state) == 0.5);
     }
     
-    /*
+    
     // TODO: implement support for constant expressions
     SUBCASE("Constant expressions")
     {
@@ -82,5 +82,5 @@ TEST_CASE("Calculate expressions lazily")
         CHECK(c_4(state) == 4);
         CHECK(expr(state) == 20);
     }
-    */
+    
 }
