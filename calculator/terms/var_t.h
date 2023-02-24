@@ -10,14 +10,11 @@
 
 class var_t : public term_t  {
     size_t id;
-    //Must call super constructor
 public:
     var_t(const var_t&) = default;
     var_t& operator=(const var_t&) = default;
-    /** returns the value of the variable stored in a state */
     inline
     double operator()(state_t& s) override { return s[id]; }
-
     inline 
     double operator()(state_t& s, term_t& term) const{
         s[id] = (term(s));
