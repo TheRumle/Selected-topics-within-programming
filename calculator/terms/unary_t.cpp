@@ -2,9 +2,10 @@
 // Created by rasmu on 24/02/2023.
 //
 
-#include "unary_t.h"
 
-double unary_t::operator()(term_t::state_t &state) {
+#include "visitor.h"
+
+double matlang::unary_t::operator()(term_t::state_t &state) {
     switch(op) {
         case plus:
             return (*value)(state);
@@ -13,4 +14,8 @@ double unary_t::operator()(term_t::state_t &state) {
         case assign:
             return 0;
     }
+}
+
+void matlang::unary_t::accept(matlang::visitor &v) {
+    v.visit(*this);
 }

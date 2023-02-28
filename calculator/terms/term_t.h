@@ -7,15 +7,19 @@
 
 #include <vector>
 
-class term_t {
-protected:
-
-public:
-    using state_t = std::vector<double>;
-    term_t() = default;
-    virtual ~term_t() noexcept = default;
-    virtual double operator()(state_t& state) = 0; //=0 is pure virtual 
-};
+namespace matlang{
+    class visitor;
+    class term_t{
+    protected:
+    
+    public:
+        using state_t = std::vector<double>;
+        term_t() = default;
+        virtual ~term_t() noexcept = default;
+        virtual double operator()(state_t& state) = 0; //=0 is pure virtual 
+        virtual void accept(visitor& v) = 0;
+    };
+}
 
 
 #endif //CALCULATOR_TERM_T_H

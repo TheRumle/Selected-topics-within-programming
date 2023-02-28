@@ -8,18 +8,21 @@
 
 #include "term_t.h"
 
-class const_t: public term_t {
-private:
-    double value;
-public:
-    explicit const_t(double value) : value(value) {}
-    const_t(int value) : value(value) {}
 
-    //inline simple operations
-    inline double operator()(state_t& _) override{
-        return value;
-    }
-};
+namespace matlang {
+class const_t: public matlang::term_t {
+    private:
+        double value;
+    public:
+        explicit const_t(double value) : value(value) {}
+        const_t(int value) : value(value) {}
+        void accept(matlang::visitor &v) override;
+        //inline simple operations
+        inline double operator()(state_t& _) override{
+            return value;
+        }
+    };
+}
 
 
 #endif //CALCULATOR_CONST_T_H

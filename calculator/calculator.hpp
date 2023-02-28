@@ -12,9 +12,11 @@
 #include "terms/unary_t.h"
 #include "terms/binary_t.h"
 #include "terms/const_t.h"
+#include "terms/assign_t.h"
 
 namespace calculator
-{
+{   
+    using namespace matlang;
     using state_t = term_t::state_t;
     struct expr_t
     {
@@ -47,7 +49,7 @@ namespace calculator
     };
 
     static expr_t create_assign(std::shared_ptr<var_t> variable, const std::shared_ptr<term_t>& value){
-        auto q = assign_t{std::move(variable), value};
+        auto q = matlang::assign_t{std::move(variable), value};
         std::shared_ptr<term_t> assign = std::make_shared<assign_t>(q);
         return expr_t{assign};
     }
@@ -68,31 +70,25 @@ namespace calculator
     /** assignment operation */
     /** unary operators: */
     inline expr_t operator+(const expr_t& e) {
-        std::shared_ptr<term_t> q = std::make_shared<unary_t>(unary_t{e.term, unary_t::plus});
-        return expr_t{q};
+        return expr_t{ std::make_shared<unary_t>(unary_t{e.term, unary_t::plus})};
     }
     
     inline expr_t operator-(const expr_t& e) {
-        std::shared_ptr<term_t> q = std::make_shared<unary_t>(unary_t{e.term, unary_t::minus});
-        return expr_t{q};
+        return expr_t{ std::make_shared<unary_t>(unary_t{e.term, unary_t::minus})};
     }
     inline expr_t operator/(const expr_t& e, const expr_t& e1) {
-        std::shared_ptr<term_t> q = std::make_shared<binary_t>(binary_t{e.term, e1.term, binary_t::divide});
-        return expr_t{q};
+        return expr_t{ std::make_shared<binary_t>(binary_t{e.term, e1.term, binary_t::divide})};
     }
     inline expr_t operator*(const expr_t& e, const expr_t& e1) {
-        std::shared_ptr<term_t> q = std::make_shared<binary_t>(binary_t{e.term, e1.term, binary_t::mul});
-        return expr_t{q};
+        return expr_t{std::make_shared<binary_t>(binary_t{e.term, e1.term, binary_t::mul})};
     }
-
+            
     /** binary operators: */
     inline expr_t operator+(const expr_t& e1, const expr_t& e2) {
-        std::shared_ptr<term_t> q = std::make_shared<binary_t>(binary_t{e1.term, e2.term, binary_t::plus});
-        return expr_t{q};
+        return expr_t{std::make_shared<binary_t>(binary_t{e1.term, e2.term, binary_t::plus})};
     }
     inline expr_t operator-(const expr_t& e1, const expr_t& e2) {
-        std::shared_ptr<term_t> q = std::make_shared<binary_t>(binary_t{e1.term, e2.term, binary_t::minus});
-        return expr_t{q};
+        return expr_t{ std::make_shared<binary_t>(binary_t{e1.term, e2.term, binary_t::minus})};
     }
     
     inline expr_t operator<<=(const expr_t& v, const expr_t& e) {
@@ -103,8 +99,6 @@ namespace calculator
     inline expr_t operator+=(const expr_t& e1, const expr_t& e2) {
         return create_composite_assign(e1.term, e2.term, binary_t::plus);
     }
-
-
     inline expr_t operator*=(const expr_t& e1, const expr_t& e2) {
         return create_composite_assign(e1.term, e2.term, binary_t::mul);
     }

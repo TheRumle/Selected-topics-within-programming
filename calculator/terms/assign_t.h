@@ -8,9 +8,10 @@
 
 #include <memory>
 #include <utility>
-#include "term_t.h"
 #include "var_t.h"
 
+
+namespace matlang   {
 class assign_t : public term_t {
     std::shared_ptr<var_t> var;
     std::shared_ptr<term_t> term;
@@ -26,6 +27,7 @@ public:
     inline double operator()(state_t& s) override{
         return (*var)(s, (*term));
     }
+    void accept(matlang::visitor &v) override;
 };
-
+}
 #endif //CALCULATOR_ASSIGN_T_H
