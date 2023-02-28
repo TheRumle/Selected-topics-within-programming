@@ -6,9 +6,9 @@
 
 #include "term_t.h"
 #include "binary_t.h"
-#include "visitor.h"
+#include "term_visitor.h"
 
 
-inline double matlang::binary_t::accept(visitor &v) {
+inline double matlang::binary_t::accept(term_visitor &v) {
     return v.visit(*this);
 }

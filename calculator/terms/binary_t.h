@@ -32,7 +32,7 @@ namespace matlang {
         binary_t(std::shared_ptr<term_t>first, std::shared_ptr<term_t>second, bin_ops oprator):
                 f{std::move(first)}, s{std::move(second)}, op{oprator}  { //efficient moving or better to use const ref?
         }
-        double accept(matlang::visitor &v) override;
+        double accept(matlang::term_visitor &v) override;
     };
 }
 

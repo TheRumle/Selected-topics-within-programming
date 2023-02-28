@@ -3,8 +3,8 @@
 //
 
 
-#include "visitor.h"
+#include "term_visitor.h"
 
-inline double matlang::unary_t::accept(matlang::visitor &v) {
+inline double matlang::unary_t::accept(matlang::term_visitor &v) {
     return v.visit(*this);
 }

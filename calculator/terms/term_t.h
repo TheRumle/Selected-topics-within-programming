@@ -8,7 +8,7 @@
 #include <vector>
 
 namespace matlang{
-    class visitor;
+    class term_visitor;
     class term_t{
     protected:
     
@@ -16,7 +16,7 @@ namespace matlang{
         using state_t = std::vector<double>;
         term_t() = default;
         virtual ~term_t() noexcept = default;
-        inline virtual double accept(visitor& v) = 0; //can one inline virtual method? Should you?
+        inline virtual double accept(term_visitor& v) = 0; //can one inline virtual method? Should you?
     };
 }
 

@@ -18,7 +18,7 @@ public:
 
     var_t(const var_t&) = default;
     var_t& operator=(const var_t&) = default;
-    double accept(matlang::visitor &v) override;
+    double accept(matlang::term_visitor &v) override;
 
     explicit var_t(size_t id): term_t(), id{id} {}
 };

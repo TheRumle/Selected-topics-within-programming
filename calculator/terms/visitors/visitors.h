@@ -7,10 +7,10 @@
 #include <utility>
 #include <map>
 
-#include "../visitor.h"
+#include "../term_visitor.h"
 
 namespace matlang::visitors{
-    class evaluator : public visitor {
+    class evaluator : public term_visitor {
         std::shared_ptr<term_t::state_t> state;
         double result = 0;
         
@@ -66,7 +66,7 @@ namespace matlang::visitors{
         }        
     };
 
-    class printer : public visitor{
+    class printer : public term_visitor{
         std::ostream& ostream;
 
     public:

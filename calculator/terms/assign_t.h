@@ -31,7 +31,7 @@ public:
         // This was answered. One reference as parameter and then a copy vs a copy and then a move
     }
     
-    double accept(matlang::visitor &v) override;
+    double accept(matlang::term_visitor &v) override;
 };
 }
 #endif //CALCULATOR_ASSIGN_T_H
