@@ -28,7 +28,7 @@ public:
     {
         //Clang suggests to pass by value and then move.
         // Why is that better than using const & as I have done with term?
-        // This was answered. One reference as parameter and then a copy vs a copy and then a move
+        // This was answered. One pass one reference as parameter and then perform a copy vs a copy and then a move
     }
     
     double accept(matlang::term_visitor &v) override;

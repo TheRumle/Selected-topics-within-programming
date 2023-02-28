@@ -22,10 +22,10 @@ namespace matlang {
             op = oprator;
         }
         
-        std::shared_ptr<term_t> get_lhs(){
+        [[nodiscard]] std::shared_ptr<term_t> get_lhs() const {
             return f; 
         }
-        std::shared_ptr<term_t> get_rhs(){
+        [[nodiscard]] std::shared_ptr<term_t> get_rhs() const{
             return s;
         }
     

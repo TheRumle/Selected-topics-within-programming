@@ -19,7 +19,7 @@ class const_t: public matlang::term_t {
         double accept(matlang::term_visitor &v) override;
         //inline simple operations
 
-        double get_value(){return value;}
+        [[nodiscard]] double get_value() const{return value;}
     };
 }
 
