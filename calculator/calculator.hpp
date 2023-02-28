@@ -33,7 +33,7 @@ namespace calculator
         }
         
         double operator()(std::shared_ptr<state_t> s) const {
-            auto v = visitors::evaluator{s};
+            auto v = visitor::evaluator{s};
             return (*term).accept(v);
         }
     };

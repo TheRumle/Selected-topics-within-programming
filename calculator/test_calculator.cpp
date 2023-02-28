@@ -84,7 +84,7 @@ TEST_CASE("Calculate expressions lazily")
     }
     
 
-    using namespace matlang::visitors;
+    using namespace matlang::visitor;
     SUBCASE("Printer does not crash")
     {
         auto expr = a + 2 + b + c - c;
