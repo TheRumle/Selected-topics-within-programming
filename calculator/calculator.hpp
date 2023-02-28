@@ -43,13 +43,10 @@ namespace calculator
         std::vector<double> initial;
     public:
         [[nodiscard]] expr_t var(const std::string& name, double init = 0) {
-            auto res = names.size();
             names.push_back(name);
             initial.push_back(init);
-            std::shared_ptr<term_t> f = std::make_shared<var_t>(var_t{res}) ;
-            return expr_t{f};
+            return expr_t{std::make_shared<var_t>(var_t{ names.size()}) };
         }
-        
         
         [[nodiscard]] state_t state() const { return {initial}; }
     };
