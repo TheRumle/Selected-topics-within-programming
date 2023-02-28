@@ -3,7 +3,7 @@
 //
 
 #include "visitor.h"
-void matlang::const_t::accept(matlang::visitor &v) {
-v.visit(*this);
+inline void matlang::const_t::accept(matlang::visitor &v) {
+    v.visit(*this);
 }
 

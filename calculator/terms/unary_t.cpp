@@ -16,6 +16,6 @@ double matlang::unary_t::operator()(term_t::state_t &state) {
     }
 }
 
-void matlang::unary_t::accept(matlang::visitor &v) {
+inline void matlang::unary_t::accept(matlang::visitor &v) {
     v.visit(*this);
 }

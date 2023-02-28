@@ -28,6 +28,6 @@ double matlang::binary_t::operator()(matlang::term_t::state_t &state) {
     }
 }
 
-void matlang::binary_t::accept(visitor &v) {
+inline void matlang::binary_t::accept(visitor &v) {
     v.visit(*this);
 }
