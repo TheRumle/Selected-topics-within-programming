@@ -16,8 +16,7 @@ namespace matlang{
         using state_t = std::vector<double>;
         term_t() = default;
         virtual ~term_t() noexcept = default;
-        virtual double operator()(state_t& state) = 0; //=0 is pure virtual 
-        inline virtual void accept(visitor& v) = 0; //can one inline virtual method? Should you?
+        inline virtual double accept(visitor& v) = 0; //can one inline virtual method? Should you?
     };
 }
 

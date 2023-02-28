@@ -3,7 +3,7 @@
 //
 #include "visitor.h"
 
-inline void matlang::assign_t::accept(visitor &v) {
-    v.visit(*this);
+inline double matlang::assign_t::accept(visitor &v) {
+    return v.visit(*this);
 }
 

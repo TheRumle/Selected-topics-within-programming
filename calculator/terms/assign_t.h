@@ -16,6 +16,13 @@ class assign_t : public term_t {
     std::shared_ptr<var_t> var;
     std::shared_ptr<term_t> term;
 public:
+    std::shared_ptr<term_t> get_term(){
+        return term;
+    }
+    
+    std::shared_ptr<var_t> get_var(){
+        return var;
+    }
     explicit assign_t(std::shared_ptr<var_t>  variable, std::shared_ptr<term_t> term)
     :term{std::move(term)}, var{std::move(variable)}
     {
@@ -23,12 +30,8 @@ public:
         // Why is that better than using const & as I have done with term?
         // This was answered. One reference as parameter and then a copy vs a copy and then a move
     }
-
-    //inline simple methods
-    inline double operator()(state_t& s) override{
-        return (*var)(s, (*term));
-    }
-    void accept(matlang::visitor &v) override;
+    
+    double accept(matlang::visitor &v) override;
 };
 }
 #endif //CALCULATOR_ASSIGN_T_H

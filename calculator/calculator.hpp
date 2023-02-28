@@ -13,6 +13,8 @@
 #include "terms/binary_t.h"
 #include "terms/const_t.h"
 #include "terms/assign_t.h"
+#include "terms/visitors/visitors.h"
+
 
 namespace calculator
 {   
@@ -29,8 +31,10 @@ namespace calculator
         }
         expr_t(int val) : term{std::make_shared<const_t>(const_t{val})} {
         }
-            double operator()(state_t& s) const {
-            return  (*term)(s);
+        
+        double operator()(std::shared_ptr<state_t> s) const {
+            auto v = visitors::evaluator{s};
+            return (*term).accept(v);
         }
     };
     class symbol_table_t
@@ -45,6 +49,8 @@ namespace calculator
             std::shared_ptr<term_t> f = std::make_shared<var_t>(var_t{res}) ;
             return expr_t{f};
         }
+        
+        
         [[nodiscard]] state_t state() const { return {initial}; }
     };
 
@@ -104,7 +110,7 @@ namespace calculator
     }
 
     inline expr_t operator-=(const expr_t& e1, const expr_t& e2) {
-        return create_composite_assign(e1.term, e2.term, binary_t::mul);
+        return create_composite_assign(e1.term, e2.term, binary_t::minus);
     }
 }
 

@@ -12,16 +12,13 @@ namespace matlang{
 class var_t : public matlang::term_t  {
     size_t id;
 public:
+    inline size_t get_id(){
+        return id;
+    }
+
     var_t(const var_t&) = default;
     var_t& operator=(const var_t&) = default;
-    inline
-    double operator()(state_t& s) override { return s[id]; }
-    inline 
-    double operator()(state_t& s, term_t& term) const{
-        s[id] = (term(s));
-        return s[id];
-    }
-    void accept(matlang::visitor &v) override;
+    double accept(matlang::visitor &v) override;
 
     explicit var_t(size_t id): term_t(), id{id} {}
 };

@@ -13,24 +13,11 @@
 
 namespace matlang{
     struct visitor {
-        virtual void visit(matlang::const_t& node) = 0;
-        virtual void visit(matlang::binary_t& node) = 0;
-        virtual void visit(matlang::unary_t& node) = 0;
-        virtual void visit(matlang::assign_t& node) = 0;
-        virtual void visit(matlang::term_t& node) = 0;
-        virtual void visit(matlang::var_t& node) = 0;
-    };
-}
-
-namespace matlang::visitors{
-    class printer : public visitor{
-    public:
-        void visit(matlang::assign_t &node) override{}
-        void visit(matlang::binary_t &node) override{}
-        void visit(matlang::const_t &node) override{}
-        void visit(matlang::term_t &node) override{}
-        void visit(matlang::unary_t &node) override{}
-        void visit(matlang::var_t &node) override{}
+        virtual double visit(matlang::const_t& node) = 0;
+        virtual double visit(matlang::binary_t& node) = 0;
+        virtual double visit(matlang::unary_t& node) = 0;
+        virtual double visit(matlang::assign_t& node) = 0;
+        virtual double visit(matlang::var_t& node) = 0;
     };
 }
 

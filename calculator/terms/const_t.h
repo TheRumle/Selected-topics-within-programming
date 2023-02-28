@@ -16,11 +16,10 @@ class const_t: public matlang::term_t {
     public:
         explicit const_t(double value) : value(value) {}
         const_t(int value) : value(value) {}
-        void accept(matlang::visitor &v) override;
+        double accept(matlang::visitor &v) override;
         //inline simple operations
-        inline double operator()(state_t& _) override{
-            return value;
-        }
+
+        double get_value(){return value;}
     };
 }
 

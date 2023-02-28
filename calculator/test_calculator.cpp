@@ -2,14 +2,14 @@
 
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <doctest/doctest.h>
-
+#include "terms/visitors/visitors.h"
 TEST_CASE("Calculate expressions lazily")
 {
     auto sys = calculator::symbol_table_t{};
     auto a = sys.var("a", 2);
     auto b = sys.var("b", 3);
     auto c = sys.var("c");
-    auto state = sys.state();
+    auto state = std::make_shared<calculator::state_t>(sys.state());
     auto os = std::ostringstream();
 
     SUBCASE("Reading the value of a variable from state")
@@ -47,7 +47,7 @@ TEST_CASE("Calculate expressions lazily")
         
         
         CHECK_THROWS_MESSAGE((c - a += b - c), "assignment destination must be a variable expression");
-        
+                
     }
     SUBCASE("Parenthesis")
     {
@@ -68,12 +68,12 @@ TEST_CASE("Calculate expressions lazily")
     }
     
     
-    // TODO: implement support for constant expressions
     SUBCASE("Constant expressions")
     {
         CHECK((7 + a)(state) == 9);
         CHECK((a - 7)(state) == -5);
     }
+    
     SUBCASE("Store expression and evaluate lazily")
     {
         auto expr = (a + b) * c;
@@ -81,6 +81,16 @@ TEST_CASE("Calculate expressions lazily")
         CHECK(expr(state) == 0);
         CHECK(c_4(state) == 4);
         CHECK(expr(state) == 20);
+    }
+    
+
+    using namespace matlang::visitors;
+    SUBCASE("Printer does not crash")
+    {
+        auto expr = a + 2 + b + c - c;
+        printer k = printer{std::cout};
+        expr.term->accept(k);
+        std::cout << "end";
     }
     
 }
