@@ -44,7 +44,7 @@ double matlang::visitor::evaluator::visit(matlang::unary_t &node) {
 
 double matlang::visitor::printer::visit(matlang::assign_t &node) {
     ostream << "Assignment: ";
-    (*node.get_term()).accept(*this);
+    node.get_term()->accept(*this);
     return 0;
 }
 

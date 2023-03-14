@@ -17,6 +17,8 @@ namespace matlang{
         term_t() = default;
         virtual ~term_t() noexcept = default;
         inline virtual double accept(term_visitor& v) = 0; //can one inline virtual method? Should you?
+        //I do not use const here, because in general an operation from a Visitor may update either the
+        //Node ‘‘visited’’ or the Visitor itself.
     };
 }
 

@@ -23,6 +23,7 @@ namespace matlang {
         unary_t(std::shared_ptr<term_t> value, unary_op op) : value{std::move(value)}, op{op} 
         {}
         double accept(matlang::term_visitor &v) override;
+        
         std::shared_ptr<term_t> get_value(){
             return value;
         }

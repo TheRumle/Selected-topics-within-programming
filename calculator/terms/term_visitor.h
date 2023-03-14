@@ -18,6 +18,7 @@ namespace matlang{
         virtual double visit(matlang::unary_t& node) = 0;
         virtual double visit(matlang::assign_t& node) = 0;
         virtual double visit(matlang::var_t& node) = 0;
+        virtual ~term_visitor() = default;
     };
 }
 
