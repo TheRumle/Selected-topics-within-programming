@@ -17,7 +17,11 @@ struct is_container_t<
 
 
 template <typename T>
-concept Container = is_container_t<T>::value;
+concept Container = requires(T a)
+{
+    std::begin(a),
+    std::end(a);
+};
 
 template<Container T>
 std::ostream& operator<<(std::ostream& os, const T& v)
@@ -34,10 +38,10 @@ std::ostream& operator<<(std::ostream& os, const T& v)
 
 template<typename T>
 // use std::remove_cvref to remove const, volatile, and reference qualifiers from the type
-constexpr bool is_string_v = std::is_same_v<std::remove_cvref_t<T>, std::basic_string<char>> ||  //it is a basic string
-                             (std::is_same_v<std::remove_cvref_t<T>, T> // it is not a pointer
-                              &&  std::is_same_v<typename T::value_type, char> // it is some container with value_type char 
-                              && !std::is_same_v<std::remove_cvref_t<T>, const char*>); //it is not c strings
+    constexpr bool is_string_v = std::is_same_v<std::remove_cvref_t<T>, std::basic_string<char>> ||  //it is a basic string
+                                 (std::is_same_v<std::remove_cvref_t<T>, T> // it is not a pointer
+                                  &&  std::is_same_v<typename T::value_type, char> // it is some container with value_type char 
+                                  && !std::is_same_v<std::remove_cvref_t<T>, const char*>); //it is not c strings
                               
 template <typename T, typename = std::enable_if_t<is_string_v<T>>>
 void function_that_can_only_be_called_on_strings(const T& s) {
