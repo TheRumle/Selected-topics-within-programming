@@ -5,22 +5,8 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <doctest/doctest.h>
 
-#include <sstream>
-#include <vector>
 
 using namespace std::string_literals;
-
-std::ostream& operator<<(std::ostream& os, const aggregate_t& agg)
-{
-    json_ostream{os} << agg;
-    return os;
-}
-
-std::ostream& operator<<(std::ostream& os, const nested_t& nested)
-{
-    json_ostream{os} << nested;
-    return os;
-}
 
 
 TEST_CASE("JSON output")
@@ -67,11 +53,14 @@ TEST_CASE("JSON output")
     }
     
     SUBCASE("container")
-    {
+    {   
         auto v = std::vector{3, 7, 11};
+        v.begin();
         jos << v;
         CHECK(os.str() == "[3,7,11]");
+        
     }
+    
     SUBCASE("aggregate")
     {
         auto v = aggregate_t{true, 3, 3.14, "hello", {7, 11}};
@@ -83,8 +72,9 @@ TEST_CASE("JSON output")
     {
         const auto v = nested_t{"complicated", {true, 3, 3.14, "hello", {7, 11}}};
         static_assert(accepts_v<const nested_t&, json_writer_t>, "does not accept writer");
-        jos << v;
+        jos <<       v;
         CHECK(os.str() == R"({"text":"complicated","agg":{"b":true,"x":3,"y":3.14,"z":"hello","w":[7,11]}})");
     }
+     
      
 }

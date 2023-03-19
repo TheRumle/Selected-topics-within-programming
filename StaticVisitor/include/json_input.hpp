@@ -2,6 +2,8 @@
 #define STATIC_VISITOR_JSON_INPUT_HPP
 
 #include <iostream>
+#include <vector>
+#include "meta.hpp"
 
 /** TODO: implement json_istream adapter with json input operations
  * The goal is to exercise meta-programming and not have complete JSON (Unicode support is beyond the scope).
@@ -9,20 +11,49 @@
  * GoodVisitorPattern parsing may depend on the order of fields, which is OK for this exercise.
  */
 
+struct json_reader_t;
+
 struct json_istream
 {
     std::istream& is;
+    json_istream& operator>>(bool& value) {
+        is >> std::boolalpha >> value; //"true" is parsed as 1 and "false" as 0
+        return *this;
+    }
+
+    template<Number T>
+    json_istream& operator>>(T& value) {
+        is >> value; //"true" is parsed as 1 and "false" as 0
+        return *this;
+    }
+
+    json_istream& operator>>(int& value) {
+        is >> value;
+        return *this;
+    }
+    
+
+    //TODO use the concept of a Container.
+    template <typename T>
+    json_istream& operator>>(std::vector<T>& value) {
+        is.get(); //skip the [
+        while (is.good() ) {
+            const char c = is.get();
+            if (c == ',') continue;
+            if (c == ']') break;
+            is.unget();
+            
+            T element;
+            is >> element;
+            value.push_back(element);
+        }
+
+        return *this;
+    }
+    
+    
 };
 
-/** GoodVisitorPattern pattern support for reading JSON */
-struct json_reader_t
-{
-    template <typename Data>
-    void visit(const std::string& name, Data& value)
-    {
-        /** TODO: use static visitor pattern to read class fields from input stream */
-    }
-};
 
 template <typename T>
 json_istream& operator>>(json_istream& j, T&)
@@ -34,12 +65,25 @@ json_istream& operator>>(json_istream& j, T&)
      */
     return j;
 }
-
 /** Helper for rvalue reference */
 template <typename T>
 json_istream& operator>>(json_istream&& j, T& value)
 {
     return j >> value;
 }
+
+/** GoodVisitorPattern pattern support for reading JSON */
+struct json_reader_t
+{
+    template <typename Data>
+    void visit(const std::string& name, Data& value)
+    {
+        /** TODO: use static visitor pattern to read class fields from input stream */
+    }
+};
+
+
+
+
 
 #endif  // STATIC_VISITOR_JSON_INPUT_HPP
