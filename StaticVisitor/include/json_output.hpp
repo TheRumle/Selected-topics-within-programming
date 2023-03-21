@@ -11,55 +11,44 @@
 struct json_ostream
 {
     std::ostream& os;
+    inline void open_json_object() { os << '{'; }
+    inline void close_json_object() { os << '}'; }
 
-    void open_json_object() { os << '{'; }
-
-    void close_json_object() { os << '}'; }
-
-    /** overload the << operator for boolean values */
     template <Boolean B>
     json_ostream& operator<<(const B& value) {
         os << (value ? "true" : "false");
         return *this;
     }
 
-    /** overload the << operator for number values */
     template <Number N>
     json_ostream& operator<<(const N& value) {
         os << value;
         return *this;
     }
 
-    /** overload the << operator for string values */
     template <SString T>
     json_ostream& operator<<(const T& value) {
         static const std::unordered_set<std::string> keywords = {
                 ":", ",", "{", "}", "[", "]", "true", "false", "null"
         };
 
-        if (keywords.find(value) != keywords.end()) {
+        if (keywords.find(value) != keywords.end()) 
             os << value;
-        } else {
+        else
             os << '"' << value << '"';
-        }
+        
 
         return *this;
     }
 
-    /** overload the << operator for container values */
     template <Container C>
     json_ostream& operator<<(const C& value) {
-        os << '[';
-        auto it = value.begin();
-        auto end = value.end();
-        for (it; it != end-1; ++it) { // move to last second to last element 
-            os << *it;
-            os <<',';
-        }
-        os << *(end-1); // take the end element
+        os << '[' << *std::begin(value); 
+        for (auto it = std::begin(value)+1; it != std::end(value); ++it)
+            os<<',' << *it;
+        
         os << ']';
         return *this;
-
     }
 };
 
@@ -73,7 +62,6 @@ struct json_writer_t
     json_writer_t(json_ostream& out) : out(out) {}
     bool firstInSequence = true;
 
-    /** Helper function to write keys so that commas are added between fields, but not before the firstInSequence one */
     std::string write_key(const std::string& key) {
         if (!firstInSequence) 
             out.os << ',';
@@ -108,10 +96,8 @@ struct json_writer_t
     void visit(const std::string& key, const B& value) {
         out << write_key(key) << ":" << value;
     }
-
-  
-
-    /** write JSON string */
+    
+ 
     template <SString S>
     void visit(const std::string& key, const S& value) {
         out << write_key(key) << ":" << '"';
@@ -131,35 +117,26 @@ struct json_writer_t
 
         out << '"';
     }
-
-    /** write JSON container */
+    
+    
     template <Container T>
     void visit(const std::string& key, const T& value) {
-        out << write_key(key) << ':' << '[';
+        out << write_key(key) << ':' << '[' << *std::begin(value); //No comma for first element in list
 
-        for (const auto& item : value) {
-            if (&item != &value.front()) {
-                out << ',';
-            }
-
-            out << item;
-        }
-
+        for (auto it = std::begin(value)+1; it != std::end(value); ++it)
+            out<<',' << *it;
+        
         out << ']';
     }
 };
 
-
 template <typename T>
-json_writer_t& operator<<(json_writer_t& j, const T& value)
-{
-    j.visit("", value);
-    return j;
+json_writer_t& operator<<(json_writer_t& j, const T& value) {
+    return json_writer_t{j}.visit("", value), j;
 }
 
 template <typename T>
-json_writer_t& operator<<(json_writer_t&& j, const T& value)
-{
+json_writer_t& operator<<(json_writer_t&& j, const T& value) {
     return j << value;
 }
 

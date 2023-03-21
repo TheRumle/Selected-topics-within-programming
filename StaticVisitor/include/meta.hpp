@@ -59,5 +59,4 @@ template <typename T>
 concept SString = is_string_v<T>;
 
 
-
 #endif  // STATIC_VISITOR_META_HPP
