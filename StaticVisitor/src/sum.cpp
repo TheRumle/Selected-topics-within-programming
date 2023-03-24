@@ -109,8 +109,8 @@ struct summation{
 };
 
 template<Container T>
-std::function<int()> lazy(const summation&& function, const T&& container) {
-    return [&container](){return summation(container);};
+std::function<int()> lazy(summation&& function, T&& container) {
+    return [&container, &function](){return function(container);};
 }
 
 
@@ -132,7 +132,7 @@ TEST_CASE("Lazy evaluation")
         CHECK(lazy_sum() == (1 + 20) * 20 / 2);
     }
     SUBCASE("3) three arguments") {
-        auto lazy_sum = lazy(summation{}, d1, d2, make_data(21, 10));
+        auto lazy_sum = lazy(summation{}, d1, d2, make_data(21, 10));   
         CHECK(lazy_sum() == (1 + 30) * 30 / 2);
     }
     SUBCASE("3) four arguments") {
