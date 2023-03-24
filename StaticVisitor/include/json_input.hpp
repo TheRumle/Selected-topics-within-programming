@@ -5,11 +5,6 @@
 #include <vector>
 #include "meta.hpp"
 
-/** TODO: implement json_istream adapter with json input operations
- * The goal is to exercise meta-programming and not have complete JSON (Unicode support is beyond the scope).
- * Parsing should follow the type structure rather than the content of the input stream.
- * GoodVisitorPattern parsing may depend on the order of fields, which is OK for this exercise.
- */
 
 struct json_reader_t;
 
@@ -77,7 +72,7 @@ private:
 
                 if (fieldName == key) {
                     in.is.get(); // consume the ':'
-                    in >> value; //Why is that? All tests work? This is definitely smarter? Is it because I need to contraint T?
+                    in >> value; //This gives me error since >> overload is ambigious? Why is that? All tests work? This is definitely smarter? Is it because I need to contraint T?
                     break;
                 }
             }
