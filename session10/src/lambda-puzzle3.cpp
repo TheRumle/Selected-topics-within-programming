@@ -7,15 +7,16 @@
 #include <vector>
 #include <random>
 #include <sstream>
+#include <iterator>
 
 
 static auto gen = std::mt19937{std::random_device{}()};
-
+static auto dist = std::uniform_int_distribution<int>{0,100};
 
 void fill_with_data(std::vector<int>& data, size_t count)
 {
     for (auto i=0u; i<count; ++i)
-        std::generate_n(data.begin(), count, gen);
+        data.push_back(dist(gen));
 		
 }
 
@@ -79,20 +80,20 @@ std::vector<int> squares(const std::vector<int>&)
 
 TEST_CASE("Lambda puzzle3")
 {
-    constexpr int data_size = 20;
+    int data_size = 20;
     auto data = std::vector<int>{};
     fill_with_data(data, data_size);
     SUBCASE("print")    /** TODO: write test for print_data */
     {
-        std::ostringstream stringstream{};
-        print_data(stringstream, data);
+        auto actual = concatenate(data);
+        std::ostringstream expected{};
+
         
-        std::ostringstream actual{};
-        std::for_each(data.begin(), data.end(), [&actual](int e){
-            actual << e;
+        std::for_each(data.begin(), data.end(), [&expected](int e){
+            expected << e;
         });
         
-        CHECK(actual.str() == stringstream.str());
+        CHECK(expected.str() == actual);
     }
 
 
@@ -101,20 +102,48 @@ TEST_CASE("Lambda puzzle3")
         auto sum = std::accumulate(data.begin(), data.end(), 0);
         CHECK(sum == actual);        
     }
+    
     /** TODO: write test for concat */
-
     SUBCASE("concat")
     {
-        auto a = concatenate(data);
+        auto actual = concatenate(data);
+
+        std::stringstream expected;
+        #pragma unroll 4
+        for (const auto &a: data) 
+            expected << a;
         
+        CHECK(actual == expected.str());
     }
-    std::cout << "concat: " << concatenate(data) << std::endl;
-    /** TODO: write test for odd_count */
-    std::cout << "odd count: " << odd_count(data) << std::endl;
+
+    SUBCASE("odd count: ")
+    {
+        int expected = 0;
+        auto actual = odd_count(data);
+        for (const auto &a: data)
+            if (a % 2 != 0)
+                ++expected;
+
+        CHECK(actual == expected);
+    }
+
+    SUBCASE("stringify: ")
+    {
+        std::vector<std::string> expected = std::vector<std::string>();
+        auto actual = stringify(data);
+
+        for (const auto &a: data)
+            expected.push_back(std::to_string(a));
+
+        CHECK(actual == expected);
+        
+         actual = compute_sorted(actual);
+         
+    }
+
+
     /** TODO: write test for stringify */
-    auto data_str = stringify(data);
     /** TODO: write test for compute_sorted */
-    auto sorted_str = compute_sorted(data_str);
     /** TODO: write test for squares */
     // make print_data a function template, so that the following is accepted:
     //print_data(std::cout, sorted_str);
