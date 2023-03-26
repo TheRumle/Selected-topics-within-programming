@@ -137,15 +137,12 @@ TEST_CASE("Lambda puzzle3")
 
         CHECK(actual == expected);
         
-         actual = compute_sorted(actual);
-         
+        actual = compute_sorted(stringify(data));
+        sort(expected.begin(), expected.end());
+        CHECK(actual==expected);
     }
 
 
-    /** TODO: write test for stringify */
-    /** TODO: write test for compute_sorted */
-    /** TODO: write test for squares */
-    // make print_data a function template, so that the following is accepted:
-    //print_data(std::cout, sorted_str);
+
     print_data(std::cout, squares(data));
 }
