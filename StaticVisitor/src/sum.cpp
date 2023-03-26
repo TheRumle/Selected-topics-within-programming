@@ -101,17 +101,22 @@ SUBCASE("6) type-check the container") {
  *    Use std::is_invocable.
  */
 
-struct summation{
-    template<Container... Args>
-    int operator()(Args &&... args) const {
-        return (std::accumulate(args.begin(), args.end(), 0) + ... + 0);
-    }
+struct summation
+{
+    template <typename...Args>
+    auto operator()(Args&&... args) const { return sum(std::forward<Args>(args)...); }
 };
 
-template<Container T>
-std::function<int()> lazy(summation&& function, T&& container) {
-    return [&container, &function](){return function(container);};
+// alternative solution with lambda expression
+template <typename Fn, typename...Args>
+auto lazy(Fn&& fn, Args&&... args)
+{
+    static_assert(std::is_invocable_v<Fn, Args...>, "Cannot call fn on args");
+    return [fn=std::forward<Fn>(fn), ...args = std::forward<Args>(args)]() mutable {
+        return fn(std::forward<Args>(args)...);
+    };
 }
+
 
 
 TEST_CASE("Lazy evaluation")
