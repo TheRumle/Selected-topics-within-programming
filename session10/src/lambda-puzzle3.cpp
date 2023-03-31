@@ -23,15 +23,13 @@ void fill_with_data(std::vector<int>& data, size_t count)
 void print_data(std::ostream& os, const std::vector<int>& data)
 {
     /** TODO: use copy and ostream_iterator instead */
+    #pragma unroll 8
     for (auto&& d: data)
 		os << d << ' ';
     os << '\n';
 }
 
-int compute_sum(const std::vector<int>& data)
-{
-return    std::accumulate(data.begin(), data.end(), 0);
-}
+int compute_sum(const std::vector<int>& data){ return std::accumulate(data.begin(), data.end(), 0); }
 
 std::string concatenate(const std::vector<int>& data)
 {
