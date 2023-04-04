@@ -31,12 +31,6 @@ ChartView::ChartView(QWidget* parent): QChartView{new QChart{}, parent}
     QScatterSeries* series0 = new QScatterSeries();
     series0->setName("scatter1");
 
-    QScatterSeries* series1 = new QScatterSeries();
-    series1->setName("scatter2");
-
-    QScatterSeries* series2 = new QScatterSeries();
-    series2->setName("scatter3");
-
     QLineSeries* line = new QLineSeries();
     line->setName("line");
     QBoxPlotSeries* boxes = new QBoxPlotSeries();
@@ -48,8 +42,6 @@ ChartView::ChartView(QWidget* parent): QChartView{new QChart{}, parent}
     series0->append(7, 4);
     series0->append(10, 5);
 
-    *series1 << QPointF(1, 1) << QPointF(3, 3) << QPointF(7, 6) << QPointF(8, 3) << QPointF(10, 2);
-    *series2 << QPointF(1, 5) << QPointF(4, 6) << QPointF(6, 3) << QPointF(9, 5);
 
     for (auto x = 0.0; x < 10.0; x += 0.3)
         line->append(x, std::sin(x) * 4 + 5);
@@ -68,8 +60,6 @@ ChartView::ChartView(QWidget* parent): QChartView{new QChart{}, parent}
 
     setRenderHint(QPainter::Antialiasing);
     chart()->addSeries(series0);
-    chart()->addSeries(series1);
-    chart()->addSeries(series2);
     chart()->addSeries(line);
     chart()->addSeries(boxes);
 

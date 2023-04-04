@@ -120,9 +120,9 @@ The goal is learn how to work library APIs: expose C API, use C++ (`Qt`) API, us
        * Similarly, calls `plot.lines(...)` and passes the second number series.
        * Calls `plot.process(...)` to render a graphical window with plot and process its events.
      * Define a simple class `Plot` in `plot.hpp` header file with the corresponding methods `scatter` and `lines`.
-     * In [plot.cpp](src/plot.cpp) implement the class `Plot` member functions.
+     * In [plot.cpp](src/plot/plot.cpp) implement the class `Plot` member functions.
      * See [test_q5.cpp](src/test_qt5.cpp) for example code you can borrow.
-     * Encapsulate and hide the `Qt` library details in [plot.cpp](src/plot.cpp) (header ([plot.hpp](include/plot.hpp) should be as simple as possible and not contain any `Qt` details). Use Pimpl idiom.
+     * Encapsulate and hide the `Qt` library details in [plot.cpp](src/plot/plot.cpp) (header ([plot.hpp](include/plot.hpp) should be as simple as possible and not contain any `Qt` details). Use Pimpl idiom.
      * Note that `Qt` library may crash if a `Qt` [window](https://doc.qt.io/qt-6/qwindow.html) or a [widget](https://doc.qt.io/qt-6/qchart.html) is created before [QApplication](https://doc.qt.io/qt-6/qapplication.html) is initialized, so make sure it is created first.
      * Avoid copy-pasting, use DRY (Don't Repeat Yourself) principle and reuse as much of your own code as possible.
 
