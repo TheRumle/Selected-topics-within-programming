@@ -21,15 +21,17 @@ int main(int argc, char* argv[])
 {
     QApplication a{argc, argv};  // make sure to initialize it first before any other widget
 
-    auto vals = makeRand(400);
+    auto vals = makeRand(15);
     auto *plot = new Plot("some text");
-    plot->WithLinePlot("tseria")->CreatedFrom(vals).And().WithLinePlot();
+    plot->AddLine("LinePlot", vals)->AddScatter("my scatter", vals)->addBoxPlots("boxes", vals);
 
     auto window = QMainWindow{};
     window.setWindowTitle("Qt5 Scatterplot Test");
     window.setCentralWidget(plot);
     window.resize(800, 600);
     window.show();
+
+
 
     return a.exec();
 }

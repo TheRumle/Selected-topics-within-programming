@@ -21,29 +21,60 @@
 #include <QtCore/QtMath>
 #include <QChartView>
 #include <utility>
-#include "Line.h"
-#include "plot_interface.h"
-#include "NamedLineSetUp.hpp"
+
 
 
 QT_CHARTS_USE_NAMESPACE
-class Plot: public term_t, std::enable_shared_from_this<Plot>{
+class Plot : public QChartView {
 private:
-      
-    Q_OBJECT
+    std::vector<QXYSeries*> allDataSets = std::vector<QXYSeries*>{};
+
+    void addValues(const QString &title, QXYSeries* series, const std::vector<double>& toPlot){
+        series->setName(title);
+        for (int i = 0; i < toPlot.size(); ++i)
+            series->append(i, toPlot.at(i));
+        chart()->addSeries(series);
+        allDataSets.push_back(series);
+    }
+    
+    
+    
+Q_OBJECT
 public:
     explicit Plot(const QString &title) {
         chart()->setTitle(title);
         chart()->createDefaultAxes();
         chart()->setDropShadowEnabled(false);
         // chart()->setAnimationOptions(QChart::SeriesAnimations); // cool but distracting
-
         chart()->legend()->setMarkerShape(QtCharts::QLegend::MarkerShapeFromSeries);
         chart()->legend()->setAlignment(Qt::AlignBottom);
     };
 
-    NamedPlotSetUp* WithLinePlot(const QString &title) override{
-        return new NamedLineSetUp{title, shared_from_this()};
+    Plot* AddLine(const QString &title, const std::vector<double>& toPlot){
+        auto* pLineSeries = new QLineSeries();
+        addValues(title, pLineSeries, toPlot);
+        return this;
+    }
+
+    Plot* AddScatter(const QString &title, const std::vector<double>& toPlot){
+        auto* scatter = new QScatterSeries();
+        addValues(title, scatter, toPlot);
+        return this;
+    }
+    
+    Plot * addBoxPlots(const QString &title, const std::vector<double>& toPlot){
+        auto* boxes = new QBoxPlotSeries();
+        boxes->setName(title);
+        
+        auto mm = std::minmax_element(toPlot.begin(), toPlot.end());
+        auto mean = std::accumulate(toPlot.begin(), toPlot.end(), 0.0) / toPlot.size();
+        auto lq = (mean + *mm.first) / 2;
+        auto uq = (mean + *mm.second) / 2;
+        boxes->append(new QBoxSet(*mm.first, lq, mean, uq, *mm.second));
+        
+ 
+        chart()->addSeries(boxes);
+        return this;
     }
 };
 

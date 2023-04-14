@@ -20,7 +20,7 @@ if(Qt5_FOUND)
     target_link_libraries(test_qt5 PRIVATE Qt5::Charts Qt5::Widgets Qt5::Core)
     add_test(NAME test_qt5 COMMAND test_qt5)
 
-    add_executable(plot_test plot_test.cpp plot/plot.cpp plot/Line.cpp plot/WithName.cpp)
+    add_executable(plot_test plot_test.cpp plot/plot.cpp)
     target_link_libraries(plot_test PRIVATE Qt5::Charts Qt5::Widgets Qt5::Core)
     add_test(NAME plot_test COMMAND plot_test)
 endif()
