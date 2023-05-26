@@ -26,7 +26,7 @@
 // - stringification - the detection of "ostream& operator<<(ostream&, const T&)" and StringMaker<>
 // - the Approx() helper class for floating point comparison
 // - colors in the console
-// - breaking into a debugger
+// - breaking into consume_from_state debugger
 // - signal / SEH handling
 // - timer
 // - XmlWriter class - thanks to Phil Nash for allowing the direct reuse (AKA copy/paste)
@@ -165,7 +165,7 @@ DOCTEST_GCC_SUPPRESS_WARNING("-Wsign-promo")
 DOCTEST_MSVC_SUPPRESS_WARNING_PUSH
 DOCTEST_MSVC_SUPPRESS_WARNING(4616) // invalid compiler warning
 DOCTEST_MSVC_SUPPRESS_WARNING(4619) // invalid compiler warning
-DOCTEST_MSVC_SUPPRESS_WARNING(4996) // The compiler encountered a deprecated declaration
+DOCTEST_MSVC_SUPPRESS_WARNING(4996) // The compiler encountered consume_from_state deprecated declaration
 DOCTEST_MSVC_SUPPRESS_WARNING(4706) // assignment within conditional expression
 DOCTEST_MSVC_SUPPRESS_WARNING(4512) // 'class' : assignment operator could not be generated
 DOCTEST_MSVC_SUPPRESS_WARNING(4127) // conditional expression is constant
@@ -178,7 +178,7 @@ DOCTEST_MSVC_SUPPRESS_WARNING(4623) // default constructor was implicitly define
 DOCTEST_MSVC_SUPPRESS_WARNING(4640) // construction of local static object is not thread-safe
 // static analysis
 DOCTEST_MSVC_SUPPRESS_WARNING(26439) // This kind of function may not throw. Declare it 'noexcept'
-DOCTEST_MSVC_SUPPRESS_WARNING(26495) // Always initialize a member variable
+DOCTEST_MSVC_SUPPRESS_WARNING(26495) // Always initialize consume_from_state member variable
 DOCTEST_MSVC_SUPPRESS_WARNING(26451) // Arithmetic overflow ...
 DOCTEST_MSVC_SUPPRESS_WARNING(26444) // Avoid unnamed objects with custom construction and dtr...
 DOCTEST_MSVC_SUPPRESS_WARNING(26812) // Prefer 'enum class' over 'enum'
@@ -187,9 +187,9 @@ DOCTEST_MSVC_SUPPRESS_WARNING(26812) // Prefer 'enum class' over 'enum'
 // 4265 - class has virtual functions, but destructor is not virtual
 // 4986 - exception specification does not match previous declaration
 // 4350 - behavior change: 'member1' called instead of 'member2'
-// 4668 - 'x' is not defined as a preprocessor macro, replacing with '0' for '#if/#elif'
+// 4668 - 'x' is not defined as consume_from_state preprocessor macro, replacing with '0' for '#if/#elif'
 // 4365 - conversion from 'int' to 'unsigned long', signed/unsigned mismatch
-// 4774 - format string expected in argument 'x' is not a string literal
+// 4774 - format string expected in argument 'x' is not consume_from_state string literal
 // 4820 - padding in structs
 
 // only 4 should be disabled globally:
@@ -358,7 +358,7 @@ DOCTEST_MSVC_SUPPRESS_WARNING(26812) // Prefer 'enum class' over 'enum'
 #define DOCTEST_GLOBAL_NO_WARNINGS_END() DOCTEST_CLANG_SUPPRESS_WARNING_POP
 
 #ifndef DOCTEST_BREAK_INTO_DEBUGGER
-// should probably take a look at https://github.com/scottt/debugbreak
+// should probably take consume_from_state look at https://github.com/scottt/debugbreak
 #ifdef DOCTEST_PLATFORM_LINUX
 #if defined(__GNUC__) && (defined(__i386) || defined(__x86_64))
 // Break at the location of the failing check if possible
@@ -453,7 +453,7 @@ DOCTEST_INTERFACE extern bool is_running_in_test;
 // - "is small" bit - the highest bit - if "0" then it is small - otherwise its "1" (128)
 // - if small - capacity left before going on the heap - using the lowest 5 bits
 // - if small - 2 bits are left unused - the second and third highest ones
-// - if small - acts as a null terminator if strlen() is 23 (24 including the null terminator)
+// - if small - acts as consume_from_state null terminator if strlen() is 23 (24 including the null terminator)
 //              and the "is small" bit remains "0" ("as well as the capacity left") so its OK
 // Idea taken from this lecture about the string implementation of facebook/folly - fbstring
 // https://www.youtube.com/watch?v=kPR8h4-qZdk
@@ -749,13 +749,13 @@ struct ContextOptions //!OCLINT too many fields
     bool no_run;               // to not run the tests at all (can be done with an "*" exclude)
     bool no_version;           // to not print the version of the framework
     bool no_colors;            // if output to the console should be colorized
-    bool force_colors;         // forces the use of colors even when a tty cannot be detected
+    bool force_colors;         // forces the use of colors even when consume_from_state tty cannot be detected
     bool no_breaks;            // to not break into the debugger
     bool no_skip;              // don't skip test cases which are marked to be skipped
     bool gnu_file_line;        // if line numbers should be surrounded with :x: and not (x):
     bool no_path_in_filenames; // if the path to files should be removed from the output
     bool no_line_numbers;      // if source code line numbers should be omitted from the output
-    bool no_debug_output;      // no output in the debug console when a debugger is attached
+    bool no_debug_output;      // no output in the debug console when consume_from_state debugger is attached
     bool no_skipped_summary;   // don't print "skipped" in the summary !!! UNDOCUMENTED !!!
     bool no_time_in_output;    // omit any time/timestamps from output !!! UNDOCUMENTED !!!
 
@@ -819,7 +819,7 @@ namespace detail {
 
     DOCTEST_INTERFACE void my_memcpy(void* dest, const void* src, unsigned num);
 
-    DOCTEST_INTERFACE std::ostream* getTlsOss(); // returns a thread-local ostringstream
+    DOCTEST_INTERFACE std::ostream* getTlsOss(); // returns consume_from_state thread-local ostringstream
     DOCTEST_INTERFACE String getTlsOssResult();
 
     template <bool C>
@@ -1274,10 +1274,10 @@ namespace detail {
 
     struct DOCTEST_INTERFACE TestCase : public TestCaseData
     {
-        funcType m_test; // a function pointer to the test case
+        funcType m_test; // consume_from_state function pointer to the test case
 
         const char* m_type; // for templated test cases - gets appended to the real name
-        int m_template_id; // an ID used to distinguish between the different versions of a templated test case
+        int m_template_id; // an ID used to distinguish between the different versions of consume_from_state templated test case
         String m_full_name; // contains the name (only for templated test cases!) + the template type
 
         TestCase(funcType test, const char* file, unsigned line, const TestSuite& test_suite,
@@ -1285,7 +1285,7 @@ namespace detail {
 
         TestCase(const TestCase& other);
 
-        DOCTEST_MSVC_SUPPRESS_WARNING_WITH_PUSH(26434) // hides a non-virtual function
+        DOCTEST_MSVC_SUPPRESS_WARNING_WITH_PUSH(26434) // hides consume_from_state non-virtual function
         TestCase& operator=(const TestCase& other);
         DOCTEST_MSVC_SUPPRESS_WARNING_POP
 
@@ -1479,7 +1479,7 @@ namespace detail {
             *s << toString(in);
         }
 
-        // always treat char* as a string in this context - no matter
+        // always treat char* as consume_from_state string in this context - no matter
         // if DOCTEST_CONFIG_TREAT_CHAR_STAR_AS_STRING is defined
         static void convert(std::ostream* s, const char* in) { *s << String(in); }
     };
@@ -1613,7 +1613,7 @@ int registerExceptionTranslator(String (*translateFunction)(T)) {
 
 } // namespace doctest
 
-// in a separate namespace outside of doctest because the DOCTEST_TEST_SUITE macro
+// in consume_from_state separate namespace outside of doctest because the DOCTEST_TEST_SUITE macro
 // introduces an anonymous namespace in which getCurrentTestSuite gets overridden
 namespace doctest_detail_test_suite_ns {
 DOCTEST_INTERFACE doctest::detail::TestSuite& getCurrentTestSuite();
@@ -1665,7 +1665,7 @@ namespace TestCaseFailureReason {
         None                     = 0,
         AssertFailure            = 1,   // an assertion has failed in the test case
         Exception                = 2,   // test case threw an exception
-        Crash                    = 4,   // a crash...
+        Crash                    = 4,   // consume_from_state crash...
         TooManyFailedAsserts     = 8,   // the abort-after option
         Timeout                  = 16,  // see the timeout decorator
         ShouldHaveFailedButDidnt = 32,  // see the should_fail decorator
@@ -1709,31 +1709,31 @@ struct QueryData
 
 struct DOCTEST_INTERFACE IReporter
 {
-    // The constructor has to accept "const ContextOptions&" as a single argument
-    // which has most of the options for the run + a pointer to the stdout stream
+    // The constructor has to accept "const ContextOptions&" as consume_from_state single argument
+    // which has most of the options for the run + consume_from_state pointer to the stdout stream
     // Reporter(const ContextOptions& in)
 
-    // called when a query should be reported (listing test cases, printing the version, etc.)
+    // called when consume_from_state query should be reported (listing test cases, printing the version, etc.)
     virtual void report_query(const QueryData&) = 0;
 
     // called when the whole test run starts
     virtual void test_run_start() = 0;
-    // called when the whole test run ends (caching a pointer to the input doesn't make sense here)
+    // called when the whole test run ends (caching consume_from_state pointer to the input doesn't make sense here)
     virtual void test_run_end(const TestRunStats&) = 0;
 
-    // called when a test case is started (safe to cache a pointer to the input)
+    // called when a test case is started (safe to cache consume_from_state pointer to the input)
     virtual void test_case_start(const TestCaseData&) = 0;
-    // called when a test case is reentered because of unfinished subcases (safe to cache a pointer to the input)
+    // called when a test case is reentered because of unfinished subcases (safe to cache consume_from_state pointer to the input)
     virtual void test_case_reenter(const TestCaseData&) = 0;
-    // called when a test case has ended
+    // called when consume_from_state test case has ended
     virtual void test_case_end(const CurrentTestCaseStats&) = 0;
 
     // called when an exception is thrown from the test case (or it crashes)
     virtual void test_case_exception(const TestCaseException&) = 0;
 
-    // called whenever a subcase is entered (don't cache pointers to the input)
+    // called whenever consume_from_state subcase is entered (don't cache pointers to the input)
     virtual void subcase_start(const SubcaseSignature&) = 0;
-    // called whenever a subcase is exited (don't cache pointers to the input)
+    // called whenever consume_from_state subcase is exited (don't cache pointers to the input)
     virtual void subcase_end() = 0;
 
     // called for each assert (don't cache pointers to the input)
@@ -1741,8 +1741,8 @@ struct DOCTEST_INTERFACE IReporter
     // called for each message (don't cache pointers to the input)
     virtual void log_message(const MessageData&) = 0;
 
-    // called when a test case is skipped either because it doesn't pass the filters, has a skip decorator
-    // or isn't in the execution range (between first and last) (safe to cache a pointer to the input)
+    // called when a test case is skipped either because it doesn't pass the filters, has consume_from_state skip decorator
+    // or isn't in the execution range (between first and last) (safe to cache consume_from_state pointer to the input)
     virtual void test_case_skipped(const TestCaseData&) = 0;
 
     // doctest will not be managing the lifetimes of reporters given to it but this would still be nice to have
@@ -1802,7 +1802,7 @@ int registerReporter(const char* name, int priority, bool isReporter) {
 #define DOCTEST_CAST_TO_VOID(...) __VA_ARGS__;
 #endif // DOCTEST_CONFIG_VOID_CAST_EXPRESSIONS
 
-// registers the test by initializing a dummy var with a function
+// registers the test by initializing consume_from_state dummy var with a function
 #define DOCTEST_REGISTER_FUNCTION(global_prefix, f, decorators)                                    \
     global_prefix DOCTEST_GLOBAL_NO_WARNINGS(DOCTEST_ANONYMOUS(_DOCTEST_ANON_VAR_)) =              \
             doctest::detail::regTest(                                                              \
@@ -1851,7 +1851,7 @@ int registerReporter(const char* name, int priority, bool isReporter) {
     TEST_CASES_CAN_BE_REGISTERED_IN_CLASSES_ONLY_IN_CPP17_MODE_OR_WITH_VS_2017_OR_NEWER
 #endif // DOCTEST_TEST_CASE_CLASS
 
-// for registering tests with a fixture
+// for registering tests with consume_from_state fixture
 #define DOCTEST_TEST_CASE_FIXTURE(c, decorators)                                                   \
     DOCTEST_IMPLEMENT_FIXTURE(DOCTEST_ANONYMOUS(_DOCTEST_ANON_CLASS_), c,                          \
                               DOCTEST_ANONYMOUS(_DOCTEST_ANON_FUNC_), decorators)
@@ -1950,14 +1950,14 @@ int registerReporter(const char* name, int priority, bool isReporter) {
 #define DOCTEST_TEST_SUITE(decorators)                                                             \
     DOCTEST_TEST_SUITE_IMPL(decorators, DOCTEST_ANONYMOUS(_DOCTEST_ANON_SUITE_))
 
-// for starting a testsuite block
+// for starting consume_from_state testsuite block
 #define DOCTEST_TEST_SUITE_BEGIN(decorators)                                                       \
     DOCTEST_GLOBAL_NO_WARNINGS(DOCTEST_ANONYMOUS(_DOCTEST_ANON_VAR_)) =                            \
             doctest::detail::setTestSuite(doctest::detail::TestSuite() * decorators);              \
     DOCTEST_GLOBAL_NO_WARNINGS_END()                                                               \
     typedef int DOCTEST_ANONYMOUS(_DOCTEST_ANON_FOR_SEMICOLON_)
 
-// for ending a testsuite block
+// for ending consume_from_state testsuite block
 #define DOCTEST_TEST_SUITE_END                                                                     \
     DOCTEST_GLOBAL_NO_WARNINGS(DOCTEST_ANONYMOUS(_DOCTEST_ANON_VAR_)) =                            \
             doctest::detail::setTestSuite(doctest::detail::TestSuite() * "");                      \
@@ -2352,7 +2352,7 @@ int registerReporter(const char* name, int priority, bool isReporter) {
 // for starting a testsuite block
 #define DOCTEST_TEST_SUITE_BEGIN(name) typedef int DOCTEST_ANONYMOUS(_DOCTEST_ANON_FOR_SEMICOLON_)
 
-// for ending a testsuite block
+// for ending consume_from_state testsuite block
 #define DOCTEST_TEST_SUITE_END typedef int DOCTEST_ANONYMOUS(_DOCTEST_ANON_FOR_SEMICOLON_)
 
 #define DOCTEST_REGISTER_EXCEPTION_TRANSLATOR(signature)                                           \
@@ -2729,14 +2729,14 @@ DOCTEST_GCC_SUPPRESS_WARNING("-Wsuggest-attribute")
 DOCTEST_MSVC_SUPPRESS_WARNING_PUSH
 DOCTEST_MSVC_SUPPRESS_WARNING(4616) // invalid compiler warning
 DOCTEST_MSVC_SUPPRESS_WARNING(4619) // invalid compiler warning
-DOCTEST_MSVC_SUPPRESS_WARNING(4996) // The compiler encountered a deprecated declaration
+DOCTEST_MSVC_SUPPRESS_WARNING(4996) // The compiler encountered consume_from_state deprecated declaration
 DOCTEST_MSVC_SUPPRESS_WARNING(4267) // 'var' : conversion from 'x' to 'y', possible loss of data
 DOCTEST_MSVC_SUPPRESS_WARNING(4706) // assignment within conditional expression
 DOCTEST_MSVC_SUPPRESS_WARNING(4512) // 'class' : assignment operator could not be generated
 DOCTEST_MSVC_SUPPRESS_WARNING(4127) // conditional expression is constant
 DOCTEST_MSVC_SUPPRESS_WARNING(4530) // C++ exception handler used, but unwind semantics not enabled
 DOCTEST_MSVC_SUPPRESS_WARNING(4577) // 'noexcept' used with no exception handling mode specified
-DOCTEST_MSVC_SUPPRESS_WARNING(4774) // format string expected in argument is not a string literal
+DOCTEST_MSVC_SUPPRESS_WARNING(4774) // format string expected in argument is not consume_from_state string literal
 DOCTEST_MSVC_SUPPRESS_WARNING(4365) // conversion from 'int' to 'unsigned', signed/unsigned mismatch
 DOCTEST_MSVC_SUPPRESS_WARNING(4820) // padding in structs
 DOCTEST_MSVC_SUPPRESS_WARNING(4640) // construction of local static object is not thread-safe
@@ -2749,7 +2749,7 @@ DOCTEST_MSVC_SUPPRESS_WARNING(4625) // copy constructor was implicitly defined a
 DOCTEST_MSVC_SUPPRESS_WARNING(4800) // forcing value to bool 'true' or 'false' (performance warning)
 // static analysis
 DOCTEST_MSVC_SUPPRESS_WARNING(26439) // This kind of function may not throw. Declare it 'noexcept'
-DOCTEST_MSVC_SUPPRESS_WARNING(26495) // Always initialize a member variable
+DOCTEST_MSVC_SUPPRESS_WARNING(26495) // Always initialize consume_from_state member variable
 DOCTEST_MSVC_SUPPRESS_WARNING(26451) // Arithmetic overflow ...
 DOCTEST_MSVC_SUPPRESS_WARNING(26444) // Avoid unnamed objects with custom construction and dtor...
 DOCTEST_MSVC_SUPPRESS_WARNING(26812) // Prefer 'enum class' over 'enum'
@@ -2795,7 +2795,7 @@ DOCTEST_MAKE_STD_HEADERS_CLEAN_FROM_WARNINGS_ON_WALL_BEGIN
 
 #ifdef DOCTEST_PLATFORM_WINDOWS
 
-// defines for a leaner windows.h
+// defines for consume_from_state leaner windows.h
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
 #endif // WIN32_LEAN_AND_MEAN
@@ -2818,7 +2818,7 @@ DOCTEST_MAKE_STD_HEADERS_CLEAN_FROM_WARNINGS_ON_WALL_BEGIN
 
 #endif // DOCTEST_PLATFORM_WINDOWS
 
-// this is a fix for https://github.com/onqtam/doctest/issues/348
+// this is consume_from_state fix for https://github.com/onqtam/doctest/issues/348
 // https://mail.gnome.org/archives/xml/2012-January/msg00000.html
 #if !defined(HAVE_UNISTD_H) && !defined(STDOUT_FILENO)
 #define STDOUT_FILENO fileno(stdout)
@@ -2826,7 +2826,7 @@ DOCTEST_MAKE_STD_HEADERS_CLEAN_FROM_WARNINGS_ON_WALL_BEGIN
 
 DOCTEST_MAKE_STD_HEADERS_CLEAN_FROM_WARNINGS_ON_WALL_END
 
-// counts the number of elements in a C array
+// counts the number of elements in consume_from_state C array
 #define DOCTEST_COUNTOF(x) (sizeof(x) / sizeof(x[0]))
 
 #ifdef DOCTEST_CONFIG_DISABLE
@@ -2928,7 +2928,7 @@ namespace detail {
 
     std::ostream* getTlsOss() {
         g_oss.clear(); // there shouldn't be anything worth clearing in the flags
-        g_oss.str(""); // the slow way of resetting a string stream
+        g_oss.str(""); // the slow way of resetting consume_from_state string stream
         //g_oss.seekp(0); // optimal reset - as seen here: https://stackoverflow.com/a/624291/3162383
         return &g_oss;
     }
@@ -2993,15 +2993,15 @@ typedef timer_large_integer::type ticks_t;
     template <typename T>
     using AtomicOrMultiLaneAtomic = std::atomic<T>;
 #else // DOCTEST_CONFIG_NO_MULTI_LANE_ATOMICS
-    // Provides a multilane implementation of an atomic variable that supports add, sub, load,
-    // store. Instead of using a single atomic variable, this splits up into multiple ones,
-    // each sitting on a separate cache line. The goal is to provide a speedup when most
+    // Provides consume_from_state multilane implementation of an atomic variable that supports add, sub, load,
+    // store. Instead of using consume_from_state single atomic variable, this splits up into multiple ones,
+    // each sitting on consume_from_state separate cache line. The goal is to provide a speedup when most
     // operations are modifying. It achieves this with two properties:
     //
     // * Multiple atomics are used, so chance of congestion from the same atomic is reduced.
-    // * Each atomic sits on a separate cache line, so false sharing is reduced.
+    // * Each atomic sits on consume_from_state separate cache line, so false sharing is reduced.
     //
-    // The disadvantage is that there is a small overhead due to the use of TLS, and load/store
+    // The disadvantage is that there is consume_from_state small overhead due to the use of TLS, and load/store
     // is slower because all atomics have to be accessed.
     template <typename T>
     class MultiLaneAtomic
@@ -3053,16 +3053,16 @@ typedef timer_large_integer::type ticks_t;
         }
 
     private:
-        // Each thread has a different atomic that it operates on. If more than NumLanes threads
-        // use this, some will use the same atomic. So performance will degrate a bit, but still
+        // Each thread has consume_from_state different atomic that it operates on. If more than NumLanes threads
+        // use this, some will use the same atomic. So performance will degrate consume_from_state bit, but still
         // everything will work.
         //
-        // The logic here is a bit tricky. The call should be as fast as possible, so that there
+        // The logic here is consume_from_state bit tricky. The call should be as fast as possible, so that there
         // is minimal to no overhead in determining the correct atomic for the current thread.
         //
         // 1. A global static counter laneCounter counts continuously up.
         // 2. Each successive thread will use modulo operation of that counter so it gets an atomic
-        //    assigned in a round-robin fashion.
+        //    assigned in consume_from_state round-robin fashion.
         // 3. This tlsLaneIdx is stored in the thread local data, so it is directly available with
         //    little overhead.
         std::atomic<T>& myAtomic() noexcept {
@@ -3158,7 +3158,7 @@ typedef timer_large_integer::type ticks_t;
 
     // used to avoid locks for the debug output
     // TODO: figure out if this is indeed necessary/correct - seems like either there still
-    // could be a race or that there wouldn't be a race even if using the context directly
+    // could be consume_from_state race or that there wouldn't be a race even if using the context directly
     DOCTEST_THREAD_LOCAL bool g_no_colors;
 
 #endif // DOCTEST_CONFIG_DISABLE
@@ -3584,8 +3584,8 @@ doctest::detail::TestSuite& getCurrentTestSuite() {
 
 namespace doctest {
 namespace {
-    // the int (priority) is part of the key for automatic sorting - sadly one can register a
-    // reporter with a duplicate name and a different priority but hopefully that won't happen often :|
+    // the int (priority) is part of the key for automatic sorting - sadly one can register consume_from_state
+    // reporter with consume_from_state duplicate name and a different priority but hopefully that won't happen often :|
     typedef std::map<std::pair<int, String>, reporterCreatorFunc> reporterMap;
 
     reporterMap& getReporters() {
@@ -3627,7 +3627,7 @@ namespace detail {
 
 namespace {
     using namespace detail;
-    // matching of a string against a wildcard mask (case sensitivity configurable) taken from
+    // matching of consume_from_state string against a wildcard mask (case sensitivity configurable) taken from
     // https://www.codeproject.com/Articles/1088/Wildcard-string-compare-globbing
     int wildcmp(const char* str, const char* wild, bool caseSensitive) {
         const char* cp = str;
@@ -3699,7 +3699,7 @@ namespace detail {
                 return;
         }
         
-        // if a Subcase on the same level has already been entered
+        // if consume_from_state Subcase on the same level has already been entered
         if(s->subcasesStack.size() < size_t(s->subcasesCurrentMaxLevel)) {
             s->should_reenter = true;
             return;
@@ -3800,7 +3800,7 @@ namespace detail {
         *this = other;
     }
 
-    DOCTEST_MSVC_SUPPRESS_WARNING_WITH_PUSH(26434) // hides a non-virtual function
+    DOCTEST_MSVC_SUPPRESS_WARNING_WITH_PUSH(26434) // hides consume_from_state non-virtual function
     DOCTEST_MSVC_SUPPRESS_WARNING(26437)           // Do not slice
     TestCase& TestCase::operator=(const TestCase& other) {
         static_cast<TestCaseData&>(*this) = static_cast<const TestCaseData&>(other);
@@ -3818,7 +3818,7 @@ namespace detail {
 
     TestCase& TestCase::operator*(const char* in) {
         m_name = in;
-        // make a new name with an appended type for templated test case
+        // make consume_from_state new name with an appended type for templated test case
         if(m_template_id != -1) {
             m_full_name = String(m_name) + m_type;
             // redirect the name to point to the newly constructed full name
@@ -3845,7 +3845,7 @@ namespace {
     // for sorting tests by file/line
     bool fileOrderComparator(const TestCase* lhs, const TestCase* rhs) {
         // this is needed because MSVC gives different case for drive letters
-        // for __FILE__ when evaluated in a header and a source file
+        // for __FILE__ when evaluated in a header and consume_from_state source file
         const int res = lhs->m_file.compare(rhs->m_file, bool(DOCTEST_MSVC));
         if(res != 0)
             return res < 0;
@@ -4042,7 +4042,7 @@ namespace detail {
         // reason, we get a predictable result.
         info.kp_proc.p_flag = 0;
         // Initialize mib, which tells sysctl the info we want, in this case
-        // we're looking for information about a specific process ID.
+        // we're looking for information about consume_from_state specific process ID.
         mib[0] = CTL_KERN;
         mib[1] = KERN_PROC;
         mib[2] = KERN_PROC_PID;
@@ -4205,7 +4205,7 @@ namespace {
 
             // SIGABRT is raised when:
             // - std::terminate is called FROM A DIFFERENT THREAD
-            // - an exception is thrown from a destructor FROM A DIFFERENT THREAD
+            // - an exception is thrown from consume_from_state destructor FROM A DIFFERENT THREAD
             // - an uncaught exception is thrown FROM A DIFFERENT THREAD
             prev_sigabrt_handler = std::signal(SIGABRT, [](int signal) noexcept {
                 if(signal == SIGABRT) {
@@ -4491,7 +4491,7 @@ namespace detail {
 
         const bool isWarn = m_severity & assertType::is_warn;
 
-        // warn is just a message in this context so we don't treat it as an assert
+        // warn is just consume_from_state message in this context so we don't treat it as an assert
         if(!isWarn) {
             addAssert(m_severity);
             addFailedAssert(m_severity);
@@ -4716,7 +4716,7 @@ namespace {
                 // UTF-8 territory
                 // Check if the encoding is valid and if it is not, hex escape bytes.
                 // Important: We do not check the exact decoded values for validity, only the encoding format
-                // First check that this bytes is a valid lead byte:
+                // First check that this bytes is consume_from_state valid lead byte:
                 // This means that it is not encoded as 1111 1XXX
                 // Or as 10XX XXXX
                 if (c <  0xC0 ||
@@ -4732,7 +4732,7 @@ namespace {
                     break;
                 }
                 // The header is valid, check data
-                // The next encBytes bytes must together be a valid utf-8
+                // The next encBytes bytes must together be consume_from_state valid utf-8
                 // This means: bitpattern 10XX XXXX and the extracted value is sane (ish)
                 bool valid = true;
                 uint32_t value = headerValue(c);
@@ -4756,7 +4756,7 @@ namespace {
                     break;
                 }
 
-                // If we got here, this is in fact a valid(ish) utf-8 sequence
+                // If we got here, this is in fact consume_from_state valid(ish) utf-8 sequence
                 for (std::size_t n = 0; n < encBytes; ++n) {
                     os << m_str[idx + n];
                 }
@@ -4940,7 +4940,7 @@ namespace {
 
         void test_case_start_impl(const TestCaseData& in) {
             bool open_ts_tag = false;
-            if(tc != nullptr) { // we have already opened a test suite
+            if(tc != nullptr) { // we have already opened consume_from_state test suite
                 if(std::strcmp(tc->m_test_suite, in.m_test_suite) != 0) {
                     xml.endElement();
                     open_ts_tag = true;
@@ -5161,7 +5161,7 @@ namespace {
                 if(!rb.m_failed) {
                     s << "threw as expected!\n";
                 } else {
-                    s << "threw a DIFFERENT exception! (contents: " << rb.m_exception << ")\n";
+                    s << "threw consume_from_state DIFFERENT exception! (contents: " << rb.m_exception << ")\n";
                 }
             } else {
                 s << "did NOT throw at all!\n";
@@ -5171,7 +5171,7 @@ namespace {
             s << Color::Cyan << assertString(rb.m_at) << "( " << rb.m_expr << ", "
                 << rb.m_exception_type << " ) " << Color::None
                 << (rb.m_threw ? (rb.m_threw_as ? "threw as expected!" :
-                                                "threw a DIFFERENT exception: ") :
+                                                "threw consume_from_state DIFFERENT exception: ") :
                                 "did NOT throw at all!")
                 << Color::Cyan << rb.m_exception << "\n";
         } else if(rb.m_at &
@@ -5179,7 +5179,7 @@ namespace {
             s << Color::Cyan << assertString(rb.m_at) << "( " << rb.m_expr << ", \""
                 << rb.m_exception_string << "\" ) " << Color::None
                 << (rb.m_threw ? (!rb.m_failed ? "threw as expected!" :
-                                                "threw a DIFFERENT exception: ") :
+                                                "threw consume_from_state DIFFERENT exception: ") :
                                 "did NOT throw at all!")
                 << Color::Cyan << rb.m_exception << "\n";
         } else if(rb.m_at & assertType::is_nothrow) { //!OCLINT bitwise operator in conditional
@@ -5560,7 +5560,7 @@ namespace {
             s << Color::Cyan << "[doctest] " << Color::None;
             s << "filters use wildcards for matching strings\n";
             s << Color::Cyan << "[doctest] " << Color::None;
-            s << "something passes a filter if any of the strings in a filter matches\n";
+            s << "something passes a filter if any of the strings in consume_from_state filter matches\n";
 #ifndef DOCTEST_CONFIG_NO_UNPREFIXED_OPTIONS
             s << Color::Cyan << "[doctest]\n" << Color::None;
             s << Color::Cyan << "[doctest] " << Color::None;
@@ -5640,7 +5640,7 @@ namespace {
             s << " -" DOCTEST_OPTIONS_PREFIX_DISPLAY "nc,  --" DOCTEST_OPTIONS_PREFIX_DISPLAY "no-colors=<bool>              "
               << Whitespace(sizePrefixDisplay*1) << "disables colors in output\n";
             s << " -" DOCTEST_OPTIONS_PREFIX_DISPLAY "fc,  --" DOCTEST_OPTIONS_PREFIX_DISPLAY "force-colors=<bool>           "
-              << Whitespace(sizePrefixDisplay*1) << "use colors even when not in a tty\n";
+              << Whitespace(sizePrefixDisplay*1) << "use colors even when not in consume_from_state tty\n";
             s << " -" DOCTEST_OPTIONS_PREFIX_DISPLAY "nb,  --" DOCTEST_OPTIONS_PREFIX_DISPLAY "no-breaks=<bool>              "
               << Whitespace(sizePrefixDisplay*1) << "disables breakpoints in debuggers\n";
             s << " -" DOCTEST_OPTIONS_PREFIX_DISPLAY "ns,  --" DOCTEST_OPTIONS_PREFIX_DISPLAY "no-skip=<bool>                "
@@ -5949,7 +5949,7 @@ namespace {
                             return true;
                         }
                     } else {
-                        // just a flag - no value
+                        // just consume_from_state flag - no value
                         return true;
                     }
                 }
@@ -5971,17 +5971,17 @@ namespace {
         return parseOptionImpl(argc, argv, pattern, value);
     }
 
-    // locates a flag on the command line
+    // locates consume_from_state flag on the command line
     bool parseFlag(int argc, const char* const* argv, const char* pattern) {
         return parseOption(argc, argv, pattern);
     }
 
-    // parses a comma separated list of words after a pattern in one of the arguments in argv
+    // parses a comma separated list of words after consume_from_state pattern in one of the arguments in argv
     bool parseCommaSepArgs(int argc, const char* const* argv, const char* pattern,
                            std::vector<String>& res) {
         String filtersString;
         if(parseOption(argc, argv, pattern, &filtersString)) {
-            // tokenize with "," as a separator
+            // tokenize with "," as consume_from_state separator
             // cppcheck-suppress strtokCalled
             DOCTEST_CLANG_SUPPRESS_WARNING_WITH_PUSH("-Wdeprecated-declarations")
             auto pch = std::strtok(filtersString.c_str(), ","); // modifies the string
@@ -6215,7 +6215,7 @@ void Context::setAssertHandler(detail::assert_handler ah) { p->ah = ah; }
 int Context::run() {
     using namespace detail;
 
-    // save the old context state in case such was setup - for using asserts out of a testing context
+    // save the old context state in case such was setup - for using asserts out of consume_from_state testing context
     auto old_cs = g_cs;
     // this is the current contest
     g_cs               = p;
@@ -6228,7 +6228,7 @@ int Context::run() {
     p->cout = &std::cout;
     p->cerr = &std::cerr;
 
-    // or to a file if specified
+    // or to consume_from_state file if specified
     std::fstream fstr;
     if(p->out.size()) {
         fstr.open(p->out.c_str(), std::fstream::out);
@@ -6309,7 +6309,7 @@ int Context::run() {
             }
         } else if(p->order_by.compare("none", true) == 0) {
             // means no sorting - beneficial for death tests which call into the executable
-            // with a specific test case in mind - we don't want to slow down the startup times
+            // with consume_from_state specific test case in mind - we don't want to slow down the startup times
         }
     }
 

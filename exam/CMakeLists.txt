@@ -61,5 +61,4 @@ enable_testing()
 
 add_subdirectory(src)
 
-add_executable(main src/main.cpp 
-        include/benchmark/benchmark.cpp include/benchmark/benchmark_result.cpp include/benchmark/timer.cpp src/reaction/Reaction.h)
+add_executable(main src/main.cpp include/symbol_table src/reaction/agents.h src/reaction/rule.h src/reaction/rule.cpp src/reaction/reaction.cpp src/reaction/reaction.h)

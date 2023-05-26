@@ -1,29 +1,24 @@
 ﻿//
 // Created by rasmus on 5/26/2023.
 //
-#include <iostream>
-#include "../include/benchmark/benchmark.h"
 
-#include <algorithm>
-#include "reaction/Reaction.h"
+#include "reaction/rule.h"
+#include "simulation.h"
+#include "reaction/reaction.h"
 int main() {
-    sim::simulation_state state;
-    auto as =Reactant("A", 100);
-    auto bs =Reactant("B", 0);
-    auto cs =Reactant("C", 2);
+    auto rhs = RHS {{{"A",1}, {"C",1}}};
+    auto lhs = LHS {{{"B",1}, {"C",1}}};
+    reaction reaction(lhs >>= rhs, 0.001);
+    auto s = symbol_table<std::string, Agent>{};
     
-    state.store(as.name, sim::ReactantAdditionContainer{as});
-    state.store(bs.name, sim::ReactantAdditionContainer{bs});
-    state.store(cs.name, sim::ReactantAdditionContainer{cs});
+    Product A = Product{"A", 100};
+    Product B = Product{"B", 0};
+    Product C = Product{"C", 1};
     
-    Reaction reaction 
-        {0.001, std::vector<Reactant>{Reactant("A", 1),Reactant("C", 1)},
-         std::vector<Reactant>{Reactant("B", 1), Reactant("C", 1)}};
+    s.store({{A.name, A},{B.name, B}, {C.name, C} });
     
-    sim s{state};
-    s.simulate(std::vector<Reaction>{reaction}, 1500);
-    
-    
+    simulation q {{reaction},s};
+    q.operator()(100);
     return 0;
 }
 
