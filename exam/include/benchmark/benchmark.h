@@ -17,11 +17,10 @@
 class benchmark {
 public:
     enum {NOT_PRESENT = -1};
-    benchmark_result getById(const int id);
-    static void perform_measurement(const std::function<void()> &func, benchmark_result &measurement) ;
-    
+    benchmark_result getById(int id);
     static benchmark_result perform_measurements(const std::function<void()> &func, int num_measurements);
 private:
+    static void perform_measurement(const std::function<void()> &func, benchmark_result &measurement) ;
     std::vector<benchmark_result> results;
 };
 
