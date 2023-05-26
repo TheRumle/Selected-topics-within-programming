@@ -1,8 +1,10 @@
-﻿#include <iostream>
-#include "benchmark/benchmark.h"
+﻿//
+// Created by rasmus on 5/26/2023.
+//
+#include <iostream>
+
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-    auto a = 2;
-    benchmark::bench_rand_vals(0,[](){ return;});
+    std::cout << "Hello World!";
     return 0;
 }
+
