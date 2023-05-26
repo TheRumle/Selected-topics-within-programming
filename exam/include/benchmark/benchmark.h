@@ -17,8 +17,7 @@
 class benchmark {
 public:
     enum {NOT_PRESENT = -1};
-    static benchmark_result bench_rand_vals(int runs, const std::function<void (void)> &func);
-    benchmark_result getById(int id);
+    benchmark_result getById(const int id);
     static void perform_measurement(const std::function<void()> &func, benchmark_result &measurement) ;
     
     static benchmark_result perform_measurements(const std::function<void()> &func, int num_measurements);
