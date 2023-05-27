@@ -20,10 +20,15 @@ int main() {
     Product B = Product{"B", 0};
     Product C = Product{"C", 1};
     
-    s.store({{A.name, A},{B.name, B}, {C.name, C} });
+    s.store(A.name, A);
+    s.store(B.name, B);
+    s.store(C.name, C);
     
     simulation q {{r},s};
-    q.operator()(100);
+    q.operator()(1500,[](const reaction& reaction, const  symbol_table<std::string, Agent>& state){
+        std::cout<<reaction;
+        
+    });
     return 0;
 }
 

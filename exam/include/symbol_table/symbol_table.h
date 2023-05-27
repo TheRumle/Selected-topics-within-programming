@@ -22,20 +22,14 @@ public:
         state.emplace(key, value);
     };
     
-    void store(std::initializer_list<KV> kvs) {
-        for (auto kv : kvs) 
-            state.emplace(kv.k, kv.v);
-    };
     
-    [[nodiscard]] TValue& lookup(const TKey& key) const{
+    TValue& lookup(const TKey& key) const{
         auto it = state.find(key);
         if (it == state.end())
             throw std::invalid_argument("Key was not contained in state");
-    
+        
         return (it->second);
-    }
-    
-    
+    };
 };
 
 
