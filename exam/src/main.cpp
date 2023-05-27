@@ -2,19 +2,16 @@
 // Created by rasmus on 5/26/2023.
 //
 
-#include "reaction/rule.h"
+#include "reaction/construction_rules.h"
 #include "simulation.h"
 #include "reaction/reaction.h"
 int main() {
     auto lhs = LHS {{{"A",1}, {"C",1}}};
-    auto rhs = RHS {{{"B",1}, {"C",1}}};
-    const Rule& rule = lhs >>= rhs;
+    auto rhs = RHS {{{"B",1}, {"C",1}},0.001};
+    const reaction& reaction = lhs >>= rhs;
+    std::cout << reaction;
     
-    
-    reaction r(rule, 0.001);
-    std::cout << r;
-    
-    auto s = Rule::state{};
+    auto s = reaction::state{};
 
     Agent A = Agent{"A", 100};
     Agent B = Agent{"B", 0};
@@ -24,7 +21,7 @@ int main() {
     s.storeOrUpdate(B.name, B.volume);
     s.storeOrUpdate(C.name, C.volume);
     
-    simulation q {{r},s};
+    simulation q {{reaction},s};
     q.operator()(1500);
     return 0;
 }

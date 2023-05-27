@@ -6,58 +6,60 @@
 #define LAMBDAS_SIMULATION_H
 
 #include <functional>
-#include "reaction/rule.h"
+#include "reaction/construction_rules.h"
 #include "reaction/reaction.h"
-struct simulation {
+
+class simulation {
+private:
+    double time = 0.0;
+
+public:
     std::vector<reaction> reactions;
-    Rule::state state;
+    reaction::state state;
     
-    simulation(const std::initializer_list<reaction>& reactions, Rule::state& agentValues):
+    simulation(const std::initializer_list<reaction>& reactions, reaction::state& agentValues):
         reactions(reactions), state(agentValues)
     {};
     friend std::ostream & operator << (std::ostream& s, const simulation& value){
-        s <<"{ ";
+        s << value.time <<":  { ";
         for (const auto& r : value.state){
-            s << r.second << " ";
+            if (r.second == 0)
+                continue ;
+            s << r.first <<'(' <<r.second << ")";
         }
-        s << "}\n";
+        s << "} ";
         return s;
     }
     
+    void print(const simulation& s, reaction& fastestReaction){
+        std::cout << s << " by doing " << fastestReaction;
+    }
+    
     void operator()(double endTime){
-        double time = 0.0;
         while (time < endTime){
-            std::vector<reaction> satisfyables;
-            for (auto& v : reactions) {
-                if (v.canBeSatisfied(state))
-                {
-                    satisfyables.emplace_back(v);
-                }
+            std::vector<std::pair<reaction, double>> reactionTimes{};
+            for (auto& reaction :reactions) {
+                reactionTimes.emplace_back(reaction, reaction.compute_delay(state));
             }
-
-            for (auto it = satisfyables.begin(); it != satisfyables.end(); ++it) {
-                for (auto innerIt = satisfyables.begin(); innerIt != satisfyables.end() - 1; ++innerIt) {
+            
+            for (auto it = reactionTimes.begin(); it != reactionTimes.end(); ++it) {
+                for (auto innerIt = reactionTimes.begin(); innerIt != reactionTimes.end() - 1; ++innerIt) {
                     auto& lhs = *innerIt;
                     auto& rhs = *(innerIt + 1);
         
-                    if (lhs.compute_delay(state) > rhs.compute_delay(state)) {
+                    if (lhs.second > rhs.second) {
                         std::swap(lhs, rhs);
                     }
                 }
             }
 
             
-            reaction& fastestReaction = satisfyables.front();
-            time += fastestReaction.compute_delay(state);
-            std::cout << fastestReaction;
-            std::cout << *this;
-            fastestReaction.operator()(state);
+            auto& fastestReaction = reactionTimes.front();
+            time += fastestReaction.second;
+            fastestReaction.first.operator()(state);
+            print(*this, fastestReaction.first);
         }
-
     }
-    
-
-
 };
 
 #endif  // LAMBDAS_SIMULATION_H

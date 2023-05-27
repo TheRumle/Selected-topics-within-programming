@@ -4,10 +4,9 @@
 
 #include "reaction.h"
 
-
-bool reaction::canBeSatisfied(Rule::state& state)
+bool reaction::canBeSatisfied(reaction::state& state)
 {
-    for (const auto& reactant : this->rule.getReactants()){
+    for (const auto& reactant : reactants){
         auto foundResult = state.tryGetValue(reactant.name);
         if (!foundResult.has_value() || foundResult < reactant.volume) 
             return false;
@@ -15,23 +14,47 @@ bool reaction::canBeSatisfied(Rule::state& state)
     return true;
 }
 
-
-[[nodiscard]] double get_distribution(const double lambdaK) {
-    if (lambdaK == 0) return 0;
-    std::random_device rd;
-    std::mt19937 generator(rd());
-    std::exponential_distribution<> exponentialDistribution(lambdaK);
-    return exponentialDistribution(generator);
-}
-
-double reaction::compute_delay(Rule::state& state)
+double reaction::compute_delay(reaction::state& state)
 {
-    auto lambdaK = 1.0;
-    const auto& reactants = this->rule.getReactants();
-    for (auto& agent : reactants){
-        lambdaK *= state.tryGetValue(agent.name).value();
+    auto product = 1.0;
+    for (const auto& agent : reactants){
+        product *= state.tryGetValue(agent.name).value();
     }
 
-    auto res = get_distribution(lambdaK * lambda);
-    return res;
+    if (product == 0) return std::numeric_limits<double>::max();
+    
+    std::random_device rd;
+    std::mt19937 generator(rd());
+    std::exponential_distribution<> exponentialDistribution(product * lambda);
+    auto val =  exponentialDistribution(generator);
+    return val;
+}
+
+
+reaction create(const std::vector<Agent>& reactants, const std::vector<Agent>& products, double lambda) {
+    return {reactants, products, lambda};
+}
+
+void reaction::produce_to_state(state& state)
+{
+    for (auto& product : products) {
+        const auto& tableResult = state.tryGetValue(product.name);
+        if (tableResult.has_value()){
+            auto val = tableResult.value();
+            state.storeOrUpdate(product.name, product.volume + val);
+        } else{
+            state.storeOrUpdate(product.name, product.volume);
+        }
+
+    }
+}
+void reaction::consume_from_state(state& state)
+{
+    for (const Agent& reactant : reactants) {
+        const auto& previous = state.tryGetValue(reactant.name);
+        state.storeOrUpdate(reactant.name, previous.value() - reactant.volume);
+    }
+}
+reaction LHS::operator>>=(const RHS& rhs) {
+    return create(this->reactants, rhs.products, rhs.rate);
 }

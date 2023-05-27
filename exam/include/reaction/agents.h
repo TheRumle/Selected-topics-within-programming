@@ -27,7 +27,4 @@ struct Agent{
     }
     
 };
-
-const static Agent ENV{"ENV", -1}; 
-
 #endif  // LAMBDAS_AGENTS_H

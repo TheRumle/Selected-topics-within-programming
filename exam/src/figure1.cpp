@@ -1,4 +1,4 @@
-﻿#include "reaction/rule.h"
+﻿#include "reaction/construction_rules.h"
 #include "reaction/reaction.h"
 #include "simulation.h"
 //
@@ -10,7 +10,7 @@ void runFirstSimulation(){
     reaction r ((LHS{{{"A",1}, {"C",1}}} >>= {{"B",1}, {"C",1}}), lambda);
     std::cout << r;
     
-    auto s = Rule::state{};
+    auto s = reaction::state{};
 
     Agent A = Agent{"A", 100};
     Agent B = Agent{"B", 0};
@@ -31,12 +31,12 @@ void runSecondSimulation()
     auto endTime = 1500;
     auto lhs = LHS{{{"A", 1}, {"C", 1}}};
     auto rhs = RHS{{{"B", 1}, {"C", 1}}};
-    const Rule& rule = lhs >>= rhs;
+    const reaction& rule = lhs >>= rhs;
 
     reaction r(rule, lambda);
     std::cout << r;
 
-    auto s = Rule::state{};
+    auto s = reaction::state{};
 
     Agent A = Agent{"A", 100};
     Agent B = Agent{"B", 0};
@@ -58,12 +58,12 @@ void runThirdSimulation()
     auto endTime = 1500;
     auto lhs = LHS{{{"A", 1}, {"C", 1}}};
     auto rhs = RHS{{{"B", 1}, {"C", 1}}};
-    const Rule& rule = lhs >>= rhs;
-    
+    const reaction& rule = lhs >>= rhs;
+
     reaction r(rule, lambda);
     std::cout << r;
 
-    auto s = Rule::state{};
+    auto s = reaction::state{};
 
     Agent A = Agent{"A", 50};
     Agent B = Agent{"B", 50};
