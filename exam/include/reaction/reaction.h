@@ -36,7 +36,7 @@ struct reaction
         s << " --" << value.lambda <<  "--> ";
         for (const auto& p : value.rule.products)
             s << p << " ";
-        s << "}";
+        s << "} ";
         return s;
     }
 };

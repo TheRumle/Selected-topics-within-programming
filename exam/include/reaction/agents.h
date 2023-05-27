@@ -24,6 +24,7 @@ struct Product:Agent {
     Product(const std::string& name, double volume): Agent(name, volume) {}
     friend std::ostream &operator << (std::ostream& s, const Product& value){
         s << tostring(value);
+        return s;
     }
 };
 
