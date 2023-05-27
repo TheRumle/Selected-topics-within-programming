@@ -46,7 +46,7 @@ void runThirdSimulation()
 
 int main(){
     runFirstSimulation();
-    //runSecondSimulation();
-    //runThirdSimulation();
+    runSecondSimulation();
+    runThirdSimulation();
     return 0;
 }

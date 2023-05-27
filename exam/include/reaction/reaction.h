@@ -20,7 +20,7 @@ public:
         lambda(std::move(other.lambda)),
         consumptions(std::move(other.consumptions)),
         productionActions(std::move(other.productionActions)){}
-    ~reaction()= default;;
+    ~reaction()= default;
     
     
     reaction(const LHS& lhs, const RHS& rhs, double lambda)

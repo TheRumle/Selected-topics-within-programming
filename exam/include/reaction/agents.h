@@ -29,6 +29,7 @@ public:
         else
             s << std::to_string(agent.total_agent) + agent.agent_name;
         s << " ";
+        return s;
     }
     
     static std::shared_ptr<Agent> CreateShared(const std::string& name, double startValue= 1){
@@ -73,7 +74,7 @@ private:
 public:
     [[nodiscard]] double getConsumptionAmount() const { return amount; }
     [[nodiscard]] const std::string& getName() const { return name; }
-    [[nodiscard]] const double getAgentAmount() const { return this->globalAgent->total_amount() ; }
+    [[nodiscard]] double getAgentAmount() const { return this->globalAgent->total_amount() ; }
 
     AgentConsumption(const std::shared_ptr<Agent>& agent, double amount): amount(amount), name(agent->getAgentName()), globalAgent(agent){}
     AgentConsumption(const std::shared_ptr<Agent>& agent): amount(1), name(agent->getAgentName()), globalAgent(agent){}
