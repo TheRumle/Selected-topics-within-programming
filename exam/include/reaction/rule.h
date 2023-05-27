@@ -25,14 +25,14 @@
 // rule to be satisfied
 struct Rule;
 struct RHS {
-    explicit RHS(const std::vector<Product>& products) : products(products) {}
-    const std::vector<Product> products{};
+    RHS(const std::vector<Agent>& products) : products(products) {}
+    const std::vector<Agent> products{};
 };
 
 
 struct LHS {
-    const std::vector<Reactant> reactants{};
-    explicit LHS(const std::vector<Reactant>& reactants) : reactants(reactants) {}
+    const std::vector<Agent> reactants{};
+    LHS(const std::vector<Agent>& reactants) : reactants(reactants) {}
     Rule operator>>=(const RHS& rhs);
 };
 
@@ -49,15 +49,15 @@ struct Rule
         }
     }
 
-    const std::vector<Reactant> reactants{};
-    std::vector<Product> products{};
+    const std::vector<Agent> reactants{};
+    std::vector<Agent> products{};
 private:
-    Rule(const std::vector<Reactant>& reactants, const std::vector<Product>& products)
+    Rule(const std::vector<Agent>& reactants, const std::vector<Agent>& products)
         : reactants(reactants), products(products) {}
     
     void consume_from_state(const symbol_table<std::string, Agent>& state) const;
     void produce_to_state(symbol_table<std::string, Agent>& state);
-    friend Rule create(const std::vector<Reactant>& reactants, const std::vector<Product>& products);
+    friend Rule create(const std::vector<Agent>& reactants, const std::vector<Agent>& products);
 };
 
 

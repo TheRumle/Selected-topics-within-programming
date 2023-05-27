@@ -15,10 +15,10 @@ int main() {
     std::cout << r;
     
     auto s = symbol_table<std::string, Agent>{};
-    
-    Product A = Product{"A", 100};
-    Product B = Product{"B", 0};
-    Product C = Product{"C", 1};
+
+    Agent A = Agent{"A", 100};
+    Agent B = Agent{"B", 0};
+    Agent C = Agent{"C", 1};
     
     s.store(A.name, A);
     s.store(B.name, B);

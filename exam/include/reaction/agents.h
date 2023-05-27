@@ -18,21 +18,10 @@ struct Agent{
         else
             return "" + std::to_string(agent.volume) + agent.name;
     }
-};
-
-struct Product:Agent {
-    Product(const std::string& name, double volume): Agent(name, volume) {}
-    friend std::ostream &operator << (std::ostream& s, const Product& value){
+    
+    friend std::ostream &operator << (std::ostream& s, const Agent& value){
         s << tostring(value);
         return s;
-    }
-};
-
-struct Reactant:Agent {
-    Reactant(const std::string& name, double volume): Agent(name, volume) {}
-    friend std::ostream &operator << (std::ostream& s, const Reactant& value){
-       s << tostring(value);
-       return s;
     }
 };
 

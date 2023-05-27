@@ -5,7 +5,7 @@
 // Created by rasmus on 5/26/2023.
 //
 
-Rule create(const std::vector<Reactant>& reactants, const std::vector<Product>& products) {
+Rule create(const std::vector<Agent>& reactants, const std::vector<Agent>& products) {
     return Rule(reactants, products);
 }
 void Rule::produce_to_state(symbol_table<std::string, Agent>& state)
