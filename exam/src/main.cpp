@@ -6,9 +6,14 @@
 #include "simulation.h"
 #include "reaction/reaction.h"
 int main() {
-    auto rhs = RHS {{{"A",1}, {"C",1}}};
-    auto lhs = LHS {{{"B",1}, {"C",1}}};
-    reaction reaction(lhs >>= rhs, 0.001);
+    auto lhs = LHS {{{"A",1}, {"C",1}}};
+    auto rhs = RHS {{{"B",1}, {"C",1}}};
+    const Rule& rule = lhs >>= rhs;
+    
+    
+    reaction r(rule, 0.001);
+    std::cout << r;
+    
     auto s = symbol_table<std::string, Agent>{};
     
     Product A = Product{"A", 100};
@@ -17,7 +22,7 @@ int main() {
     
     s.store({{A.name, A},{B.name, B}, {C.name, C} });
     
-    simulation q {{reaction},s};
+    simulation q {{r},s};
     q.operator()(100);
     return 0;
 }

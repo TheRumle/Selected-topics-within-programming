@@ -27,6 +27,18 @@ struct reaction
     inline void operator()(symbol_table<std::string, Agent>& state){
         this->rule(state);
     }
+    
+    friend std::ostream & operator << (std::ostream& s, const reaction& value){
+        s <<"{ ";
+        for (const auto& r : value.rule.reactants){
+            s << r << " ";
+        }
+        s << " --" << value.lambda <<  "--> ";
+        for (const auto& p : value.rule.products)
+            s << p << " ";
+        s << "}";
+        return s;
+    }
 };
 
 

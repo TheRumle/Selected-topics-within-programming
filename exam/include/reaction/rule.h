@@ -50,8 +50,8 @@ struct Rule
     }
 
     const std::vector<Reactant> reactants{};
-private:
     std::vector<Product> products{};
+private:
     Rule(const std::vector<Reactant>& reactants, const std::vector<Product>& products)
         : reactants(reactants), products(products) {}
     

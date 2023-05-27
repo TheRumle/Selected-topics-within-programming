@@ -15,7 +15,7 @@ void Rule::produce_to_state(symbol_table<std::string, Agent>& state)
         try{
             auto state_agent = state.lookup(product.name);
             state_agent.volume += product.volume;
-        } catch (const std::invalid_argument e) {
+        } catch (const std::invalid_argument& e) {
             state.store(product.name, product); 
         }
     }
