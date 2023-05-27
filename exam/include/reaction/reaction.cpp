@@ -58,3 +58,16 @@ void reaction::consume_from_state(state& state)
 reaction LHS::operator>>=(const RHS& rhs) {
     return create(this->reactants, rhs.products, rhs.rate);
 }
+
+std::ostream& operator<<(std::ostream& s, const reaction& value)
+{
+    s <<"{ ";
+    for (const auto& r : value.reactants){
+        s << r << " ";
+    }
+    s << " ----> ";
+    for (const auto& p : value.products)
+        s << p << " ";
+    s << "}\n  ";
+    return s;
+}

@@ -12,15 +12,22 @@ class reaction
 public:
     using state = symbol_table<double>;
     
-    const double lambda;
     reaction(reaction const &reaction) = default;
+    
     reaction(reaction& other) = default;
-    reaction(const LHS& lhs, const RHS& rhs, double lambda): reactants(lhs.reactants), products(rhs.products), lambda(lambda){}
-    reaction(const std::initializer_list<Agent>& lhs, const std::initializer_list<Agent>& rhs, double lambda): reactants(lhs), products(rhs),lambda(lambda){}
+    
+    reaction(const LHS& lhs, const RHS& rhs, double lambda)
+        : lambda(lambda), reactants(lhs.reactants), products(rhs.products){}
+    
+    reaction(const std::initializer_list<Agent>& lhs, const std::initializer_list<Agent>& rhs, double lambda)
+        : lambda(lambda), reactants(lhs),products(rhs){}
     
     //Move assignment
-    reaction operator=(reaction&& other){
-        return {other.reactants, other.products, other.lambda};
+    reaction operator=(reaction&& other) noexcept{
+        this->products = std::move(other.products);
+        this->reactants = std::move(other.reactants);
+        this->lambda = other.lambda;
+        return *this;
     }
     
     [[nodiscard]] double compute_delay(reaction::state& state);
@@ -30,19 +37,10 @@ public:
         produce_to_state(state);
     }
     
-    friend std::ostream & operator << (std::ostream& s, const reaction& value){
-        s <<"{ ";
-        for (const auto& r : value.reactants){
-            s << r << " ";
-        }
-        s << " ----> ";
-        for (const auto& p : value.products)
-            s << p << " ";
-        s << "}\n  ";
-        return s;
-    }
+    friend std::ostream & operator << (std::ostream& s, const reaction& value);
     
 private:
+    double lambda;
     std::vector<Agent> reactants{};
     std::vector<Agent> products{};
     reaction(const std::vector<Agent>& reactants, const std::vector<Agent>& products, double lambda)

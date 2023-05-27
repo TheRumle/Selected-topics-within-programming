@@ -47,22 +47,23 @@ int main(){
     v.storeOrUpdate(C.name, 0);
 
     //Create reactions
-    std::initializer_list<reaction> initializerList = {reaction(reaction(LHS{{DA, A}} >>= RHS{D_A}), gammaA),
-                                                       reaction(reaction(LHS{D_A} >>= {D_A,A}), thetaA),
-                                                       reaction(reaction(LHS{A,DR} >>= {D_R}), gammaR),
-                                                       reaction(reaction(LHS{D_R} >>= {DR, A}), thetaR),
-                                                       reaction(reaction(LHS{D_A} >>= {MA, D_A}), alpha_A),
-                                                       reaction(reaction(LHS{DA} >>= {MA, DA}), alphaA),
-                                                       reaction(reaction(LHS{D_R} >>= {MR, D_R}), alpha_R),
-                                                       reaction(reaction(LHS{DR} >>= {MR, DR}), alphaR),
-                                                       reaction(reaction(LHS{MA} >>= {MA, A}), betaA),
-                                                       reaction(reaction(LHS{MR} >>= {MR,R}), betaR),
-                                                       reaction(reaction(LHS{A,R} >>= {C}), gammaC)  ,
-                                                       reaction(reaction(LHS{C} >>= {R}), deltaA),
-                                                       reaction(reaction(LHS{A} >>= {}), deltaA),
-                                                       reaction(reaction(LHS{R} >>= {}), deltaR),
-                                                       reaction(reaction(LHS{MA} >>= {}), deltaMA),
-                                                       reaction(reaction(LHS{MR} >>= {}), deltaMR)
+    const std::initializer_list<reaction> initializerList = {
+        reaction(LHS{{DA, A}} >>= {{D_A}, gammaA}),
+        reaction(LHS{D_A} >>= {{D_A,A}, thetaA}),
+        reaction(LHS{A,DR} >>= {{D_R}, gammaR}),
+        reaction(LHS{D_R} >>= {{DR, A}, thetaR}),
+        reaction(LHS{D_A} >>= {{MA, D_A}, alpha_A}),
+        reaction(LHS{DA} >>= {{MA, DA}, alphaA}),
+        reaction(LHS{D_R} >>= {{MR, D_R}, alpha_R}),
+        reaction(LHS{DR} >>= {{MR, DR}, alphaR}),
+        reaction(LHS{MA} >>= {{MA, A}, betaA}),
+        reaction(LHS{MR} >>= {{MR,R}, betaR}),
+        reaction(LHS{A,R} >>= {{C}, gammaC}),
+        reaction(LHS{C} >>= {{R}, deltaA}),
+        reaction(LHS{A} >>= {{}, deltaA}),
+        reaction(LHS{R} >>= {{}, deltaR}),
+        reaction(LHS{MA} >>= {{}, deltaMA}),
+        reaction(LHS{MR} >>= {{}, deltaMR})
     };
     
     simulation q {initializerList, v};
