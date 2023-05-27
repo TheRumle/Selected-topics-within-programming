@@ -39,7 +39,7 @@ public:
     };
     
     friend std::ostream & operator << (std::ostream& s, const ReactionNetwork& value);
-    inline void print(const ReactionNetwork& s, reaction& fastestReaction){
+    inline void print(const ReactionNetwork& s){
         std::cout << s;
     }
 
@@ -70,8 +70,8 @@ public:
             time += fastestReaction.second;
             addState();
             fastestReaction.first.operator()();
-            print(*this, fastestReaction.first);
         }
+        print(*this);
     }
     
 };

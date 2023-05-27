@@ -54,13 +54,13 @@ reaction LHS::operator>>=(const RHS& rhs) {
 
 std::ostream& operator<<(std::ostream& s, const reaction& value)
 {
-    s <<"{ ";
+    s <<"{";
     for (const auto& r : value.consumptions){
-        s << r << " ";
+        s << r;
     }
     s << " ----> ";
     for (const auto& p : value.productionActions)
         s << p << " ";
-    s << "}\n  ";
+    s << "}";
     return s;
 }

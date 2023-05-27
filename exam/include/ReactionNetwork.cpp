@@ -5,12 +5,11 @@
 std::ostream& operator<<(std::ostream& s, const ReactionNetwork& value)
 {
     for (const auto& r : value.stateHistory){
-        s << r.first <<":   {  " ;
+        s << r.first <<": {  " ;
         for (const auto& q : r.second) {
             s<<q <<" ";
         }
         s << " }\n";
     }
-    s << "} ";
-    return s;
+    return s << "\n\n\n";
 }
