@@ -3,8 +3,7 @@
 //
 #include "reaction/construction_rules.h"
 #include "reaction/reaction.h"
-#include "simulation.h"
-
+#include "ReactionNetwork.h"
 
 int main(){
     using vessel = reaction::state;
@@ -65,8 +64,8 @@ int main(){
         reaction(LHS{MA} >>= {{}, deltaMA}),
         reaction(LHS{MR} >>= {{}, deltaMR})
     };
-    
-    simulation q {initializerList, v};
+
+    ReactionNetwork q {initializerList, v};
     q.operator()(100);
     return 0;
 }

@@ -4,8 +4,8 @@
 
 /**
  * 1. Use operator overloading to support the reaction reaction typesetting directly in C++ code. 
- * This could be done by overloading -, + and cout for reactants. overload () for the simulation
- * 2. Pretty print for simulation
+ * This could be done by overloading -, + and cout for reactants. overload () for the ReactionNetwork
+ * 2. Pretty print for ReactionNetwork
  * 
  */
 

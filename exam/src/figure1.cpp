@@ -1,13 +1,13 @@
 ﻿#include "reaction/construction_rules.h"
 #include "reaction/reaction.h"
-#include "simulation.h"
+#include "ReactionNetwork.h"
 //
 // Created by rasmus on 5/27/2023.
 //
 void runFirstSimulation(){
     auto lambda = 0.001;
     auto endTime = 1500;
-    reaction r ((LHS{{{"A",1}, {"C",1}}} >>= {{"B",1}, {"C",1}}), lambda);
+    reaction r (LHS{{{"A",1}, {"C",1}}} >>= {{{"B",1}, {"C",1}}, lambda});
     std::cout << r;
     
     auto s = reaction::state{};
@@ -17,10 +17,9 @@ void runFirstSimulation(){
     Agent C = Agent{"C", 1};
     s.storeOrUpdate(A.name, A.volume);
     s.storeOrUpdate(B.name, B.volume);
-    s.storeOrUpdate(C.name, C.volume);    
-    
-    
-    simulation q {{r},s};
+    s.storeOrUpdate(C.name, C.volume);
+
+    ReactionNetwork q {{r},s};
     q.operator()(endTime);
     std::cout << "///-------------------------END OF SIMULATION-------------------------///\n";
     
@@ -30,11 +29,8 @@ void runSecondSimulation()
     auto lambda = 0.001;
     auto endTime = 1500;
     auto lhs = LHS{{{"A", 1}, {"C", 1}}};
-    auto rhs = RHS{{{"B", 1}, {"C", 1}}};
+    auto rhs = RHS{{{"B", 1}, {"C", 1}}, lambda};
     const reaction& rule = lhs >>= rhs;
-
-    reaction r(rule, lambda);
-    std::cout << r;
 
     auto s = reaction::state{};
 
@@ -46,7 +42,7 @@ void runSecondSimulation()
     s.storeOrUpdate(B.name, B.volume);
     s.storeOrUpdate(C.name, C.volume);
 
-    simulation q{{r}, s};
+    ReactionNetwork q{{rule}, s};
     q.operator()(endTime);
     
     std::cout << "///-------------------------END OF SIMULATION-------------------------///\n";
@@ -57,12 +53,8 @@ void runThirdSimulation()
     auto lambda = 0.001;
     auto endTime = 1500;
     auto lhs = LHS{{{"A", 1}, {"C", 1}}};
-    auto rhs = RHS{{{"B", 1}, {"C", 1}}};
+    auto rhs = RHS{{{"B", 1}, {"C", 1}}, lambda};
     const reaction& rule = lhs >>= rhs;
-
-    reaction r(rule, lambda);
-    std::cout << r;
-
     auto s = reaction::state{};
 
     Agent A = Agent{"A", 50};
@@ -73,7 +65,7 @@ void runThirdSimulation()
     s.storeOrUpdate(B.name, B.volume);
     s.storeOrUpdate(C.name, C.volume);
 
-    simulation q{{r}, s};
+    ReactionNetwork q{{rule}, s};
     q.operator()(endTime);
     
     std::cout << "///-------------------------END OF SIMULATION-------------------------///\n";

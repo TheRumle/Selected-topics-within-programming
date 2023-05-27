@@ -61,6 +61,7 @@ enable_testing()
 
 add_subdirectory(src)
 
-add_executable(main src/main.cpp include/symbol_table include/reaction/agents.h include/reaction/construction_rules.h include/reaction/reaction.cpp include/reaction/reaction.h)
-add_executable(figure1 src/figure1.cpp include/symbol_table include/reaction/agents.h include/reaction/construction_rules.h include/reaction/reaction.cpp include/reaction/reaction.h)
-add_executable(figure2 src/figure2.cpp include/symbol_table include/reaction/agents.h include/reaction/construction_rules.h include/reaction/reaction.cpp include/reaction/reaction.h)
+add_executable(main src/main.cpp include/symbol_table include/reaction/agents.h include/reaction/construction_rules.h include/reaction/reaction.cpp include/reaction/reaction.h include/ReactionNetwork.h include/ReactionNetwork.cpp)
+add_executable(figure1 src/figure1.cpp include/symbol_table include/reaction/agents.h include/reaction/construction_rules.h include/reaction/reaction.cpp include/reaction/reaction.h include/ReactionNetwork.h  include/ReactionNetwork.cpp)
+add_executable(figure2 src/figure2.cpp include/symbol_table include/reaction/agents.h include/reaction/construction_rules.h include/reaction/reaction.cpp include/reaction/reaction.h include/ReactionNetwork.h  include/ReactionNetwork.cpp )
+add_executable(figure3 src/figure3.cpp include/symbol_table include/reaction/agents.h include/reaction/construction_rules.h include/reaction/reaction.cpp include/reaction/reaction.h include/ReactionNetwork.h  include/ReactionNetwork.cpp)

@@ -8,7 +8,7 @@ bool reaction::canBeSatisfied(reaction::state& state)
 {
     for (const auto& reactant : reactants){
         auto foundResult = state.tryGetValue(reactant.name);
-        if (!foundResult.has_value() || foundResult < reactant.volume) 
+        if (!foundResult.has_value() || foundResult.value() < reactant.volume) 
             return false;
     }
     return true;
@@ -17,11 +17,11 @@ bool reaction::canBeSatisfied(reaction::state& state)
 double reaction::compute_delay(reaction::state& state)
 {
     auto product = 1.0;
-    for (const auto& agent : reactants){
+    for (const auto& agent : reactants){    
         product *= state.tryGetValue(agent.name).value();
     }
 
-    if (product == 0) return std::numeric_limits<double>::max();
+    if (product == 0) return 0;
     
     std::random_device rd;
     std::mt19937 generator(rd());

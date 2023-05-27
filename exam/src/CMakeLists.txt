@@ -1,4 +1,4 @@
-add_library(doctest OBJECT doctest.cpp)
+add_library(doctest OBJECT doctest.cpp figure3.cpp)
 
 
 #test and their executables

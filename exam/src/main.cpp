@@ -3,7 +3,7 @@
 //
 
 #include "reaction/construction_rules.h"
-#include "simulation.h"
+#include "ReactionNetwork.h"
 #include "reaction/reaction.h"
 int main() {
     auto lhs = LHS {{{"A",1}, {"C",1}}};
@@ -20,8 +20,8 @@ int main() {
     s.storeOrUpdate(A.name, A.volume);
     s.storeOrUpdate(B.name, B.volume);
     s.storeOrUpdate(C.name, C.volume);
-    
-    simulation q {{reaction},s};
+
+    ReactionNetwork q {{reaction},s};
     q.operator()(1500);
     return 0;
 }
