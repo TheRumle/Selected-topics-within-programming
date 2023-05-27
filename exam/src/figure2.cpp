@@ -24,26 +24,26 @@ int main(){
     auto thetaR = 100.0;
     auto v = vessel {};
 
-    auto DA = Agent{"DA", 1};
-    auto D_A = Agent{"D_A", 1};
-    auto DR = Agent{"DR", 1};
-    auto D_R = Agent{"D_R", 1};
-    auto MA = Agent{"MA", 1};
-    auto MR = Agent{"MR", 1};
-    auto A = Agent{"A", 1};
-    auto R = Agent{"R", 1};
-    auto C = Agent{"C", 1};
+    auto DA = Agent::CreateShared("DA", 1);
+    auto D_A = Agent::CreateShared("D_A", 0);
+    auto DR = Agent::CreateShared("DR", 1);
+    auto D_R = Agent::CreateShared("D_R", 0);
+    auto MA = Agent::CreateShared("MA", 0);
+    auto MR = Agent::CreateShared("MR", 0);
+    auto A = Agent::CreateShared("A", 0);
+    auto R = Agent::CreateShared("R", 0);
+    auto C = Agent::CreateShared("C", 0);
     
     //Init start state for agents
-    v.storeOrUpdate(DA._name, 1);
-    v.storeOrUpdate(D_A._name, 0);
-    v.storeOrUpdate(DR._name, 1);
-    v.storeOrUpdate(D_R._name, 0);
-    v.storeOrUpdate(MA._name, 0);
-    v.storeOrUpdate(MR._name, 0);
-    v.storeOrUpdate(A._name, 0);
-    v.storeOrUpdate(R._name, 0);
-    v.storeOrUpdate(C._name, 0);
+    v.storeOrUpdate(DA->agent_name, 1);
+    v.storeOrUpdate(D_A->agent_name, 0);
+    v.storeOrUpdate(DR->agent_name, 1);
+    v.storeOrUpdate(D_R->agent_name, 0);
+    v.storeOrUpdate(MA->agent_name, 0);
+    v.storeOrUpdate(MR->agent_name, 0);
+    v.storeOrUpdate(A->agent_name, 0);
+    v.storeOrUpdate(R->agent_name, 0);
+    v.storeOrUpdate(C->agent_name, 0);
 
     //CreateShared reactions
     const std::initializer_list<reaction> initializerList = {

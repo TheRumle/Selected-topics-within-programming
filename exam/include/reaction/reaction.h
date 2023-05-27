@@ -19,6 +19,11 @@ public:
 
     reaction(reaction const &reaction) = default;
     reaction(reaction& other) = default;
+    reaction(reaction&& other): 
+        lambda(std::move(other.lambda)),
+        consumptions(std::move(other.consumptions)),
+        productions(std::move(other.productions)){}
+    ~reaction()= default;;
     
     
     reaction(const LHS& lhs, const RHS& rhs, double lambda)
@@ -58,7 +63,7 @@ private:
     std::vector<AgentConsumption> consumptions{};
     std::vector<AgentProduction> productions{};
     
-    reaction(const std::vector<AgentConsumption>& reactants, const std::vector<AgentProduction> products, double lambda)
+    reaction(const std::vector<AgentConsumption>& reactants, const std::vector<AgentProduction>& products, double lambda)
         : lambda(lambda),
         consumptions(reactants), productions(products) {}
     

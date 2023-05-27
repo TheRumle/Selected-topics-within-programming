@@ -47,7 +47,9 @@ private:
 
 class AgentAction{
 protected:
-    const std::shared_ptr<Agent> agent{};
+    double amount{};
+    std::string name{};
+    std::shared_ptr<Agent> agent{};
     static std::ostream& toString(std::ostream& s, const AgentAction& agent){
         if (agent.amount == 1)
             s << agent.name;
@@ -57,19 +59,24 @@ protected:
         return s;
     }
 public:
-    const double amount{};
-    const std::string name{};
-    
     AgentAction(std::shared_ptr<Agent>& agent, double amount): agent(agent),amount(amount), name(agent->agent_name){}
     AgentAction(std::shared_ptr<Agent> agent): agent(agent),amount(1), name(agent->agent_name){}
     AgentAction(const AgentAction& other): agent(other.agent), amount(other.amount), name(agent->agent_name){}
-    
-
-    
+    virtual void operator()() = 0;
+    virtual ~AgentAction(){
+        
+    }
+    double getAmount() const { return amount; }
+    const std::string& getName() const { return name; }
+    const std::shared_ptr<Agent>& getAgent() const { return agent; };
 };
 
 class AgentConsumption : public AgentAction{
 public:
+     void operator()() override{
+        
+     }
+    
     AgentConsumption(std::shared_ptr<Agent>& agent, double amount):
         AgentAction(agent,amount)
     {
@@ -81,9 +88,12 @@ public:
     AgentConsumption(const AgentConsumption& other):
         AgentAction(other){}
     
-    AgentConsumption operator= (const AgentConsumption& other){
-        return AgentConsumption{other.agent};
-    } 
+    AgentConsumption& operator= (const AgentConsumption& other){
+        this->agent=other.agent;
+        this->amount=other.amount;
+        this->name=other.name;
+        return *this;
+    }
     
     friend std::ostream &operator << (std::ostream& s, const AgentConsumption& agent){
         return toString(s, agent);
@@ -92,6 +102,10 @@ public:
 
 class AgentProduction: public AgentAction{
 public:
+    void operator()() override{
+        
+    }
+    
     AgentProduction(std::shared_ptr<Agent>& agent, double amount):
         AgentAction(agent,amount)
     {
@@ -103,8 +117,11 @@ public:
     AgentProduction(const AgentProduction& other):
         AgentAction(other){}
     
-    AgentProduction operator= (const AgentProduction& other){
-        return AgentProduction{other.agent};
+    AgentProduction& operator= (const AgentProduction& other){
+        this->agent=other.agent;
+        this->amount=other.amount;
+        this->name=other.name;
+        return *this;
     } 
     
     
