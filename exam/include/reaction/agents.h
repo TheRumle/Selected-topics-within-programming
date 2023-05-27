@@ -45,12 +45,13 @@ private:
     double total_agent{};
 };
 
-class AgentAction{
-protected:
+
+class AgentConsumption{
+private:
     double amount{};
     std::string name{};
     std::shared_ptr<Agent> agent{};
-    static std::ostream& toString(std::ostream& s, const AgentAction& agent){
+    static std::ostream& toString(std::ostream& s, const AgentConsumption& agent){
         if (agent.amount == 1)
             s << agent.name;
         else
@@ -59,34 +60,13 @@ protected:
         return s;
     }
 public:
-    AgentAction(std::shared_ptr<Agent>& agent, double amount): agent(agent),amount(amount), name(agent->agent_name){}
-    AgentAction(std::shared_ptr<Agent> agent): agent(agent),amount(1), name(agent->agent_name){}
-    AgentAction(const AgentAction& other): agent(other.agent), amount(other.amount), name(agent->agent_name){}
-    virtual void operator()() = 0;
-    virtual ~AgentAction(){
-        
-    }
     double getAmount() const { return amount; }
     const std::string& getName() const { return name; }
     const std::shared_ptr<Agent>& getAgent() const { return agent; };
-};
 
-class AgentConsumption : public AgentAction{
-public:
-     void operator()() override{
-        
-     }
-    
-    AgentConsumption(std::shared_ptr<Agent>& agent, double amount):
-        AgentAction(agent,amount)
-    {
-        
-    }
-    AgentConsumption(const std::shared_ptr<Agent> agent):
-        AgentAction(agent){}
-    
-    AgentConsumption(const AgentConsumption& other):
-        AgentAction(other){}
+    AgentConsumption(const std::shared_ptr<Agent>& agent, double amount): amount(amount), name(agent->agent_name), agent(agent){}
+    AgentConsumption(const std::shared_ptr<Agent>& agent): amount(1), name(agent->agent_name), agent(agent){}
+    AgentConsumption(const AgentConsumption& other):amount(other.amount), name(other.name), agent(other.agent){}
     
     AgentConsumption& operator= (const AgentConsumption& other){
         this->agent=other.agent;
@@ -100,30 +80,34 @@ public:
     }
 };
 
-class AgentProduction: public AgentAction{
+class AgentProduction {
 public:
-    void operator()() override{
-        
+    double amount{};
+    std::string name{};
+    std::shared_ptr<Agent> agent{};
+    static std::ostream& toString(std::ostream& s, const AgentProduction& agent){
+        if (agent.amount == 1)
+            s << agent.name;
+        else
+            s << std::to_string(agent.amount) + agent.name;
+        s << " ";
+        return s;
     }
+public:
+    double getAmount() const { return amount; }
+    const std::string& getName() const { return name; }
+    const std::shared_ptr<Agent>& getAgent() const { return agent; };
     
-    AgentProduction(std::shared_ptr<Agent>& agent, double amount):
-        AgentAction(agent,amount)
-    {
-        
-    }
-    AgentProduction(const std::shared_ptr<Agent> agent):
-        AgentAction(agent){}
-    
-    AgentProduction(const AgentProduction& other):
-        AgentAction(other){}
+    AgentProduction(const std::shared_ptr<Agent>& agent, double amount): amount(amount), name(agent->agent_name), agent(agent){}
+    AgentProduction(const std::shared_ptr<Agent>& agent): amount(1), name(agent->agent_name), agent(agent){}
+    AgentProduction(const AgentProduction& other):amount(other.amount), name(other.name), agent(other.agent){}
     
     AgentProduction& operator= (const AgentProduction& other){
         this->agent=other.agent;
         this->amount=other.amount;
         this->name=other.name;
         return *this;
-    } 
-    
+    }
     
     friend std::ostream &operator << (std::ostream& s, const AgentProduction& agent){
         return toString(s, agent);
