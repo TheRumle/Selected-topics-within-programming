@@ -5,13 +5,11 @@
 #include "reaction.h"
 
 
-bool reaction::canBeSatisfied(const symbol_table<std::string, Agent>& state) const
+bool reaction::canBeSatisfied(symbol_table<std::string, double>& state)
 {
-    for (const auto& reactant : this->rule.reactants){
-        const auto currentR = state.lookup(reactant.name);
-        auto currentValue = currentR.volume;
-        
-        if (currentValue < reactant.volume)
+    for (auto& reactant : this->rule.reactants){
+        auto amount = state.lookup(reactant.name);
+        if (amount < reactant.volume)
             return false;
     }
     return true;
@@ -19,17 +17,19 @@ bool reaction::canBeSatisfied(const symbol_table<std::string, Agent>& state) con
 
 
 [[nodiscard]] double get_distribution(const double lambdaK) {
+    if (lambdaK == 0) return 0;
     std::random_device rd;
     std::mt19937 generator(rd());
     std::exponential_distribution<> exponentialDistribution(lambdaK);
     return exponentialDistribution(generator);
-};
+}
 
-double reaction::compute_delay(const symbol_table<std::string, Agent>& state) const
+double reaction::compute_delay(symbol_table<std::string, double>& state)
 {
     auto lambdaK = 1.0;
-    for (const auto& agent : this->rule.reactants)
-        lambdaK *= state.lookup(agent.name).volume;
+    for (auto& agent : this->rule.reactants)
+        lambdaK *= state.lookup(agent.name);
 
-    return get_distribution(lambdaK * lambda);
+    auto res = get_distribution(lambdaK * lambda);
+    return res;
 }

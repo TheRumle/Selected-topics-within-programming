@@ -22,10 +22,10 @@ struct reaction
         return reaction(other);
     }
     
-    [[nodiscard]] double compute_delay(const symbol_table<std::string, Agent>& state) const;
-    [[nodiscard]] bool canBeSatisfied(const symbol_table<std::string, Agent>& state)const;
-    inline void operator()(symbol_table<std::string, Agent>& state){
-        this->rule(state);
+    [[nodiscard]] double compute_delay(symbol_table<std::string, double>& state);
+    [[nodiscard]] bool canBeSatisfied(symbol_table<std::string,  double >& state);
+    inline void operator()(symbol_table<std::string, double >& state){
+        this->rule.operator()(state);
     }
     
     friend std::ostream & operator << (std::ostream& s, const reaction& value){

@@ -26,37 +26,37 @@
 struct Rule;
 struct RHS {
     RHS(const std::vector<Agent>& products) : products(products) {}
+    RHS(const std::initializer_list<Agent>& products) : products(products) {}
+    
     const std::vector<Agent> products{};
 };
 
 
 struct LHS {
     const std::vector<Agent> reactants{};
-    LHS(const std::vector<Agent>& reactants) : reactants(reactants) {}
+    LHS(const std::initializer_list<Agent>& reactants) : reactants(reactants) {}
     Rule operator>>=(const RHS& rhs);
 };
 
 struct Rule
 {
     //A rule can be applied to some state (symbol table) to modify it
-    void operator()(symbol_table<std::string, Agent>& state) {
+    void operator()(symbol_table<std::string, double >& state) {
         consume_from_state(state);
         produce_to_state(state);
-        for (const auto& r : products) {
-            // For the state of the system, remove state
-            auto state_agent = state.lookup(r.name);
-            state_agent.volume += r.volume;
-        }
     }
-
-    const std::vector<Agent> reactants{};
-    std::vector<Agent> products{};
+    
+    Rule(const LHS& lhs, const RHS& rhs ): reactants(lhs.reactants), products(rhs.products){}
+    Rule(const std::initializer_list<Agent>& lhs, const std::initializer_list<Agent>& rhs ): reactants(lhs), products(rhs){}
+    
+     std::vector<Agent> reactants{};
+     std::vector<Agent> products{};
 private:
     Rule(const std::vector<Agent>& reactants, const std::vector<Agent>& products)
         : reactants(reactants), products(products) {}
     
-    void consume_from_state(const symbol_table<std::string, Agent>& state) const;
-    void produce_to_state(symbol_table<std::string, Agent>& state);
+    void consume_from_state(symbol_table<std::string, double >& state);
+    void produce_to_state(symbol_table<std::string, double >& state);
     friend Rule create(const std::vector<Agent>& reactants, const std::vector<Agent>& products);
 };
 

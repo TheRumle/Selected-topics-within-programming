@@ -7,7 +7,7 @@
 
 
 int main(){
-    using vessel = symbol_table<std::string, Agent>;
+    using vessel = symbol_table<std::string, const double>;
     auto alphaA = 50.0;
     auto alpha_A = 500.0;
     auto alphaR = 0.01;
@@ -24,28 +24,49 @@ int main(){
     auto thetaA = 50.0;
     auto thetaR = 100.0;
     auto v = vessel {};
-    
-    auto DA = Agent{"DA", 1};
-    auto D_A = Agent{"D_A", 0};
-    auto DR = Agent{"DR", 1};
-    auto D_R = Agent{"D_R", 0};
-    auto MA = Agent{"MA", 0};
-    auto MR = Agent{"MR", 0};
-    auto A = Agent{"A", 0};
-    auto R = Agent{"R", 0};
-    auto C = Agent{"C", 0};
-    v.store(DA.name, DA);
-    v.store(D_A.name, D_A);
-    v.store(DR.name, DR);
-    v.store(D_R.name, D_R);
-    v.store(MA.name, MA);
-    v.store(MR.name, MR);
-    v.store(A.name, A);
-    v.store(R.name, R);
-    v.store(C.name, C);
 
-    LHS reaction = (, );
-    simulation s ({(zA, DA) >>= D_A, gammaA }, v)
+    auto DA = Agent{"DA", 1};
+    auto D_A = Agent{"D_A", 1};
+    auto DR = Agent{"DR", 1};
+    auto D_R = Agent{"D_R", 1};
+    auto MA = Agent{"MA", 1};
+    auto MR = Agent{"MR", 1};
+    auto A = Agent{"A", 1};
+    auto R = Agent{"R", 1};
+    auto C = Agent{"C", 1};
     
+    //Init start state for agents
+    v.store(DA.name, 1);
+    v.store(D_A.name, 1);
+    v.store(DR.name, 0);
+    v.store(D_R.name, 0);
+    v.store(MA.name, 0);
+    v.store(MR.name, 0);
+    v.store(A.name, 0);
+    v.store(R.name, 0);
+    v.store(C.name, 0);
+
+    //Create reactions
+    std::initializer_list<reaction> initializerList = {
+        reaction ((LHS{{DA, A}} >>= {D_A}), gammaA),
+        reaction ((LHS{D_A} >>= {D_A,A}), thetaA),
+        reaction ((LHS{A,DR} >>= {D_R}), gammaR),
+        reaction ((LHS{D_R} >>= {DR, A}), thetaR),
+        reaction ((LHS{D_A} >>= {MA, D_A}), alpha_A),
+        reaction ((LHS{DA} >>= {MA, DA}), alphaA),
+        reaction ((LHS{D_R} >>= {MR, D_R}), alpha_R),
+        reaction ((LHS{DR} >>= {MR, DR}), alphaR),
+        reaction ((LHS{MA} >>= {MA, A}), betaA),
+        reaction  ((LHS{MR} >>= {MR,R}), betaR),
+        reaction  ((LHS{A,R} >>= {C}), gammaC),
+        reaction  ((LHS{C} >>= {R}), deltaA),
+        reaction  ((LHS{A} >>= {}), deltaA),
+        reaction  ((LHS{R} >>= {}), deltaR),
+        reaction  ((LHS{MA} >>= {}), deltaMA),
+        reaction  ((LHS{MR} >>= {}), deltaMR)
+    };
+    
+    simulation q {initializerList, v};
+    q.operator()(100);
     return 0;
 }

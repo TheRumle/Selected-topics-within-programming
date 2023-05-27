@@ -14,21 +14,18 @@ int main() {
     reaction r(rule, 0.001);
     std::cout << r;
     
-    auto s = symbol_table<std::string, Agent>{};
+    auto s = symbol_table<std::string, double>{};
 
     Agent A = Agent{"A", 100};
     Agent B = Agent{"B", 0};
     Agent C = Agent{"C", 1};
     
-    s.store(A.name, A);
-    s.store(B.name, B);
-    s.store(C.name, C);
+    s.store(A.name, A.volume);
+    s.store(B.name, B.volume);
+    s.store(C.name, C.volume);
     
     simulation q {{r},s};
-    q.operator()(1500,[](const reaction& reaction, const  symbol_table<std::string, Agent>& state){
-        std::cout<<reaction;
-        
-    });
+    q.operator()(1500);
     return 0;
 }
 

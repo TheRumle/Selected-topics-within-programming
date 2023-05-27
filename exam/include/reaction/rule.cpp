@@ -8,24 +8,23 @@
 Rule create(const std::vector<Agent>& reactants, const std::vector<Agent>& products) {
     return Rule(reactants, products);
 }
-void Rule::produce_to_state(symbol_table<std::string, Agent>& state)
+void Rule::produce_to_state(symbol_table<std::string,double>& state)
 {
     for (auto& product : products) {
         // The products are added to the state
         try{
-            auto& state_agent = state.lookup(product.name);
-            state_agent.volume += product.volume;
+            const auto& previous = state.lookup(product.name);
+            state.store(product.name, previous+product.volume);
         } catch (const std::invalid_argument& e) {
-            state.store(product.name, product); 
+            state.store(product.name, product.volume); 
         }
     }
 }
-void Rule::consume_from_state(const symbol_table<std::string, Agent>& state) const
+void Rule::consume_from_state(symbol_table<std::string, double >& state)
 {
     for (const auto& reactant : reactants) {
-        // For the reactants are consumed from the state
-        auto& state_agent = state.lookup(reactant.name);
-        state_agent.volume -= reactant.volume;
+        const auto& previous = state.lookup(reactant.name);
+        state.store(reactant.name, previous-reactant.volume);
     }
 }
 Rule LHS::operator>>=(const RHS& rhs) {

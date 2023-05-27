@@ -10,25 +10,20 @@
 template<typename TKey, typename TValue>
 struct symbol_table{
 public:
-    std::map<const TKey, TValue&> state{};
-    struct KV{
-        TKey k;
-        TValue v;
-        KV(TKey k, TValue v): k(k), v(v) {}
+    std::map<TKey, TValue> state{};
+    
+    void store( const TKey key, TValue value) {
+        state[key] = value;
         
     };
     
-    void store( const TKey& key, TValue& value) {
-        state.emplace(key, value);
-    };
     
-    
-    TValue& lookup(const TKey& key) const{
+    TValue& lookup(const TKey& key){
         auto it = state.find(key);
         if (it == state.end())
             throw std::invalid_argument("Key was not contained in state");
-        
-        return (it->second);
+        TValue& res = (it->second);
+        return res;
     };
 };
 
