@@ -11,17 +11,9 @@ void performSimulation(const std::shared_ptr<Agent>& A,
     auto lambda = 0.001;
     auto endTime = 1500;
     LHS lhs {{{A}, {C}}};
-    reaction r ( lhs 
-                >>=
-                {{{B}, {C}}, lambda});
-    std::cout << r;
-    
-    auto s = reaction::state{};
-    s.storeOrUpdate(A->agent_name, A->total_amount());
-    s.storeOrUpdate(B->agent_name, B->total_amount());
-    s.storeOrUpdate(C->agent_name, C->total_amount());
-
-    ReactionNetwork q {{r},s};
+    RHS rhs {{{B}, {C}}, lambda};
+    reaction r ( lhs >>= rhs);
+    ReactionNetwork q {{r},{A,B,C}};
     q.operator()(endTime);
 }
 
@@ -54,7 +46,7 @@ void runThirdSimulation()
 
 int main(){
     runFirstSimulation();
-    runSecondSimulation();
-    runThirdSimulation();
+    //runSecondSimulation();
+    //runThirdSimulation();
     return 0;
 }

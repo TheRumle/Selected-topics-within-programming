@@ -4,11 +4,12 @@
 //
 std::ostream& operator<<(std::ostream& s, const ReactionNetwork& value)
 {
-    s << value.time <<":  { ";
-    for (const auto& r : value.state){
-        if (r.second == 0)
-            continue ;
-        s << r.first <<'(' <<r.second << ")";
+    for (const auto& r : value.stateHistory){
+        s << r.first <<":   {  " ;
+        for (const auto& q : r.second) {
+            s<<q <<" ";
+        }
+        s << " }\n";
     }
     s << "} ";
     return s;

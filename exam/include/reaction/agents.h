@@ -10,11 +10,17 @@
 class Agent{
 public:
     virtual ~Agent() = default;
-    Agent(const Agent& other) = default;
-    Agent(const Agent&& other) : agent_name(other.agent_name), total_agent(other.total_agent)
-    {}
+    Agent(const Agent& other) : agent_name(other.agent_name), total_agent(other.total_agent) {
+        // Copy constructor implementation
+    }
     
-    Agent(std::string  name, double volume): agent_name(std::move(name)), total_agent(volume) {}
+    Agent(Agent&& other) noexcept : agent_name(std::move(other.agent_name)), total_agent(std::move(other.total_agent)) {
+        // Move constructor implementation
+    }
+
+    Agent(std::string name, double volume) : agent_name(std::move(name)), total_agent(volume) {
+        // Constructor implementation
+    }
     
     
     friend std::ostream &operator << (std::ostream& s, const Agent& agent){
@@ -33,15 +39,20 @@ public:
     }
     
     inline void increment(){ total_agent +=1;}
-    
     inline void add(double amount){total_agent += amount;}
     
-    inline double total_amount(){
+    inline void decrement(){ total_agent -=1;}
+    inline void remove(double amount){total_agent -= amount;}
+    
+    inline double total_amount() const{
         return total_agent;
     }
-    const std::string agent_name;
+    inline std::string getAgentName(){
+        return agent_name;
+    }
     
 private:
+    std::string agent_name;
     double total_agent{};
 };
 
@@ -50,7 +61,7 @@ class AgentConsumption{
 private:
     double amount{};
     std::string name{};
-    std::shared_ptr<Agent> agent{};
+    std::shared_ptr<Agent> globalAgent{};
     static std::ostream& toString(std::ostream& s, const AgentConsumption& agent){
         if (agent.amount == 1)
             s << agent.name;
@@ -60,16 +71,16 @@ private:
         return s;
     }
 public:
-    double getAmount() const { return amount; }
-    const std::string& getName() const { return name; }
-    const std::shared_ptr<Agent>& getAgent() const { return agent; };
+    [[nodiscard]] double getConsumptionAmount() const { return amount; }
+    [[nodiscard]] const std::string& getName() const { return name; }
+    [[nodiscard]] const double getAgentAmount() const { return this->globalAgent->total_amount() ; }
 
-    AgentConsumption(const std::shared_ptr<Agent>& agent, double amount): amount(amount), name(agent->agent_name), agent(agent){}
-    AgentConsumption(const std::shared_ptr<Agent>& agent): amount(1), name(agent->agent_name), agent(agent){}
-    AgentConsumption(const AgentConsumption& other):amount(other.amount), name(other.name), agent(other.agent){}
+    AgentConsumption(const std::shared_ptr<Agent>& agent, double amount): amount(amount), name(agent->getAgentName()), globalAgent(agent){}
+    AgentConsumption(const std::shared_ptr<Agent>& agent): amount(1), name(agent->getAgentName()), globalAgent(agent){}
+    AgentConsumption(const AgentConsumption& other):amount(other.amount), name(other.name), globalAgent(other.globalAgent){}
     
     AgentConsumption& operator= (const AgentConsumption& other){
-        this->agent=other.agent;
+        this->globalAgent =other.globalAgent;
         this->amount=other.amount;
         this->name=other.name;
         return *this;
@@ -78,10 +89,18 @@ public:
     friend std::ostream &operator << (std::ostream& s, const AgentConsumption& agent){
         return toString(s, agent);
     }
+    
+    [[nodiscard]] bool canBePerformed() const{
+        return (this->globalAgent->total_amount() >= this->amount);
+    }
+    
+    void operator()() const {
+        this->globalAgent->remove(this->amount);
+    }
 };
 
 class AgentProduction {
-public:
+private:
     double amount{};
     std::string name{};
     std::shared_ptr<Agent> agent{};
@@ -94,12 +113,12 @@ public:
         return s;
     }
 public:
-    double getAmount() const { return amount; }
-    const std::string& getName() const { return name; }
-    const std::shared_ptr<Agent>& getAgent() const { return agent; };
+    [[nodiscard]] double getAmount() const { return amount; }
+    [[nodiscard]] const std::string& getName() const { return name; }
+    [[nodiscard]] const std::shared_ptr<Agent>& getAgent() const { return agent; };
     
-    AgentProduction(const std::shared_ptr<Agent>& agent, double amount): amount(amount), name(agent->agent_name), agent(agent){}
-    AgentProduction(const std::shared_ptr<Agent>& agent): amount(1), name(agent->agent_name), agent(agent){}
+    AgentProduction(const std::shared_ptr<Agent>& agent, double amount): amount(amount), name(agent->getAgentName()), agent(agent){}
+    AgentProduction(const std::shared_ptr<Agent>& agent): amount(1), name(agent->getAgentName()), agent(agent){}
     AgentProduction(const AgentProduction& other):amount(other.amount), name(other.name), agent(other.agent){}
     
     AgentProduction& operator= (const AgentProduction& other){
@@ -111,6 +130,10 @@ public:
     
     friend std::ostream &operator << (std::ostream& s, const AgentProduction& agent){
         return toString(s, agent);
+    }
+    
+    void operator()() const {
+        this->agent->add(this->amount);
     }
 };
 

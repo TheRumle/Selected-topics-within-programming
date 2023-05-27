@@ -5,21 +5,19 @@
 #include <random>
 #include "reaction.h"
 
-bool reaction::canBeSatisfied(reaction::state& state)
+bool reaction::canBeSatisfied()
 {
-    for (const auto& reactant : consumptions){
-        auto foundResult = state.tryGetValue(reactant.getName());
-        if (!foundResult.has_value() || foundResult.value() < reactant.getAmount()) 
-            return false;
+    for (const auto& consumptionAction : consumptions){
+        if (!consumptionAction.canBePerformed()) return false;
     }
     return true;
 }
 
-double reaction::compute_delay(reaction::state& state)
+double reaction::compute_delay()
 {
     auto product = 1.0;
-    for (const auto& agent : consumptions){    
-        product *= state.tryGetValue(agent.getName()).value();
+    for (const auto& consumptionAction : consumptions){
+        product *= consumptionAction.getAgentAmount();
     }
 
     if (product == 0) return 0;
@@ -38,26 +36,16 @@ reaction create(const std::vector<AgentConsumption>& reactants,
     return {reactants, products, lambda};
 }
 
-void reaction::produce_to_state(state& state)
+void reaction::produce_to_state()
 {
-    for (auto& product : productions) {
-        const auto& tableResult = state.tryGetValue(product.getName());
-        if (tableResult.has_value()){
-            auto val = tableResult.value();
-            state.storeOrUpdate(product.getName(), product.getAmount() + val);
-        } else{
-            state.storeOrUpdate(product.getName(), product.getAmount());
-        }
-
+    for (auto& product : productionActions) {
+        product();
     }
 }
-void reaction::consume_from_state(state& state)
+void reaction::consume_from_state()
 {
     for (const auto& reactant : consumptions) {
-        
-        
-        const auto& previous = state.tryGetValue(reactant.getName());
-        state.storeOrUpdate(reactant.getName(), previous.value() - reactant.getAmount());
+       reactant.operator()();
     }
 }
 reaction LHS::operator>>=(const RHS& rhs) {
@@ -71,7 +59,7 @@ std::ostream& operator<<(std::ostream& s, const reaction& value)
         s << r << " ";
     }
     s << " ----> ";
-    for (const auto& p : value.productions)
+    for (const auto& p : value.productionActions)
         s << p << " ";
     s << "}\n  ";
     return s;

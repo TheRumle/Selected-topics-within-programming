@@ -34,7 +34,7 @@ int main(){
     auto R = Agent::CreateShared("R", 0);
     auto C = Agent::CreateShared("C", 0);
     
-    //Init start state for agents
+    //Init start state_history for agents
     v.storeOrUpdate(DA->agent_name, 1);
     v.storeOrUpdate(D_A->agent_name, 0);
     v.storeOrUpdate(DR->agent_name, 1);

@@ -3763,7 +3763,7 @@ namespace detail {
 
     TestSuite& TestSuite::operator*(const char* in) {
         m_test_suite = in;
-        // clear state
+        // clear state_history
         m_description       = nullptr;
         m_skip              = false;
         m_no_breaks         = false;
@@ -5988,7 +5988,7 @@ namespace {
             while(pch != nullptr) {
                 if(strlen(pch))
                     res.push_back(pch);
-                // uses the strtok() internal state to go to the next token
+                // uses the strtok() internal state_history to go to the next token
                 // cppcheck-suppress strtokCalled
                 pch = std::strtok(nullptr, ",");
             }
@@ -6215,7 +6215,7 @@ void Context::setAssertHandler(detail::assert_handler ah) { p->ah = ah; }
 int Context::run() {
     using namespace detail;
 
-    // save the old context state in case such was setup - for using asserts out of consume_from_state testing context
+    // save the old context state_history in case such was setup - for using asserts out of consume_from_state testing context
     auto old_cs = g_cs;
     // this is the current contest
     g_cs               = p;

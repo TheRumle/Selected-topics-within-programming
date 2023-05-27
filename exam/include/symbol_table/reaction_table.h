@@ -13,7 +13,7 @@
 
 template<typename TKey, typename T>
 class symbol_table{
-    std::unordered_map<TKey, T> table;
+    std::map<TKey, T> table;
     
 public:
     void storeOrUpdate(const TKey &symbol, T object) {

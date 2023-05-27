@@ -12,27 +12,46 @@
 
 class ReactionNetwork
 {
+    using state_history = symbol_table<double, std::vector<Agent>>;
 private:
     double time = 0.0;
+    const std::vector<std::shared_ptr<Agent>> agents;
+
+    
+    std::vector<Agent> copy_agent_state(){
+        std::vector<Agent> found{};
+        for (const auto& reaction : agents) {
+            Agent agent = *reaction.get(); //copy the state_history of the agent
+            found.emplace_back(std::move(agent));
+        }
+        return found;
+    }
 
 public:
     std::vector<reaction> reactions;
-    reaction::state state;
+    state_history stateHistory;
 
-    ReactionNetwork(const std::initializer_list<reaction>& reactions, reaction::state& agentValues):
-        reactions(reactions), state(agentValues)
-    {};
+    ReactionNetwork(const std::initializer_list<reaction>& reactions, const std::initializer_list<std::shared_ptr<Agent>>& agents)
+        : agents(agents.begin(), agents.end()), reactions(reactions)
+    {
+        std::vector<Agent> val = copy_agent_state();
+        stateHistory.store(time, val);
+    };
+    
     friend std::ostream & operator << (std::ostream& s, const ReactionNetwork& value);
     inline void print(const ReactionNetwork& s, reaction& fastestReaction){
-        std::cout << s << " by doing " << fastestReaction;
+        std::cout << s;
     }
+
+    void addState() { stateHistory.store(time, copy_agent_state());}
     
     void operator()(double endTime){
         while (time < endTime){
             std::vector<std::pair<reaction, double>> validReactionTimes{};
+            
             for (auto& reaction :reactions) {
-                if (reaction.canBeSatisfied(state))
-                    validReactionTimes.emplace_back(reaction, reaction.compute_delay(state));
+                if (reaction.canBeSatisfied())
+                    validReactionTimes.emplace_back(reaction, reaction.compute_delay());
             }
             
             for (auto it = validReactionTimes.begin(); it != validReactionTimes.end(); ++it) {
@@ -49,10 +68,12 @@ public:
             
             auto& fastestReaction = validReactionTimes.front();
             time += fastestReaction.second;
-            fastestReaction.first.operator()(state);
+            addState();
+            fastestReaction.first.operator()();
             print(*this, fastestReaction.first);
         }
     }
+    
 };
 
 #endif  // LAMBDAS_REACTIONNETWORK_H
