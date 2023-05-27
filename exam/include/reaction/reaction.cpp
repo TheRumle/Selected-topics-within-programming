@@ -5,11 +5,11 @@
 #include "reaction.h"
 
 
-bool reaction::canBeSatisfied(symbol_table<std::string, double>& state)
+bool reaction::canBeSatisfied(Rule::state& state)
 {
-    for (auto& reactant : this->rule.reactants){
-        auto amount = state.lookup(reactant.name);
-        if (amount < reactant.volume)
+    for (const auto& reactant : this->rule.getReactants()){
+        auto foundResult = state.tryGetValue(reactant.name);
+        if (!foundResult.has_value() || foundResult < reactant.volume) 
             return false;
     }
     return true;
@@ -24,11 +24,13 @@ bool reaction::canBeSatisfied(symbol_table<std::string, double>& state)
     return exponentialDistribution(generator);
 }
 
-double reaction::compute_delay(symbol_table<std::string, double>& state)
+double reaction::compute_delay(Rule::state& state)
 {
     auto lambdaK = 1.0;
-    for (auto& agent : this->rule.reactants)
-        lambdaK *= state.lookup(agent.name);
+    const auto& reactants = this->rule.getReactants();
+    for (auto& agent : reactants){
+        lambdaK *= state.tryGetValue(agent.name).value();
+    }
 
     auto res = get_distribution(lambdaK * lambda);
     return res;

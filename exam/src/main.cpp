@@ -14,15 +14,15 @@ int main() {
     reaction r(rule, 0.001);
     std::cout << r;
     
-    auto s = symbol_table<std::string, double>{};
+    auto s = Rule::state{};
 
     Agent A = Agent{"A", 100};
     Agent B = Agent{"B", 0};
     Agent C = Agent{"C", 1};
-    
-    s.store(A.name, A.volume);
-    s.store(B.name, B.volume);
-    s.store(C.name, C.volume);
+
+    s.storeOrUpdate(A.name, A.volume);
+    s.storeOrUpdate(B.name, B.volume);
+    s.storeOrUpdate(C.name, C.volume);
     
     simulation q {{r},s};
     q.operator()(1500);

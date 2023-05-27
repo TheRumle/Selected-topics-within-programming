@@ -10,14 +10,14 @@
 #include "reaction/reaction.h"
 struct simulation {
     std::vector<reaction> reactions;
-    symbol_table<std::string, double> state;
+    Rule::state state;
     
-    simulation(const std::initializer_list<reaction>& reactions, symbol_table<std::string, double>& agentValues):
+    simulation(const std::initializer_list<reaction>& reactions, Rule::state& agentValues):
         reactions(reactions), state(agentValues)
     {};
     friend std::ostream & operator << (std::ostream& s, const simulation& value){
         s <<"{ ";
-        for (const auto& r : value.state.state){
+        for (const auto& r : value.state){
             s << r.second << " ";
         }
         s << "}\n";
@@ -27,22 +27,31 @@ struct simulation {
     void operator()(double endTime){
         double time = 0.0;
         while (time < endTime){
-            reaction& fastestReaction = reactions.at(0);
-            double fastestTime = fastestReaction.compute_delay(state);
-            for (size_t i = 1; i < reactions.size(); ++i) {
-                reaction& r = reactions.at(i);
-                if (fastestReaction.canBeSatisfied(state)){
-                    auto foundTime = r.compute_delay(state);
-                    if (fastestTime > foundTime){
-                        fastestReaction = r;
-                        fastestTime = foundTime;
+            std::vector<reaction> satisfyables;
+            for (auto& v : reactions) {
+                if (v.canBeSatisfied(state))
+                {
+                    satisfyables.emplace_back(v);
+                }
+            }
+
+            for (auto it = satisfyables.begin(); it != satisfyables.end(); ++it) {
+                for (auto innerIt = satisfyables.begin(); innerIt != satisfyables.end() - 1; ++innerIt) {
+                    auto& lhs = *innerIt;
+                    auto& rhs = *(innerIt + 1);
+        
+                    if (lhs.compute_delay(state) > rhs.compute_delay(state)) {
+                        std::swap(lhs, rhs);
                     }
                 }
             }
+
             
-            time += fastestTime;
-            fastestReaction.operator()(state);
+            reaction& fastestReaction = satisfyables.front();
+            time += fastestReaction.compute_delay(state);
+            std::cout << fastestReaction;
             std::cout << *this;
+            fastestReaction.operator()(state);
         }
 
     }

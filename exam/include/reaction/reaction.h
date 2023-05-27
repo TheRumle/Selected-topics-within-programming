@@ -14,27 +14,26 @@ struct reaction
     Rule rule;
     reaction(reaction const &reaction) = default;
     reaction(reaction& other) = default;
-    reaction(Rule& rule, const double lambda): lambda(lambda), rule(rule) {}
-    reaction(Rule  rule, double lambda): lambda(lambda), rule(std::move(rule)){}
+    reaction(Rule rule, double lambda): lambda(lambda), rule(std::move(rule)) {}
     
     
     reaction operator= (reaction other){
         return reaction(other);
     }
     
-    [[nodiscard]] double compute_delay(symbol_table<std::string, double>& state);
-    [[nodiscard]] bool canBeSatisfied(symbol_table<std::string,  double >& state);
-    inline void operator()(symbol_table<std::string, double >& state){
+    [[nodiscard]] double compute_delay(Rule::state& state);
+    [[nodiscard]] bool canBeSatisfied(Rule::state& state);
+    inline void operator()(Rule::state& state){
         this->rule.operator()(state);
     }
     
     friend std::ostream & operator << (std::ostream& s, const reaction& value){
         s <<"{ ";
-        for (const auto& r : value.rule.reactants){
+        for (const auto& r : value.rule.getReactants()){
             s << r << " ";
         }
         s << " --" << value.lambda <<  "--> ";
-        for (const auto& p : value.rule.products)
+        for (const auto& p : value.rule.getProducts())
             s << p << " ";
         s << "}\n";
         return s;

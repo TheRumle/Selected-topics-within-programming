@@ -7,7 +7,7 @@
 
 
 int main(){
-    using vessel = symbol_table<std::string, const double>;
+    using vessel = Rule::state;
     auto alphaA = 50.0;
     auto alpha_A = 500.0;
     auto alphaR = 0.01;
@@ -36,34 +36,34 @@ int main(){
     auto C = Agent{"C", 1};
     
     //Init start state for agents
-    v.store(DA.name, 1);
-    v.store(D_A.name, 1);
-    v.store(DR.name, 0);
-    v.store(D_R.name, 0);
-    v.store(MA.name, 0);
-    v.store(MR.name, 0);
-    v.store(A.name, 0);
-    v.store(R.name, 0);
-    v.store(C.name, 0);
+    v.storeOrUpdate(DA.name, 1);
+    v.storeOrUpdate(D_A.name, 0);
+    v.storeOrUpdate(DR.name, 1);
+    v.storeOrUpdate(D_R.name, 0);
+    v.storeOrUpdate(MA.name, 0);
+    v.storeOrUpdate(MR.name, 0);
+    v.storeOrUpdate(A.name, 0);
+    v.storeOrUpdate(R.name, 0);
+    v.storeOrUpdate(C.name, 0);
 
     //Create reactions
     std::initializer_list<reaction> initializerList = {
-        reaction ((LHS{{DA, A}} >>= {D_A}), gammaA),
-        reaction ((LHS{D_A} >>= {D_A,A}), thetaA),
-        reaction ((LHS{A,DR} >>= {D_R}), gammaR),
-        reaction ((LHS{D_R} >>= {DR, A}), thetaR),
-        reaction ((LHS{D_A} >>= {MA, D_A}), alpha_A),
-        reaction ((LHS{DA} >>= {MA, DA}), alphaA),
-        reaction ((LHS{D_R} >>= {MR, D_R}), alpha_R),
-        reaction ((LHS{DR} >>= {MR, DR}), alphaR),
-        reaction ((LHS{MA} >>= {MA, A}), betaA),
-        reaction  ((LHS{MR} >>= {MR,R}), betaR),
-        reaction  ((LHS{A,R} >>= {C}), gammaC),
-        reaction  ((LHS{C} >>= {R}), deltaA),
-        reaction  ((LHS{A} >>= {}), deltaA),
-        reaction  ((LHS{R} >>= {}), deltaR),
-        reaction  ((LHS{MA} >>= {}), deltaMA),
-        reaction  ((LHS{MR} >>= {}), deltaMR)
+        reaction (Rule(LHS{{DA, A}} >>= RHS{D_A}), gammaA),
+        reaction (Rule(LHS{D_A} >>= {D_A,A}), thetaA),
+        reaction (Rule(LHS{A,DR} >>= {D_R}), gammaR),
+        reaction (Rule(LHS{D_R} >>= {DR, A}), thetaR),
+        reaction (Rule(LHS{D_A} >>= {MA, D_A}), alpha_A),
+        reaction (Rule(LHS{DA} >>= {MA, DA}), alphaA),
+        reaction (Rule(LHS{D_R} >>= {MR, D_R}), alpha_R),
+        reaction (Rule(LHS{DR} >>= {MR, DR}), alphaR),
+        reaction (Rule(LHS{MA} >>= {MA, A}), betaA),
+        reaction  (Rule(LHS{MR} >>= {MR,R}), betaR),
+        reaction  (Rule(LHS{A,R} >>= {C}), gammaC),
+        reaction  (Rule(LHS{C} >>= {R}), deltaA),
+        reaction  (Rule(LHS{A} >>= {ENV}), deltaA),
+        reaction  (Rule(LHS{R} >>= {ENV}), deltaR),
+        reaction  (Rule(LHS{MA} >>= {ENV}), deltaMA),
+        reaction  (Rule(LHS{MR} >>= {ENV}), deltaMR)
     };
     
     simulation q {initializerList, v};

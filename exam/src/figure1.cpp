@@ -10,14 +10,14 @@ void runFirstSimulation(){
     reaction r ((LHS{{{"A",1}, {"C",1}}} >>= {{"B",1}, {"C",1}}), lambda);
     std::cout << r;
     
-    auto s = symbol_table<std::string, double >{};
+    auto s = Rule::state{};
 
     Agent A = Agent{"A", 100};
     Agent B = Agent{"B", 0};
     Agent C = Agent{"C", 1};
-    s.store(A.name, A.volume);    
-    s.store(B.name, B.volume);    
-    s.store(C.name, C.volume);    
+    s.storeOrUpdate(A.name, A.volume);
+    s.storeOrUpdate(B.name, B.volume);
+    s.storeOrUpdate(C.name, C.volume);    
     
     
     simulation q {{r},s};
@@ -36,15 +36,15 @@ void runSecondSimulation()
     reaction r(rule, lambda);
     std::cout << r;
 
-    auto s = symbol_table<std::string, double >{};
+    auto s = Rule::state{};
 
     Agent A = Agent{"A", 100};
     Agent B = Agent{"B", 0};
     Agent C = Agent{"C", 2};
 
-    s.store(A.name, A.volume);
-    s.store(B.name, B.volume);
-    s.store(C.name, C.volume);
+    s.storeOrUpdate(A.name, A.volume);
+    s.storeOrUpdate(B.name, B.volume);
+    s.storeOrUpdate(C.name, C.volume);
 
     simulation q{{r}, s};
     q.operator()(endTime);
@@ -63,15 +63,15 @@ void runThirdSimulation()
     reaction r(rule, lambda);
     std::cout << r;
 
-    auto s = symbol_table<std::string, double >{};
+    auto s = Rule::state{};
 
     Agent A = Agent{"A", 50};
     Agent B = Agent{"B", 50};
     Agent C = Agent{"C", 1};
 
-    s.store(A.name, A.volume);
-    s.store(B.name, B.volume);
-    s.store(C.name, C.volume);
+    s.storeOrUpdate(A.name, A.volume);
+    s.storeOrUpdate(B.name, B.volume);
+    s.storeOrUpdate(C.name, C.volume);
 
     simulation q{{r}, s};
     q.operator()(endTime);

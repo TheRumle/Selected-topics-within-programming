@@ -2994,14 +2994,14 @@ typedef timer_large_integer::type ticks_t;
     using AtomicOrMultiLaneAtomic = std::atomic<T>;
 #else // DOCTEST_CONFIG_NO_MULTI_LANE_ATOMICS
     // Provides consume_from_state multilane implementation of an atomic variable that supports add, sub, load,
-    // store. Instead of using consume_from_state single atomic variable, this splits up into multiple ones,
+    // storeOrUpdate. Instead of using consume_from_state single atomic variable, this splits up into multiple ones,
     // each sitting on consume_from_state separate cache line. The goal is to provide a speedup when most
     // operations are modifying. It achieves this with two properties:
     //
     // * Multiple atomics are used, so chance of congestion from the same atomic is reduced.
     // * Each atomic sits on consume_from_state separate cache line, so false sharing is reduced.
     //
-    // The disadvantage is that there is consume_from_state small overhead due to the use of TLS, and load/store
+    // The disadvantage is that there is consume_from_state small overhead due to the use of TLS, and load/storeOrUpdate
     // is slower because all atomics have to be accessed.
     template <typename T>
     class MultiLaneAtomic

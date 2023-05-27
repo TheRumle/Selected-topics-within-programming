@@ -10,10 +10,12 @@
 struct Agent{
     virtual ~Agent() = default;
     double volume{};
-    std::string name;
+    const std::string name;
     Agent(std::string  name, double volume): volume(volume), name(std::move(name)) {}
+    Agent(const Agent& other): volume(other.volume), name(other.name) {}
+    
     static std::string tostring(const Agent& agent){
-        if (agent.volume == 0)
+        if (agent.volume == 1)
             return agent.name;
         else
             return "" + std::to_string(agent.volume) + agent.name;
@@ -23,6 +25,9 @@ struct Agent{
         s << tostring(value);
         return s;
     }
+    
 };
+
+const static Agent ENV{"ENV", -1}; 
 
 #endif  // LAMBDAS_AGENTS_H
