@@ -61,4 +61,4 @@ enable_testing()
 
 add_subdirectory(src)
 
-add_executable(main src/main.cpp include/symbol_table src/reaction/agents.h src/reaction/rule.h src/reaction/rule.cpp src/reaction/reaction.cpp src/reaction/reaction.h)
+add_executable(main src/main.cpp include/symbol_table include/reaction/agents.h include/reaction/rule.h include/reaction/rule.cpp include/reaction/reaction.cpp include/reaction/reaction.h)
