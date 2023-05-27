@@ -35,17 +35,17 @@ int main(){
     auto C = Agent{"C", 1};
     
     //Init start state for agents
-    v.storeOrUpdate(DA.name, 1);
-    v.storeOrUpdate(D_A.name, 0);
-    v.storeOrUpdate(DR.name, 1);
-    v.storeOrUpdate(D_R.name, 0);
-    v.storeOrUpdate(MA.name, 0);
-    v.storeOrUpdate(MR.name, 0);
-    v.storeOrUpdate(A.name, 0);
-    v.storeOrUpdate(R.name, 0);
-    v.storeOrUpdate(C.name, 0);
+    v.storeOrUpdate(DA._name, 1);
+    v.storeOrUpdate(D_A._name, 0);
+    v.storeOrUpdate(DR._name, 1);
+    v.storeOrUpdate(D_R._name, 0);
+    v.storeOrUpdate(MA._name, 0);
+    v.storeOrUpdate(MR._name, 0);
+    v.storeOrUpdate(A._name, 0);
+    v.storeOrUpdate(R._name, 0);
+    v.storeOrUpdate(C._name, 0);
 
-    //Create reactions
+    //CreateShared reactions
     const std::initializer_list<reaction> initializerList = {
         reaction(LHS{{DA, A}} >>= {{D_A}, gammaA}),
         reaction(LHS{D_A} >>= {{D_A,A}, thetaA}),

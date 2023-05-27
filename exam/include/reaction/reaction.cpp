@@ -2,13 +2,14 @@
 // Created by rasmus on 5/26/2023.
 //
 
+#include <random>
 #include "reaction.h"
 
 bool reaction::canBeSatisfied(reaction::state& state)
 {
-    for (const auto& reactant : reactants){
+    for (const auto& reactant : consumptions){
         auto foundResult = state.tryGetValue(reactant.name);
-        if (!foundResult.has_value() || foundResult.value() < reactant.volume) 
+        if (!foundResult.has_value() || foundResult.value() < reactant.amount) 
             return false;
     }
     return true;
@@ -17,7 +18,7 @@ bool reaction::canBeSatisfied(reaction::state& state)
 double reaction::compute_delay(reaction::state& state)
 {
     auto product = 1.0;
-    for (const auto& agent : reactants){    
+    for (const auto& agent : consumptions){    
         product *= state.tryGetValue(agent.name).value();
     }
 
@@ -31,28 +32,30 @@ double reaction::compute_delay(reaction::state& state)
 }
 
 
-reaction create(const std::vector<Agent>& reactants, const std::vector<Agent>& products, double lambda) {
+reaction create(const std::vector<AgentConsumption>& reactants,
+                const std::vector<AgentProduction>& products,
+                double lambda) {
     return {reactants, products, lambda};
 }
 
 void reaction::produce_to_state(state& state)
 {
-    for (auto& product : products) {
+    for (auto& product : productions) {
         const auto& tableResult = state.tryGetValue(product.name);
         if (tableResult.has_value()){
             auto val = tableResult.value();
-            state.storeOrUpdate(product.name, product.volume + val);
+            state.storeOrUpdate(product.name, product.amount + val);
         } else{
-            state.storeOrUpdate(product.name, product.volume);
+            state.storeOrUpdate(product.name, product.amount);
         }
 
     }
 }
 void reaction::consume_from_state(state& state)
 {
-    for (const Agent& reactant : reactants) {
+    for (const auto& reactant : consumptions) {
         const auto& previous = state.tryGetValue(reactant.name);
-        state.storeOrUpdate(reactant.name, previous.value() - reactant.volume);
+        state.storeOrUpdate(reactant.name, previous.value() - reactant.amount);
     }
 }
 reaction LHS::operator>>=(const RHS& rhs) {
@@ -62,11 +65,11 @@ reaction LHS::operator>>=(const RHS& rhs) {
 std::ostream& operator<<(std::ostream& s, const reaction& value)
 {
     s <<"{ ";
-    for (const auto& r : value.reactants){
+    for (const auto& r : value.consumptions){
         s << r << " ";
     }
     s << " ----> ";
-    for (const auto& p : value.products)
+    for (const auto& p : value.productions)
         s << p << " ";
     s << "}\n  ";
     return s;

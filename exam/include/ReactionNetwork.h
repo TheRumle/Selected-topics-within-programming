@@ -6,6 +6,7 @@
 #define LAMBDAS_REACTIONNETWORK_H
 
 #include <functional>
+#include <iostream>
 #include "reaction/construction_rules.h"
 #include "reaction/reaction.h"
 

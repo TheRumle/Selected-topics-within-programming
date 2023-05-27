@@ -7,26 +7,40 @@
 
 #include <utility>
 #include "construction_rules.h"
+#include "memory"
+#include "symbol_table/reaction_table.h"
+
+using namespace ReactionCreation;
 class reaction
 {
+private:
 public:
-    using state = symbol_table<double>;
-    
+    using state = reaction_table<double>;
+
     reaction(reaction const &reaction) = default;
-    
     reaction(reaction& other) = default;
     
-    reaction(const LHS& lhs, const RHS& rhs, double lambda)
-        : lambda(lambda), reactants(lhs.reactants), products(rhs.products){}
     
-    reaction(const std::initializer_list<Agent>& lhs, const std::initializer_list<Agent>& rhs, double lambda)
-        : lambda(lambda), reactants(lhs),products(rhs){}
+    reaction(const LHS& lhs, const RHS& rhs, double lambda)
+        : lambda(lambda), consumptions(lhs.reactants), productions(rhs.products){}
+    
+    reaction(const std::initializer_list<AgentConsumption>& lhs, const std::initializer_list<AgentProduction>& rhs, double lambda)
+        : lambda(lambda),
+        consumptions(lhs), productions(rhs){}
     
     //Move assignment
-    reaction operator=(reaction&& other) noexcept{
-        this->products = std::move(other.products);
-        this->reactants = std::move(other.reactants);
+    reaction& operator=(reaction&& other) noexcept{
+        this->productions = std::move(other.productions);
+        this->consumptions = std::move(other.consumptions);
         this->lambda = other.lambda;
+        return *this;
+    }
+    reaction& operator=(const reaction& rhs) noexcept{
+        if (&rhs != this) {
+            this->consumptions = rhs.consumptions;
+            this->productions = rhs.productions;
+            this->lambda = rhs.lambda;
+        }
         return *this;
     }
     
@@ -41,14 +55,16 @@ public:
     
 private:
     double lambda;
-    std::vector<Agent> reactants{};
-    std::vector<Agent> products{};
-    reaction(const std::vector<Agent>& reactants, const std::vector<Agent>& products, double lambda)
-        : reactants(reactants), products(products), lambda(lambda) {}
+    std::vector<AgentConsumption> consumptions{};
+    std::vector<AgentProduction> productions{};
+    
+    reaction(const std::vector<AgentConsumption>& reactants, const std::vector<AgentProduction> products, double lambda)
+        : lambda(lambda),
+        consumptions(reactants), productions(products) {}
     
     void consume_from_state(state& state);
     void produce_to_state(state& state);
-    friend reaction create(const std::vector<Agent>& reactants, const std::vector<Agent>& products, double lambda);
+    friend reaction create(const std::vector<AgentConsumption>& reactants, const std::vector<AgentProduction>& products, double lambda);
 };
 
 

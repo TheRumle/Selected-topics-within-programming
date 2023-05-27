@@ -17,9 +17,9 @@ int main() {
     Agent B = Agent{"B", 0};
     Agent C = Agent{"C", 1};
 
-    s.storeOrUpdate(A.name, A.volume);
-    s.storeOrUpdate(B.name, B.volume);
-    s.storeOrUpdate(C.name, C.volume);
+    s.storeOrUpdate(A._name, A.total_agent);
+    s.storeOrUpdate(B._name, B.total_agent);
+    s.storeOrUpdate(C._name, C.total_agent);
 
     ReactionNetwork q {{reaction},s};
     q.operator()(1500);

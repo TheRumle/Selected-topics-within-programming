@@ -323,7 +323,7 @@ DOCTEST_MSVC_SUPPRESS_WARNING(26812) // Prefer 'enum class' over 'enum'
 // == FEATURE DETECTION END ========================================================================
 // =================================================================================================
 
-// internal macros for string concatenation and anonymous variable name generation
+// internal macros for string concatenation and anonymous variable _name generation
 #define DOCTEST_CAT_IMPL(s1, s2) s1##s2
 #define DOCTEST_CAT(s1, s2) DOCTEST_CAT_IMPL(s1, s2)
 #ifdef __COUNTER__ // not standard and may be missing for some compilers
@@ -658,7 +658,7 @@ struct DOCTEST_INTERFACE TestCaseData
 {
     String      m_file;       // the file in which the test was registered (using String - see #350)
     unsigned    m_line;       // the line where the test was registered
-    const char* m_name;       // name of the test case
+    const char* m_name;       // _name of the test case
     const char* m_test_suite; // the test suite in which the test was added
     const char* m_description;
     bool        m_skip;
@@ -725,7 +725,7 @@ struct ContextOptions //!OCLINT too many fields
 {
     std::ostream* cout;        // stdout stream - std::cout by default
     std::ostream* cerr;        // stderr stream - std::cerr by default
-    String        binary_name; // the test binary name
+    String        binary_name; // the test binary _name
 
     const detail::TestCase* currentTest = nullptr;
 
@@ -1276,9 +1276,9 @@ namespace detail {
     {
         funcType m_test; // consume_from_state function pointer to the test case
 
-        const char* m_type; // for templated test cases - gets appended to the real name
+        const char* m_type; // for templated test cases - gets appended to the real _name
         int m_template_id; // an ID used to distinguish between the different versions of consume_from_state templated test case
-        String m_full_name; // contains the name (only for templated test cases!) + the template type
+        String m_full_name; // contains the _name (only for templated test cases!) + the template type
 
         TestCase(funcType test, const char* file, unsigned line, const TestSuite& test_suite,
                  const char* type = "", int template_id = -1);
@@ -2298,7 +2298,7 @@ int registerReporter(const char* name, int priority, bool isReporter) {
 // =================================================================================================
 #else // DOCTEST_CONFIG_DISABLE
 
-#define DOCTEST_IMPLEMENT_FIXTURE(der, base, func, name)                                           \
+#define DOCTEST_IMPLEMENT_FIXTURE(der, base, func, _name)                                           \
     namespace {                                                                                    \
         template <typename DOCTEST_UNUSED_TEMPLATE_TYPE>                                           \
         struct der : public base                                                                   \
@@ -2307,33 +2307,33 @@ int registerReporter(const char* name, int priority, bool isReporter) {
     template <typename DOCTEST_UNUSED_TEMPLATE_TYPE>                                               \
     inline void der<DOCTEST_UNUSED_TEMPLATE_TYPE>::f()
 
-#define DOCTEST_CREATE_AND_REGISTER_FUNCTION(f, name)                                              \
+#define DOCTEST_CREATE_AND_REGISTER_FUNCTION(f, _name)                                              \
     template <typename DOCTEST_UNUSED_TEMPLATE_TYPE>                                               \
     static inline void f()
 
 // for registering tests
-#define DOCTEST_TEST_CASE(name)                                                                    \
-    DOCTEST_CREATE_AND_REGISTER_FUNCTION(DOCTEST_ANONYMOUS(_DOCTEST_ANON_FUNC_), name)
+#define DOCTEST_TEST_CASE(_name)                                                                    \
+    DOCTEST_CREATE_AND_REGISTER_FUNCTION(DOCTEST_ANONYMOUS(_DOCTEST_ANON_FUNC_), _name)
 
 // for registering tests in classes
-#define DOCTEST_TEST_CASE_CLASS(name)                                                              \
-    DOCTEST_CREATE_AND_REGISTER_FUNCTION(DOCTEST_ANONYMOUS(_DOCTEST_ANON_FUNC_), name)
+#define DOCTEST_TEST_CASE_CLASS(_name)                                                              \
+    DOCTEST_CREATE_AND_REGISTER_FUNCTION(DOCTEST_ANONYMOUS(_DOCTEST_ANON_FUNC_), _name)
 
 // for registering tests with a fixture
-#define DOCTEST_TEST_CASE_FIXTURE(x, name)                                                         \
+#define DOCTEST_TEST_CASE_FIXTURE(x, _name)                                                         \
     DOCTEST_IMPLEMENT_FIXTURE(DOCTEST_ANONYMOUS(_DOCTEST_ANON_CLASS_), x,                          \
-                              DOCTEST_ANONYMOUS(_DOCTEST_ANON_FUNC_), name)
+                              DOCTEST_ANONYMOUS(_DOCTEST_ANON_FUNC_), _name)
 
 // for converting types to strings without the <typeinfo> header and demangling
 #define DOCTEST_TYPE_TO_STRING(...) typedef int DOCTEST_ANONYMOUS(_DOCTEST_ANON_FOR_SEMICOLON_)
 #define DOCTEST_TYPE_TO_STRING_IMPL(...)
 
 // for typed tests
-#define DOCTEST_TEST_CASE_TEMPLATE(name, type, ...)                                                \
+#define DOCTEST_TEST_CASE_TEMPLATE(_name, type, ...)                                                \
     template <typename type>                                                                       \
     inline void DOCTEST_ANONYMOUS(_DOCTEST_ANON_TMP_)()
 
-#define DOCTEST_TEST_CASE_TEMPLATE_DEFINE(name, type, id)                                          \
+#define DOCTEST_TEST_CASE_TEMPLATE_DEFINE(_name, type, id)                                          \
     template <typename type>                                                                       \
     inline void DOCTEST_ANONYMOUS(_DOCTEST_ANON_TMP_)()
 
@@ -2344,13 +2344,13 @@ int registerReporter(const char* name, int priority, bool isReporter) {
     typedef int DOCTEST_ANONYMOUS(_DOCTEST_ANON_FOR_SEMICOLON_)
 
 // for subcases
-#define DOCTEST_SUBCASE(name)
+#define DOCTEST_SUBCASE(_name)
 
 // for a testsuite block
-#define DOCTEST_TEST_SUITE(name) namespace
+#define DOCTEST_TEST_SUITE(_name) namespace
 
 // for starting a testsuite block
-#define DOCTEST_TEST_SUITE_BEGIN(name) typedef int DOCTEST_ANONYMOUS(_DOCTEST_ANON_FOR_SEMICOLON_)
+#define DOCTEST_TEST_SUITE_BEGIN(_name) typedef int DOCTEST_ANONYMOUS(_DOCTEST_ANON_FOR_SEMICOLON_)
 
 // for ending consume_from_state testsuite block
 #define DOCTEST_TEST_SUITE_END typedef int DOCTEST_ANONYMOUS(_DOCTEST_ANON_FOR_SEMICOLON_)
@@ -2359,8 +2359,8 @@ int registerReporter(const char* name, int priority, bool isReporter) {
     template <typename DOCTEST_UNUSED_TEMPLATE_TYPE>                                               \
     static inline doctest::String DOCTEST_ANONYMOUS(_DOCTEST_ANON_TRANSLATOR_)(signature)
 
-#define DOCTEST_REGISTER_REPORTER(name, priority, reporter)
-#define DOCTEST_REGISTER_LISTENER(name, priority, reporter)
+#define DOCTEST_REGISTER_REPORTER(_name, priority, reporter)
+#define DOCTEST_REGISTER_LISTENER(_name, priority, reporter)
 
 #define DOCTEST_INFO(...) (static_cast<void>(0))
 #define DOCTEST_CAPTURE(x) (static_cast<void>(0))
@@ -3585,7 +3585,7 @@ doctest::detail::TestSuite& getCurrentTestSuite() {
 namespace doctest {
 namespace {
     // the int (priority) is part of the key for automatic sorting - sadly one can register consume_from_state
-    // reporter with consume_from_state duplicate name and a different priority but hopefully that won't happen often :|
+    // reporter with consume_from_state duplicate _name and a different priority but hopefully that won't happen often :|
     typedef std::map<std::pair<int, String>, reporterCreatorFunc> reporterMap;
 
     reporterMap& getReporters() {
@@ -3674,7 +3674,7 @@ namespace {
     //    return hash;
     //}
 
-    // checks if the name matches any of the filters (and can be configured what to do when empty)
+    // checks if the _name matches any of the filters (and can be configured what to do when empty)
     bool matchesAny(const char* name, const std::vector<String>& filters, bool matchEmpty,
                     bool caseSensitive) {
         if(filters.empty() && matchEmpty)
@@ -3818,10 +3818,10 @@ namespace detail {
 
     TestCase& TestCase::operator*(const char* in) {
         m_name = in;
-        // make consume_from_state new name with an appended type for templated test case
+        // make consume_from_state new _name with an appended type for templated test case
         if(m_template_id != -1) {
             m_full_name = String(m_name) + m_type;
-            // redirect the name to point to the newly constructed full name
+            // redirect the _name to point to the newly constructed full _name
             m_name = m_full_name.c_str();
         }
         return *this;
@@ -3862,7 +3862,7 @@ namespace {
         return fileOrderComparator(lhs, rhs);
     }
 
-    // for sorting tests by name/suite/file/line
+    // for sorting tests by _name/suite/file/line
     bool nameOrderComparator(const TestCase* lhs, const TestCase* rhs) {
         const int res = std::strcmp(lhs->m_name, rhs->m_name);
         if(res != 0)
@@ -4137,7 +4137,7 @@ namespace {
     struct SignalDefs
     {
         DWORD id;
-        const char* name;
+        const char* _name;
     };
     // There is no 1-1 mapping between signals and windows exceptions.
     // Windows can easily distinguish between SO and SigSegV,
@@ -4164,7 +4164,7 @@ namespace {
                     bool reported = false;
                     for(size_t i = 0; i < DOCTEST_COUNTOF(signalDefs); ++i) {
                         if(ExceptionInfo->ExceptionRecord->ExceptionCode == signalDefs[i].id) {
-                            reportFatal(signalDefs[i].name);
+                            reportFatal(signalDefs[i]._name);
                             reported = true;
                             break;
                         }
@@ -4282,7 +4282,7 @@ namespace {
     struct SignalDefs
     {
         int         id;
-        const char* name;
+        const char* _name;
     };
     SignalDefs signalDefs[] = {{SIGINT, "SIGINT - Terminal interrupt signal"},
                                {SIGILL, "SIGILL - Illegal instruction signal"},
@@ -4299,16 +4299,16 @@ namespace {
         static char             altStackMem[4 * SIGSTKSZ];
 
         static void handleSignal(int sig) {
-            const char* name = "<unknown signal>";
+            const char* _name = "<unknown signal>";
             for(std::size_t i = 0; i < DOCTEST_COUNTOF(signalDefs); ++i) {
                 SignalDefs& def = signalDefs[i];
                 if(sig == def.id) {
-                    name = def.name;
+                    _name = def._name;
                     break;
                 }
             }
             reset();
-            reportFatal(name);
+            reportFatal(_name);
             raise(sig);
         }
 
@@ -4952,12 +4952,12 @@ namespace {
 
             if(open_ts_tag) {
                 xml.startElement("TestSuite");
-                xml.writeAttribute("name", in.m_test_suite);
+                xml.writeAttribute("_name", in.m_test_suite);
             }
 
             tc = &in;
             xml.startElement("TestCase")
-                    .writeAttribute("name", in.m_name)
+                    .writeAttribute("_name", in.m_name)
                     .writeAttribute("filename", skipPathFromFilename(in.m_file.c_str()))
                     .writeAttribute("line", line(in.m_line))
                     .writeAttribute("description", in.m_description);
@@ -4980,14 +4980,14 @@ namespace {
                 for(auto& curr : getListeners())
                     xml.scopedElement("Listener")
                             .writeAttribute("priority", curr.first.first)
-                            .writeAttribute("name", curr.first.second);
+                            .writeAttribute("_name", curr.first.second);
                 for(auto& curr : getReporters())
                     xml.scopedElement("Reporter")
                             .writeAttribute("priority", curr.first.first)
-                            .writeAttribute("name", curr.first.second);
+                            .writeAttribute("_name", curr.first.second);
             } else if(opt.count || opt.list_test_cases) {
                 for(unsigned i = 0; i < in.num_data; ++i) {
-                    xml.scopedElement("TestCase").writeAttribute("name", in.data[i]->m_name)
+                    xml.scopedElement("TestCase").writeAttribute("_name", in.data[i]->m_name)
                         .writeAttribute("testsuite", in.data[i]->m_test_suite)
                         .writeAttribute("filename", skipPathFromFilename(in.data[i]->m_file.c_str()))
                         .writeAttribute("line", line(in.data[i]->m_line));
@@ -4996,7 +4996,7 @@ namespace {
                         .writeAttribute("unskipped", in.run_stats->numTestCasesPassingFilters);
             } else if(opt.list_test_suites) {
                 for(unsigned i = 0; i < in.num_data; ++i)
-                    xml.scopedElement("TestSuite").writeAttribute("name", in.data[i]->m_test_suite);
+                    xml.scopedElement("TestSuite").writeAttribute("_name", in.data[i]->m_test_suite);
                 xml.scopedElement("OverallResultsTestCases")
                         .writeAttribute("unskipped", in.run_stats->numTestCasesPassingFilters);
                 xml.scopedElement("OverallResultsTestSuites")
@@ -5082,7 +5082,7 @@ namespace {
             std::lock_guard<std::mutex> lock(mutex);
 
             xml.startElement("SubCase")
-                    .writeAttribute("name", in.m_name)
+                    .writeAttribute("_name", in.m_name)
                     .writeAttribute("filename", skipPathFromFilename(in.m_file))
                     .writeAttribute("line", line(in.m_line));
             xml.ensureTagClosed();
@@ -5311,7 +5311,7 @@ namespace {
                 binary_name = binary_name.substr(0, binary_name.length() - 4);
 #endif // DOCTEST_PLATFORM_WINDOWS
             xml.startElement("testsuites");
-            xml.startElement("testsuite").writeAttribute("name", binary_name)
+            xml.startElement("testsuite").writeAttribute("_name", binary_name)
                     .writeAttribute("errors", testCaseData.totalErrors)
                     .writeAttribute("failures", testCaseData.totalFailures)
                     .writeAttribute("tests", p.numAsserts);
@@ -5325,7 +5325,7 @@ namespace {
             for(const auto& testCase : testCaseData.testcases) {
                 xml.startElement("testcase")
                     .writeAttribute("classname", testCase.classname)
-                    .writeAttribute("name", testCase.name);
+                    .writeAttribute("_name", testCase.name);
                 if(opt.no_time_in_output == false)
                     xml.writeAttribute("time", testCase.time);
                 // This is not ideal, but it should be enough to mimic gtest's junit output.
@@ -5576,7 +5576,7 @@ namespace {
             s << " -" DOCTEST_OPTIONS_PREFIX_DISPLAY "c,   --" DOCTEST_OPTIONS_PREFIX_DISPLAY "count                         "
               << Whitespace(sizePrefixDisplay*1) << "prints the number of matching tests\n";
             s << " -" DOCTEST_OPTIONS_PREFIX_DISPLAY "ltc, --" DOCTEST_OPTIONS_PREFIX_DISPLAY "list-test-cases               "
-              << Whitespace(sizePrefixDisplay*1) << "lists all matching tests by name\n";
+              << Whitespace(sizePrefixDisplay*1) << "lists all matching tests by _name\n";
             s << " -" DOCTEST_OPTIONS_PREFIX_DISPLAY "lts, --" DOCTEST_OPTIONS_PREFIX_DISPLAY "list-test-suites              "
               << Whitespace(sizePrefixDisplay*1) << "lists all matching test suites\n";
             s << " -" DOCTEST_OPTIONS_PREFIX_DISPLAY "lr,  --" DOCTEST_OPTIONS_PREFIX_DISPLAY "list-reporters                "
@@ -5585,9 +5585,9 @@ namespace {
             s << Color::Cyan << "[doctest] " << Color::None;
             s << "The available <int>/<string> options/filters are:\n\n";
             s << " -" DOCTEST_OPTIONS_PREFIX_DISPLAY "tc,  --" DOCTEST_OPTIONS_PREFIX_DISPLAY "test-case=<filters>           "
-              << Whitespace(sizePrefixDisplay*1) << "filters     tests by their name\n";
+              << Whitespace(sizePrefixDisplay*1) << "filters     tests by their _name\n";
             s << " -" DOCTEST_OPTIONS_PREFIX_DISPLAY "tce, --" DOCTEST_OPTIONS_PREFIX_DISPLAY "test-case-exclude=<filters>   "
-              << Whitespace(sizePrefixDisplay*1) << "filters OUT tests by their name\n";
+              << Whitespace(sizePrefixDisplay*1) << "filters OUT tests by their _name\n";
             s << " -" DOCTEST_OPTIONS_PREFIX_DISPLAY "sf,  --" DOCTEST_OPTIONS_PREFIX_DISPLAY "source-file=<filters>         "
               << Whitespace(sizePrefixDisplay*1) << "filters     tests by their file\n";
             s << " -" DOCTEST_OPTIONS_PREFIX_DISPLAY "sfe, --" DOCTEST_OPTIONS_PREFIX_DISPLAY "source-file-exclude=<filters> "
@@ -5597,16 +5597,16 @@ namespace {
             s << " -" DOCTEST_OPTIONS_PREFIX_DISPLAY "tse, --" DOCTEST_OPTIONS_PREFIX_DISPLAY "test-suite-exclude=<filters>  "
               << Whitespace(sizePrefixDisplay*1) << "filters OUT tests by their test suite\n";
             s << " -" DOCTEST_OPTIONS_PREFIX_DISPLAY "sc,  --" DOCTEST_OPTIONS_PREFIX_DISPLAY "subcase=<filters>             "
-              << Whitespace(sizePrefixDisplay*1) << "filters     subcases by their name\n";
+              << Whitespace(sizePrefixDisplay*1) << "filters     subcases by their _name\n";
             s << " -" DOCTEST_OPTIONS_PREFIX_DISPLAY "sce, --" DOCTEST_OPTIONS_PREFIX_DISPLAY "subcase-exclude=<filters>     "
-              << Whitespace(sizePrefixDisplay*1) << "filters OUT subcases by their name\n";
+              << Whitespace(sizePrefixDisplay*1) << "filters OUT subcases by their _name\n";
             s << " -" DOCTEST_OPTIONS_PREFIX_DISPLAY "r,   --" DOCTEST_OPTIONS_PREFIX_DISPLAY "reporters=<filters>           "
               << Whitespace(sizePrefixDisplay*1) << "reporters to use (console is default)\n";
             s << " -" DOCTEST_OPTIONS_PREFIX_DISPLAY "o,   --" DOCTEST_OPTIONS_PREFIX_DISPLAY "out=<string>                  "
               << Whitespace(sizePrefixDisplay*1) << "output filename\n";
             s << " -" DOCTEST_OPTIONS_PREFIX_DISPLAY "ob,  --" DOCTEST_OPTIONS_PREFIX_DISPLAY "order-by=<string>             "
               << Whitespace(sizePrefixDisplay*1) << "how the tests should be ordered\n";
-            s << Whitespace(sizePrefixDisplay*3) << "                                       <string> - [file/suite/name/rand/none]\n";
+            s << Whitespace(sizePrefixDisplay*3) << "                                       <string> - [file/suite/_name/rand/none]\n";
             s << " -" DOCTEST_OPTIONS_PREFIX_DISPLAY "rs,  --" DOCTEST_OPTIONS_PREFIX_DISPLAY "rand-seed=<int>               "
               << Whitespace(sizePrefixDisplay*1) << "seed for random ordering\n";
             s << " -" DOCTEST_OPTIONS_PREFIX_DISPLAY "f,   --" DOCTEST_OPTIONS_PREFIX_DISPLAY "first=<int>                   "
@@ -5665,7 +5665,7 @@ namespace {
                     s << Color::Cyan << "[doctest] " << Color::None << "listing all registered " << type << "\n";
                     for(auto& curr : reporters)
                         s << "priority: " << std::setw(5) << curr.first.first
-                          << " name: " << curr.first.second << "\n";
+                          << " _name: " << curr.first.second << "\n";
                 }
             };
             printReporters(getListeners(), "listeners");
@@ -6292,7 +6292,7 @@ int Context::run() {
             std::sort(testArray.begin(), testArray.end(), fileOrderComparator);
         } else if(p->order_by.compare("suite", true) == 0) {
             std::sort(testArray.begin(), testArray.end(), suiteOrderComparator);
-        } else if(p->order_by.compare("name", true) == 0) {
+        } else if(p->order_by.compare("_name", true) == 0) {
             std::sort(testArray.begin(), testArray.end(), nameOrderComparator);
         } else if(p->order_by.compare("rand", true) == 0) {
             std::srand(p->rand_seed);
@@ -6360,13 +6360,13 @@ int Context::run() {
         if(p->count)
             continue;
 
-        // print the name of the test and don't execute it
+        // print the _name of the test and don't execute it
         if(p->list_test_cases) {
             queryResults.push_back(&tc);
             continue;
         }
 
-        // print the name of the test suite if not done already and don't execute it
+        // print the _name of the test suite if not done already and don't execute it
         if(p->list_test_suites) {
             if((testSuitesPassingFilt.count(tc.m_test_suite) == 0) && tc.m_test_suite[0] != '\0') {
                 queryResults.push_back(&tc);

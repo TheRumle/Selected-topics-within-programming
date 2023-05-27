@@ -27,18 +27,18 @@ int  main(){
     auto H = Agent{"H", 1};
     auto R = Agent{"R", 1};
     
-    v.store(S.name, S0);
-    v.store(E.name, E0);
-    v.store(I.name, I0);
-    v.store(H.name, 0);
-    v.store(R.name, 0);
+    v.store(S._name, S0);
+    v.store(E._name, E0);
+    v.store(I._name, I0);
+    v.store(H._name, 0);
+    v.store(R._name, 0);
     
     std::initializer_list<reaction> reactions = {
         reaction(LHS {{S,I}} >>= {{E,I}, beta/N}), // susceptible becomes exposed through infectious
         reaction(LHS  {{E}} >>= {{I}, alpha}),// exposed becomes infectious
-        reaction(LHS  {{I}}>>= {{{R.name, R.volume}}, gamma}), // infectious becomes removed
+        reaction(LHS  {{I}}>>= {{{R._name, R.total_agent}}, gamma}), // infectious becomes removed
         reaction(LHS {{I}} >>= {{H}, kappa}), // infectious becomes hospitalized
-        reaction(LHS {{H.name, H.volume}} >>= {{R}, tau})    // hospitalized becomes removed
+        reaction(LHS {{H._name, H.total_agent}} >>= {{R}, tau})    // hospitalized becomes removed
     };
     
     ReactionNetwork q {reactions, v};
