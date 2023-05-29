@@ -13,3 +13,5 @@ std::ostream& operator<<(std::ostream& s, const ReactionNetworkRunner& value) {
     }
     return s;
 }
+const ReactionNetworkRunner::state_history& ReactionNetworkRunner::getStateHistory() const { return stateHistory; }
+const std::vector<std::shared_ptr<Agent>>& ReactionNetworkRunner::getAgents() const { return agents; }

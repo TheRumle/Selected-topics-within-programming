@@ -61,6 +61,12 @@ public:
         const std::vector<Agent> val = copy_agent_state();
         stateHistory.store(time, val);
     }
+    ReactionNetworkRunner(ReactionNetwork& network, const std::vector<std::shared_ptr<Agent>>& agents)
+        : agents(agents.begin(), agents.end()), network(network)
+    {
+        const std::vector<Agent> val = copy_agent_state();
+        stateHistory.store(time, val);
+    }
     
     void operator()(double endTime){
         while (time < endTime){
@@ -85,15 +91,12 @@ public:
             
             time += validReactionTimes.front().second;
             validReactionTimes.front().first.operator()();
-            std::cout << time << "\n";
-            for (const auto& a : agents) {
-                std::cout << *a << "    ,";
-            }
-            std::cout<<"\n";
             this->addState();
         }
             std::cout << *this;
     }
+    const state_history& getStateHistory() const;
+    const std::vector<std::shared_ptr<Agent>>& getAgents() const;
 };
 
 #endif  // LAMBDAS_REACTIONNETWORKRUNNER_H

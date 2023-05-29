@@ -13,7 +13,7 @@ bool reaction::canBeSatisfied()
     return true;
 }
 
-double reaction::compute_delay()
+double reaction::compute_delay() const
 {
     auto product = 1.0;
     for (const auto& consumptionAction : consumptions){
@@ -64,3 +64,5 @@ std::ostream& operator<<(std::ostream& s, const reaction& value)
     s << "}";
     return s;
 }
+const std::vector<AgentConsumption>& reaction::getConsumptions() const { return consumptions; }
+const std::vector<AgentProduction>& reaction::getProductionActions() const { return productionActions; }

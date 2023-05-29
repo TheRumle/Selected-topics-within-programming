@@ -51,15 +51,18 @@ public:
         return *this;
     }
     
-    [[nodiscard]] double compute_delay();
+    [[nodiscard]] double compute_delay() const;
     [[nodiscard]] bool canBeSatisfied();
+    [[nodiscard]] double getLambda(){return lambda;};
     inline void operator()() {
         consume_from_state();
         produce_to_state();
     }
     
     friend std::ostream & operator << (std::ostream& s, const reaction& value);
-    
+    const std::vector<AgentConsumption>& getConsumptions() const;
+    const std::vector<AgentProduction>& getProductionActions() const;
+
 private:
     double lambda;
     std::vector<AgentConsumption> consumptions{};

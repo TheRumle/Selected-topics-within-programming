@@ -7,6 +7,8 @@
 
 #include <functional>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include "reaction/construction_rules.h"
 #include "reaction/reaction.h"
 
@@ -64,6 +66,34 @@ public:
     auto end() const { return reactions.end(); }
 
     friend std::ostream& operator<<(std::ostream& s, const ReactionNetwork& value);
+    
+    std::string to_graphviz_string(){
+        std::stringstream outString;
+        outString << "digraph Reaction {\n";
+        
+        for(size_t i = 0; i < reactions.size(); ++i){
+            auto& reaction =reactions[i];
+            outString << "    R" << i 
+                      << " [label=\"" 
+                      << reaction.getLambda() 
+                      << " \", shape=box,style=filled,fillcolor=white];\n";
+        }
+        
+        for (size_t i = 0; i < reactions.size(); ++i) {
+            const auto& reaction = reactions[i];
+            for (const auto& lhs : reaction.getConsumptions()){
+                outString << "    " << lhs.getName() << " -> R" << i << " [color=red];\n";
+                
+            }
+            
+            for (const auto& rhs : reaction.getProductionActions())
+                outString << "    R" << i << " -> " << rhs.getName() << " [color=blue];\n";
+            
+        }
+
+        outString << "}\n";
+        return outString.str();
+    }
 };
 
 

@@ -49,7 +49,7 @@ public:
     inline double total_amount() const{
         return total_agent;
     }
-    inline std::string getAgentName(){
+    inline std::string getAgentName() const{
         return agent_name;
     }
     

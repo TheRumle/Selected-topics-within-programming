@@ -1,4 +1,4 @@
-add_library(doctest OBJECT doctest.cpp covid.cpp)
+add_library(doctest OBJECT doctest.cpp)
 
 
 #test and their executables
