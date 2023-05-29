@@ -5,15 +5,22 @@
 #include "factories/reactionNetworkFactory.h"
 #include "factories/csvFactory.h"
 #include "factories/graphvizFactory.h"
+
+void simulateAndWriteCsv(ReactionNetworkSimulator& simpleSimulation, double endTime, const std::string& name){
+    simpleSimulation.operator()(endTime);
+    CsvFactory csvFactory{simpleSimulation, ';'};
+    csvFactory.writeStateHistoryToCsv(name);
+}
+
 int main(){
     ReactionNetworkSimulator simpleSimulation = create1stSimpleSimulation();
-    GraphVizFactory {simpleSimulation.getNetwork(), "simple_simulation"}
-             .createGraphVizPng();
-
-    simpleSimulation.operator()(1500);
-    CsvFactory csvFactory{simpleSimulation, ';'};
-    csvFactory.writeStateHistoryToCsv("simple_simulation");
+    ReactionNetworkSimulator circadianSimulator = createCircadianNetwork();
+    ReactionNetworkSimulator covidSimulator = createCovidNetworkSimulation();
     
-
+    simulateAndWriteCsv(simpleSimulation, 1500, "simple");
+    simulateAndWriteCsv(circadianSimulator, 100, "circadian");
+    simulateAndWriteCsv(covidSimulator, 100, "covid");
+    
+  
     return 0;
 }

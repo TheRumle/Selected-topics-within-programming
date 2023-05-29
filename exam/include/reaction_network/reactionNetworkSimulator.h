@@ -89,7 +89,6 @@ public:
             validReactionTimes.first.operator()();
             this->addState();
         }
-        std::cout << *this;
     }
     const state_history& getStateHistory() const;
     const std::vector<std::shared_ptr<Agent>>& getAgents() const;

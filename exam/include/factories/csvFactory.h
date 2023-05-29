@@ -9,7 +9,7 @@
 
 struct CsvFactory {
 private:
-    const char separator;
+    char separator;
     const ReactionNetworkSimulator& simulation;
     
     static void appendStateHistory(std::stringstream& outStream, const ReactionNetworkSimulator::state_history& history, char separator ){

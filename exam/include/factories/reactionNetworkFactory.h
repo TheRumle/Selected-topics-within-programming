@@ -3,6 +3,7 @@
 //
 
 #include <memory>
+#include <cmath>
 #include "reaction_network/reactionNetworkSimulator.h"
 ReactionNetwork createNetwork(const std::shared_ptr<Agent>& A,
                               const std::shared_ptr<Agent>& B,
@@ -33,6 +34,41 @@ ReactionNetwork create3rdSimpleNetwork() {
     const auto B = Agent::CreateShared("B", 50);
     const auto C = Agent::CreateShared("C", 2);
     return createNetwork(A, B, C);
+}
+
+ReactionNetworkSimulator createCovidNetworkSimulation() {
+    double  N = 10000;
+    
+    
+    const double eps = 0.0009; // initial fraction of infectious
+    const auto I0 = double(std::round(eps*N)); // initial infectious
+    const auto E0 = double(std::round(eps*N*15)); // initial exposed
+    const double S0 = N-I0-E0; // initial susceptible
+    const double R0 = 2.4; // basic reproductive number (initial, without lockdown etc)
+    const double alpha = 1.0 / 5.1; // incubation rate (E -> I) ~5.1 days
+    const double gamma = 1.0 / 3.1; // recovery rate (I -> R) ~3.1 days
+    const double beta = R0 * gamma; // infection/generation rate (S+I -> E+I)
+    const double P_H = 0.9e-3; // probability of hospitalization
+    const double kappa = gamma * P_H*(1.0-P_H); // hospitalization rate (I -> H)
+    const double tau = 1.0/10.12; // recovery/death rate in hospital (H -> R) ~10.12 days
+    
+    auto S = Agent::CreateShared("S", S0);
+    auto E = Agent::CreateShared("E", E0);  
+    auto I = Agent::CreateShared("I", I0);
+    auto H = Agent::CreateShared("H", 0);
+    auto R = Agent::CreateShared("R", 0);
+    
+    
+    const std::initializer_list<reaction> reactions = {
+        reaction(LHS {{S,I}} >>= {{E,I}, beta/N}), // susceptible becomes exposed through infectious
+        reaction(LHS  {{E}} >>= {{I}, alpha}),// exposed becomes infectious
+        reaction(LHS  {{I}} >>= {{R}, gamma}), // infectious becomes removed
+        reaction(LHS {{I}} >>= {{H}, kappa}), // infectious becomes hospitalized
+        reaction(LHS {{H}} >>= {{R}, tau})    // hospitalized becomes removed
+    };
+
+    ReactionNetwork network{reactions};
+    return {network,{S, E, I, H, R}};
 }
 
 ReactionNetworkSimulator createCircadianNetwork(){
