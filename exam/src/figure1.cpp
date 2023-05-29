@@ -1,7 +1,7 @@
 ﻿#include <iostream>
 #include "reaction/construction_rules.h"
 #include "reaction/reaction.h"
-#include "ReactionNetwork.h"
+#include "reaction_network/ReactionNetwork.h"
 //
 // Created by rasmus on 5/27/2023.
 //

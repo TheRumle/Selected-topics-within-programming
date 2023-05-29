@@ -45,35 +45,6 @@ public:
 
     void addState() { stateHistory.store(time, copy_agent_state());}
     
-    void operator()(double endTime){
-        while (time < endTime){
-            std::vector<std::pair<reaction, double>> validReactionTimes{};
-            
-            for (auto& reaction :reactions) {
-                if (reaction.canBeSatisfied())
-                    validReactionTimes.emplace_back(reaction, reaction.compute_delay());
-            }
-            
-            for (auto it = validReactionTimes.begin(); it != validReactionTimes.end(); ++it) {
-                for (auto innerIt = validReactionTimes.begin(); innerIt != validReactionTimes.end() - 1; ++innerIt) {
-                    auto& lhs = *innerIt;
-                    auto& rhs = *(innerIt + 1);
-        
-                    if (lhs.second > rhs.second) {
-                        std::swap(lhs, rhs);
-                    }
-                }
-            }
-
-            
-            auto& fastestReaction = validReactionTimes.front();
-            time += fastestReaction.second;
-            addState();
-            fastestReaction.first.operator()();
-        }
-        print(*this);
-    }
-    
 };
 
 #endif  // LAMBDAS_REACTIONNETWORK_H

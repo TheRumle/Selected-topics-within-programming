@@ -3,7 +3,7 @@
 //
 
 #include "reaction/construction_rules.h"
-#include "ReactionNetwork.h"
+#include "reaction_network/ReactionNetwork.h"
 #include "reaction/reaction.h"
 int main() {
     auto lhs = LHS {{{"A",1}, {"C",1}}};

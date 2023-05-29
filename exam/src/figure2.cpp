@@ -3,7 +3,7 @@
 //
 #include "reaction/construction_rules.h"
 #include "reaction/reaction.h"
-#include "ReactionNetwork.h"
+#include "reaction_network/ReactionNetwork.h"
 
 int main(){
     using vessel = reaction::state;
