@@ -59,52 +59,5 @@ private:
 };
 
 
-class AgentConsumption{
-private:
-    double amount{};
-    std::string name{};
-    std::shared_ptr<Agent> globalAgent{};
-    static std::ostream& toString(std::ostream& s, const AgentConsumption& agent){
-        if (agent.amount == 1)
-            s << agent.name;
-        else
-            s << std::to_string(agent.amount) + agent.name;
-        s << " ";
-        return s;
-    }
-public:
-    [[nodiscard]] double getConsumptionAmount() const { return amount; }
-    [[nodiscard]] const std::string& getName() const { return name; }
-    [[nodiscard]] double getAgentAmount() const { return this->globalAgent->getTotalAmount() ; }
-
-    AgentConsumption(const std::shared_ptr<Agent>& agent, double amount): amount(amount), name(agent->getAgentName()), globalAgent(agent){}
-    AgentConsumption(const std::shared_ptr<Agent>& agent): amount(1), name(agent->getAgentName()), globalAgent(agent){}
-    AgentConsumption(const AgentConsumption& other) = default;
-    
-    AgentConsumption& operator=(const AgentConsumption& other) {
-        if (this == &other)
-            return *this;  // Avoid self-assignment
-        
-    
-        this->globalAgent = other.globalAgent;
-        this->amount = other.amount;
-        this->name = other.name;
-        return *this;
-    }
-    
-    friend std::ostream &operator << (std::ostream& s, const AgentConsumption& agent){
-        return toString(s, agent);
-    }
-    
-    [[nodiscard]] bool canBePerformed() const{
-        return (this->globalAgent->getTotalAmount() >= this->amount);
-    }
-    
-    void operator()() const {
-        this->globalAgent->remove(this->amount);
-    }
-};
-
-
 
 #endif  // LAMBDAS_AGENTS_H

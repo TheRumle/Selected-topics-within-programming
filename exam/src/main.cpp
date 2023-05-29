@@ -11,9 +11,9 @@ int main(){
     runner.operator()(1500);
     
     CsvFactory csvFactory{};
-    csvFactory.write_state_history_to_csv(runner, "output", ';');
+    csvFactory.writeStateHistoryToCsv(runner, "output", ';');
         
         
-    GraphVizShower::CreateGraphVizPicture(network.first,"simple_graph.dot");
+    GraphVizShower::createGraphVizPng(network.first,"simple_graph.dot");
     return 0;
 }

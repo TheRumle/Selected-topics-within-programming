@@ -70,7 +70,7 @@ ReactionNetworkSimulator create_simulation2(){
     const auto C = Agent::CreateShared("C", 2);
     auto lambda = 0.001;
     LHS lhs {{{A}, {C}}};
-    RHS const rhs {{{B}, {C}}, lambda};
+    const RHS rhs {{{B}, {C}}, lambda};
     reaction r ( lhs >>= rhs);
     ReactionNetwork network{{r}};
     return ReactionNetworkSimulator{network, {A,B,C} };

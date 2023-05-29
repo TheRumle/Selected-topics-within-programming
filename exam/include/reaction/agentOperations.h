@@ -7,44 +7,66 @@
 #define LAMBDAS_AGENTOPERATIONS_H
 
 #endif  // LAMBDAS_AGENTOPERATIONS_H
-class AgentProduction {
-private:
+class AgentAction {
+protected:
     double amount{};
     std::string name{};
     std::shared_ptr<Agent> agent{};
-    static std::ostream& toString(std::ostream& s, const AgentProduction& agent){
-        if (agent.amount == 1)
-            s << agent.name;
+    
+    static std::ostream& toString(std::ostream& s, const AgentAction& action) {
+        if (action.amount == 1)
+            s << action.name;
         else
-            s << std::to_string(agent.amount) + agent.name;
+            s << std::to_string(action.amount) + action.name;
         s << " ";
         return s;
     }
+
 public:
+    AgentAction(const std::shared_ptr<Agent>& agent, double amount) 
+        : amount(amount), name(agent->getAgentName()), agent(agent) {}
+    
+    AgentAction(const std::shared_ptr<Agent>& agent) 
+        : amount(1), name(agent->getAgentName()), agent(agent) {}
+    
+    AgentAction(const AgentAction& other) = default;
+    AgentAction(AgentAction&& other) noexcept = default;
+    AgentAction& operator=(const AgentAction& other) = default;
+    AgentAction& operator=(AgentAction&& other) noexcept = default;
+    virtual ~AgentAction() = default;
+
     [[nodiscard]] double getAmount() const { return amount; }
     [[nodiscard]] const std::string& getName() const { return name; }
-    [[nodiscard]] const std::shared_ptr<Agent>& getAgent() const { return agent; };
-    
-    AgentProduction(const std::shared_ptr<Agent>& agent, double amount): amount(amount), name(agent->getAgentName()), agent(agent){}
-    AgentProduction(const std::shared_ptr<Agent>& agent): amount(1), name(agent->getAgentName()), agent(agent){}
-    AgentProduction(const AgentProduction& other) = default;
-    
-    AgentProduction& operator= (const AgentProduction& other){
-        if (this == &other)
-            return *this;  // Avoid self-assignment
-        
-    
-        this->agent = other.agent;
-        this->amount = other.amount;
-        this->name = other.name;
-        return *this;
+    [[nodiscard]] const std::shared_ptr<Agent>& getAgent() const { return agent; }
+
+    friend std::ostream& operator<<(std::ostream& s, const AgentAction& action) {
+        return toString(s, action);
     }
-    
-    friend std::ostream &operator << (std::ostream& s, const AgentProduction& agent){
-        return toString(s, agent);
+
+    virtual void operator()() const = 0;
+};
+
+
+class AgentConsumption : public AgentAction {
+public:
+    using AgentAction::AgentAction; //brings the ctors from the base class AgentAction into this one
+
+    [[nodiscard]] double getAgentAmount() const { return this->agent->getTotalAmount(); }
+    [[nodiscard]] bool canBePerformed() const {
+        return (this->agent->getTotalAmount() >= this->amount);
     }
+
+    void operator()() const override {
+        this->agent->remove(this->amount);
+    }
+};
+
+
+class AgentProduction : public AgentAction {
+public:
+    using AgentAction::AgentAction; //brings the ctors from the base class AgentAction into this one
     
-    void operator()() const {
+    void operator()() const override {
         this->agent->add(this->amount);
     }
 };

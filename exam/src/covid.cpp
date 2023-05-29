@@ -22,7 +22,7 @@ int  main(){
     const double tau = 1.0/10.12; // recovery/death rate in hospital (H -> R) ~10.12 days
     
     auto S = Agent::CreateShared("S", S0);
-    auto E = Agent::CreateShared("E", E0);
+    auto E = Agent::CreateShared("E", E0);  
     auto I = Agent::CreateShared("I", I0);
     auto H = Agent::CreateShared("H", 0);
     auto R = Agent::CreateShared("R", 0);
