@@ -36,7 +36,7 @@ ReactionNetworkRunner create_simulation(){
     //CreateShared reactions
     ReactionNetwork network{
         reaction(LHS{{DA, A}} >>= {{D_A}, gammaA}),
-        reaction(LHS{D_A} >>= {{D_A,A}, thetaA}),
+        reaction(LHS{D_A} >>= {{DA,A}, thetaA}),
         reaction(LHS{A,DR} >>= {{D_R}, gammaR}),
         reaction(LHS{D_R} >>= {{DR, A}, thetaR}),
         reaction(LHS{D_A} >>= {{MA, D_A}, alpha_A}),

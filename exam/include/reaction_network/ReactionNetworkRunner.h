@@ -80,8 +80,16 @@ public:
                     }
                 }
             }
+            if (validReactionTimes.empty())
+                return ; 
+            
             time += validReactionTimes.front().second;
             validReactionTimes.front().first.operator()();
+            std::cout << time << "\n";
+            for (const auto& a : agents) {
+                std::cout << *a << "    ,";
+            }
+            std::cout<<"\n";
             this->addState();
         }
             std::cout << *this;
