@@ -1,11 +1,13 @@
 ﻿//
 // Created by rasmus on 5/29/2023.
 //
+#include <utility>
+
 #include "reaction_network/reactionNetwork.h"
 struct GraphVizFactory
 {
-    GraphVizFactory(ReactionNetwork network, const std::string& path):
-        network(std::move(network)), path(path){
+    GraphVizFactory(ReactionNetwork network, std::string  path):
+        network(std::move(network)), path(std::move(path)){
         
     }
     
@@ -18,9 +20,8 @@ struct GraphVizFactory
     
     void createGraphVizPng(){
         createGraphVizPictureDotFile();
-        std::stringstream a{};
-        a << "dot -Tpng -o " << path << ".png " << path << ".dot";
-        std::system(a.str().c_str());
+        std::system((std::stringstream {} << "dot -Tpng -o " << path << ".png " << path << ".dot")
+                        .str().c_str());
     }
     
 private:
