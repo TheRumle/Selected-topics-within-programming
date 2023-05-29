@@ -3,7 +3,7 @@
 //
 
 /**
- * 1. Use operator overloading to support the reaction reaction typesetting directly in C++ code. 
+ * 1. Use operator overloading to support the Reaction Reaction typesetting directly in C++ code. 
  * This could be done by overloading -, + and cout for consumptions. overload () for the ReactionNetwork
  * 2. Pretty print for ReactionNetwork
  * 
@@ -18,7 +18,7 @@
 #include "agents.h"
 #include "agentOperations.h"
 
-class reaction;
+class Reaction;
 namespace ReactionCreation{
     using prod_init = std::initializer_list<AgentProduction>;
     using cons_init = std::initializer_list<AgentConsumption>;
@@ -35,7 +35,7 @@ namespace ReactionCreation{
         const std::vector<AgentConsumption> reactants{};
         LHS(const cons_init & reactants) : reactants(reactants) {}
         LHS(std::vector<AgentConsumption>& reactants) : reactants(reactants) {}
-        reaction operator>>=(const RHS& rhs);
+        Reaction operator>>=(const RHS& rhs);
     };
 }
 

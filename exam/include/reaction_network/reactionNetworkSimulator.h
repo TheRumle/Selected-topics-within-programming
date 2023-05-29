@@ -19,37 +19,32 @@ private:
     state_history stateHistory{};
     ReactionNetwork network;
     
-    std::vector<Agent> copy_agent_state(){
+    const std::vector<Agent> copy_agent_state(){
         std::vector<Agent> found{};
         for (const auto& reaction : agents) {
-            Agent agent = *reaction; //copy the state_history of the agent
+            const Agent agent = *reaction; //copy the state_history of the agent
             found.emplace_back(std::move(agent));
         }
         return found;
     }
     
     void addState() {
-        stateHistory.store(time, copy_agent_state());
+        stateHistory.store(time, );
     }
     
-    std::pair<reaction, double> findFastestReactionTime(){
-        std::vector<std::pair<reaction, double>> validReactionTimes{};
+    std::pair<Reaction, double> findFastestValidReaction(){
+        std::vector<std::pair<Reaction, double>> validReactionTimes{};
+        
         for (const auto& reaction : network) {
             if (reaction.canBeSatisfied())
                 validReactionTimes.emplace_back(reaction, reaction.compute_delay());
         }
-            
-        for (auto it = validReactionTimes.begin(); it != validReactionTimes.end(); ++it) {
-            for (auto innerIt = validReactionTimes.begin(); innerIt != validReactionTimes.end() - 1; ++innerIt) {
-                auto& lhs = *innerIt;
-                auto& rhs = *(innerIt + 1);
         
-                if (lhs.second > rhs.second) {
-                    std::swap(lhs, rhs);
-                }
-            }
-        }
-
+        std::sort(validReactionTimes.begin(), validReactionTimes.end(),
+                  [](const std::pair<Reaction, double>& lhs, const std::pair<Reaction, double>& rhs)
+                  {
+            return lhs.second < rhs.second;
+        });
         return validReactionTimes.front();
     }
     
@@ -78,18 +73,38 @@ public:
     }
     
     ReactionNetworkSimulator(ReactionNetworkSimulator&& other) noexcept
-        : agents((std::move(other.agents))), network(std::move(other.network)), stateHistory(std::move(other.stateHistory))
+        : agents(other.agents), network(std::move(other.network)), stateHistory(std::move(other.stateHistory))
     {
+    }
+    
+    void operator()(double endTime,  std::function<void(const std::vector<Agent> stateChange)> stateMonitor){
+        while (time < endTime){
+            auto validReactionTimes = findFastestValidReaction();
+            time += validReactionTimes.second;
+            validReactionTimes.first.operator()();
+            
+            
+            
+            
+            std::vector<Agent> found{};
+            for (const auto& reaction : agents) {
+                const Agent agent = *reaction; //copy the state_history of the agent
+                found.emplace_back(std::move(agent));
+            }
+            stateMonitor(found);
+        }
+        std::cout << *this;
     }
     
     void operator()(double endTime){
         while (time < endTime){
-            auto validReactionTimes = findFastestReactionTime();
+            auto validReactionTimes = findFastestValidReaction();
             time += validReactionTimes.second;
             validReactionTimes.first.operator()();
             this->addState();
         }
     }
+    
     const state_history& getStateHistory() const;
     const std::vector<std::shared_ptr<Agent>>& getAgents() const;
     const ReactionNetwork& getNetwork() const;

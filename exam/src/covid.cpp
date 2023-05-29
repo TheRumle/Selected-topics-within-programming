@@ -28,12 +28,12 @@ int  main(){
     auto R = Agent::CreateShared("R", 0);
 
     
-    const std::initializer_list<reaction> reactions = {
-        reaction(LHS {{S,I}} >>= {{E,I}, beta/N}), // susceptible becomes exposed through infectious
-        reaction(LHS  {{E}} >>= {{I}, alpha}),// exposed becomes infectious
-        reaction(LHS  {{I}} >>= {{R}, gamma}), // infectious becomes removed
-        reaction(LHS {{I}} >>= {{H}, kappa}), // infectious becomes hospitalized
-        reaction(LHS {{H}} >>= {{R}, tau})    // hospitalized becomes removed
+    const std::initializer_list<Reaction> reactions = {
+        Reaction(LHS {{S,I}} >>= {{E,I}, beta/N}), // susceptible becomes exposed through infectious
+        Reaction(LHS  {{E}} >>= {{I}, alpha}),// exposed becomes infectious
+        Reaction(LHS  {{I}} >>= {{R}, gamma}), // infectious becomes removed
+        Reaction(LHS {{I}} >>= {{H}, kappa}), // infectious becomes hospitalized
+        Reaction(LHS {{H}} >>= {{R}, tau})    // hospitalized becomes removed
     };
 
     ReactionNetwork network{reactions};

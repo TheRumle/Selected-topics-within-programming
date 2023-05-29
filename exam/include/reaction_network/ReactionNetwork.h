@@ -16,16 +16,16 @@ class ReactionNetwork
 {
 private:
     double time = 0.0;
-    std::vector<reaction> reactions;
+    std::vector<Reaction> reactions;
     
 public:
     // Constructor taking an initializer list of reactions
-    ReactionNetwork(const std::initializer_list<reaction>& reactions) : reactions(reactions)
+    ReactionNetwork(const std::initializer_list<Reaction>& reactions) : reactions(reactions)
     {
         
     }
 
-    ReactionNetwork(const std::vector<reaction>& reactions) : reactions(reactions)
+    ReactionNetwork(const std::vector<Reaction>& reactions) : reactions(reactions)
     {
         
     }
@@ -77,7 +77,7 @@ public:
         outString << "digraph Reaction {\n";
         
         for(size_t i = 0; i < reactions.size(); ++i){
-            const reaction& reaction =reactions[i];
+            const Reaction& reaction =reactions[i];
             outString << "    R" << i 
                       << " [label=\"" 
                       << reaction.getLambda() 

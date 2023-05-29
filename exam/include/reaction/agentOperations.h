@@ -52,7 +52,7 @@ public:
     using AgentAction::AgentAction; //brings the ctors from the base class AgentAction into this one
 
     [[nodiscard]] double getAgentAmount() const { return this->agent->getTotalAmount(); }
-    [[nodiscard]] bool canBePerformed() const {
+    [[nodiscard]] bool isSatisfied() const {
         return (this->agent->getTotalAmount() >= this->amount);
     }
 

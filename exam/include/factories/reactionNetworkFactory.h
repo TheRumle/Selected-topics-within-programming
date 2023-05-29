@@ -11,7 +11,7 @@ ReactionNetwork createNetwork(const std::shared_ptr<Agent>& A,
     auto lambda = 0.001;
     LHS lhs {{{A}, {C}}};
     RHS const rhs {{{B}, {C}}, lambda};
-    reaction r ( lhs >>= rhs);
+    Reaction r ( lhs >>= rhs);
     return ReactionNetwork{{r}};
 }
 
@@ -102,23 +102,15 @@ ReactionNetworkSimulator createCircadianNetwork(){
         DA, D_A, DR, D_R, MA, MR, A, R, C
     };
     
-    const std::vector<reaction>& reactions {
-        reaction(LHS{{DA, A}} >>= {{D_A}, gammaA}),
-        reaction(LHS{D_A} >>= {{DA,A}, thetaA}),
-        reaction(LHS{A,DR} >>= {{D_R}, gammaR}),
-        reaction(LHS{D_R} >>= {{DR, A}, thetaR}),
-        reaction(LHS{D_A} >>= {{MA, D_A}, alpha_A}),
-        reaction(LHS{DA} >>= {{MA, DA}, alphaA}),
-        reaction(LHS{D_R} >>= {{MR, D_R}, alpha_R}),
-        reaction(LHS{DR} >>= {{MR, DR}, alphaR}),
-        reaction(LHS{MA} >>= {{MA, A}, betaA}),
-        reaction(LHS{MR} >>= {{MR,R}, betaR}),
-        reaction(LHS{A,R} >>= {{C}, gammaC}),
-        reaction(LHS{C} >>= {{R}, deltaA}),
-        reaction(LHS{A} >>= {{}, deltaA}),
-        reaction(LHS{R} >>= {{}, deltaR}),
-        reaction(LHS{MA} >>= {{}, deltaMA}),
-        reaction(LHS{MR} >>= {{}, deltaMR})
+    const std::vector<Reaction>& reactions {
+        Reaction(LHS{{DA, A}} >>= {{D_A}, gammaA}),  Reaction(LHS{D_A} >>= {{DA,A}, thetaA}),
+        Reaction(LHS{A,DR} >>= {{D_R}, gammaR}),    Reaction(LHS{D_R} >>= {{DR, A}, thetaR}),
+        Reaction(LHS{D_A} >>= {{MA, D_A}, alpha_A}), Reaction(LHS{DA} >>= {{MA, DA}, alphaA}),
+        Reaction(LHS{D_R} >>= {{MR, D_R}, alpha_R}), Reaction(LHS{DR} >>= {{MR, DR}, alphaR}),
+        Reaction(LHS{MA} >>= {{MA, A}, betaA}),      Reaction(LHS{MR} >>= {{MR,R}, betaR}),
+        Reaction(LHS{A,R} >>= {{C}, gammaC}),       Reaction(LHS{C} >>= {{R}, deltaA}),
+        Reaction(LHS{A} >>= {{}, deltaA}),           Reaction(LHS{R} >>= {{}, deltaR}),
+        Reaction(LHS{MA} >>= {{}, deltaMA}),         Reaction(LHS{MR} >>= {{}, deltaMR})
     };
     //CreateShared reactions
     return ReactionNetworkSimulator{ReactionNetwork{reactions}, agents};

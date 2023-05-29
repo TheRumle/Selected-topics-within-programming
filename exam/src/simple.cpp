@@ -13,7 +13,7 @@ ReactionNetwork createNetwork(const std::shared_ptr<Agent>& A,
     auto lambda = 0.001;
     LHS lhs {{{A}, {C}}};
     RHS const rhs {{{B}, {C}}, lambda};
-    reaction r ( lhs >>= rhs);
+    Reaction r ( lhs >>= rhs);
     return ReactionNetwork{{r}};
 }
 
@@ -45,7 +45,7 @@ ReactionNetworkSimulator create_simulation(const std::shared_ptr<Agent>& A,
     auto lambda = 0.001;
     LHS lhs {{{A}, {C}}};
     RHS const rhs {{{B}, {C}}, lambda};
-    reaction r ( lhs >>= rhs);
+    Reaction r ( lhs >>= rhs);
     ReactionNetwork network{{r}};
     
     return ReactionNetworkSimulator{network, {A,B,C} };
@@ -58,7 +58,7 @@ ReactionNetworkSimulator create_simulation1(){
     auto lambda = 0.001;
     LHS lhs {{{A}, {C}}};
     RHS const rhs {{{B}, {C}}, lambda};
-    reaction r ( lhs >>= rhs);
+    Reaction r ( lhs >>= rhs);
     ReactionNetwork network{{r}};
     return ReactionNetworkSimulator{network, {A,B,C} };
 }
@@ -70,7 +70,7 @@ ReactionNetworkSimulator create_simulation2(){
     auto lambda = 0.001;
     LHS lhs {{{A}, {C}}};
     const RHS rhs {{{B}, {C}}, lambda};
-    reaction r ( lhs >>= rhs);
+    Reaction r ( lhs >>= rhs);
     ReactionNetwork network{{r}};
     return ReactionNetworkSimulator{network, {A,B,C} };
 }
@@ -82,7 +82,7 @@ ReactionNetworkSimulator create_simulation3(){
     auto lambda = 0.001;
     LHS lhs {{{A}, {C}}};
     RHS const rhs {{{B}, {C}}, lambda};
-    reaction r ( lhs >>= rhs);
+    Reaction r ( lhs >>= rhs);
     ReactionNetwork network{{r}};
     return ReactionNetworkSimulator{network, {A,B,C} };
 }

@@ -5,15 +5,15 @@
 #include <random>
 #include "reaction.h"
 
-bool reaction::canBeSatisfied() const
+bool Reaction::canBeSatisfied() const
 {
-    for (const auto& consumptionAction : consumptions){
-        if (!consumptionAction.canBePerformed()) return false;
-    }
-    return true;
+    return std::all_of(consumptions.begin(), consumptions.end(),
+                       [](const AgentConsumption& c){
+                           return c.isSatisfied();
+                       });
 }
 
-double reaction::compute_delay() const
+double Reaction::compute_delay() const
 {
     auto product = 1.0;
     for (const auto& consumptionAction : consumptions){
@@ -29,30 +29,29 @@ double reaction::compute_delay() const
     return val;
 }
 
-
-reaction create(const std::vector<AgentConsumption>& reactants,
+Reaction create(const std::vector<AgentConsumption>& reactants,
                 const std::vector<AgentProduction>& products,
                 double lambda) {
     return {reactants, products, lambda};
 }
 
-void reaction::produce_to_state()
+void Reaction::produce_to_state()
 {
     for (auto& product : productionActions) {
         product();
     }
 }
-void reaction::consume_from_state()
+void Reaction::consume_from_state()
 {
     for (const auto& reactant : consumptions) {
        reactant.operator()();
     }
 }
-reaction LHS::operator>>=(const RHS& rhs) {
+Reaction LHS::operator>>=(const RHS& rhs) {
     return create(this->reactants, rhs.products, rhs.rate);
 }
 
-std::ostream& operator<<(std::ostream& s, const reaction& value)
+std::ostream& operator<<(std::ostream& s, const Reaction& value)
 {
     s <<"{";
     for (const auto& r : value.consumptions){
@@ -64,5 +63,5 @@ std::ostream& operator<<(std::ostream& s, const reaction& value)
     s << "}";
     return s;
 }
-const std::vector<AgentConsumption>& reaction::getConsumptions() const { return consumptions; }
-const std::vector<AgentProduction>& reaction::getProductionActions() const { return productionActions; }
+const std::vector<AgentConsumption>& Reaction::getConsumptions() const { return consumptions; }
+const std::vector<AgentProduction>& Reaction::getProductionActions() const { return productionActions; }
