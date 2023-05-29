@@ -66,14 +66,6 @@ public:
     auto end() const { return table.end(); }
 };
 
-template<typename T>
-class reaction_table : public  symbol_table<std::string, T>
-{
-
-public:
-};
-
-
 
 
 #endif  // LAMBDAS_REACTION_TABLE_H

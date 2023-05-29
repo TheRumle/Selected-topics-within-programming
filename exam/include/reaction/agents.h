@@ -5,6 +5,7 @@
 #ifndef LAMBDAS_AGENTS_H
 #define LAMBDAS_AGENTS_H
 #include <string>
+#include <memory>
 
 
 class Agent{

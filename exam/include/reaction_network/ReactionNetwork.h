@@ -13,7 +13,6 @@
 
 class ReactionNetwork
 {
-    using state_history = symbol_table<double, std::vector<Agent>>;
 private:
     double time = 0.0;
     std::vector<reaction> reactions;
@@ -24,12 +23,12 @@ public:
             {
         
             }; 
-    friend std::ostream & operator << (std::ostream& s, const ReactionNetwork& value);
     
     auto begin() { return reactions.begin(); }
     auto end() { return reactions.end(); }
     auto begin() const { return reactions.begin(); }
     auto end() const { return reactions.end(); }
+    friend std::ostream & operator << (std::ostream& s, const ReactionNetwork& value);
 };
 
 

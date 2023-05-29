@@ -25,16 +25,6 @@ class ReactionNetworkRunner
         }
         return found;
     }
-
-    ReactionNetworkRunner(ReactionNetwork& network, const std::initializer_list<std::shared_ptr<Agent>>& agents)
-        : agents(agents.begin(), agents.end()), network(network)
-    {
-        const std::vector<Agent> val = copy_agent_state();
-        stateHistory.store(time, val);
-    };
-    
-    
-    
     
     void addState() {
         stateHistory.store(time, copy_agent_state());
@@ -61,20 +51,26 @@ class ReactionNetworkRunner
         return validReactionTimes.front();
     }
     
-    friend std::ostream & operator << (std::ostream& s, const ReactionNetwork& value);
-    inline void print(const ReactionNetworkRunner& s){
-        std::cout << s.network;
+    friend std::ostream & operator << (std::ostream& s, const ReactionNetworkRunner& value);
+    inline void print(){
+        std::cout << *this << "\n\n";
     }
 
 public:
+    
+    ReactionNetworkRunner(ReactionNetwork& network, const std::initializer_list<std::shared_ptr<Agent>>& agents)
+        : agents(agents.begin(), agents.end()), network(network)
+    {
+        const std::vector<Agent> val = copy_agent_state();
+        stateHistory.store(time, val);
+    }
     
     void operator()(double endTime){
         while (time < endTime){
             auto fastestReaction = findFastestReactionTime();
             time += fastestReaction.second;
             fastestReaction.first.operator()();
-            print(*this);
-            
+            print();
         }
     }
 };

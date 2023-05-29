@@ -2,6 +2,7 @@
 #include "reaction/construction_rules.h"
 #include "reaction/reaction.h"
 #include "reaction_network/ReactionNetwork.h"
+#include "reaction_network/ReactionNetworkRunner.h"
 //
 // Created by rasmus on 5/27/2023.
 //
@@ -13,8 +14,10 @@ void performSimulation(const std::shared_ptr<Agent>& A,
     LHS lhs {{{A}, {C}}};
     RHS rhs {{{B}, {C}}, lambda};
     reaction r ( lhs >>= rhs);
-    ReactionNetwork q {{r},{A,B,C}};
-    q.operator()(endTime);
+    ReactionNetwork network{{r}};
+    
+    ReactionNetworkRunner runner{network, {A,B,C} };
+    runner.operator()(endTime);
 }
 
 void runFirstSimulation(){
