@@ -6,7 +6,7 @@
 #define LAMBDAS_REACTION_H
 
 #include <utility>
-#include "construction_rules.h"
+#include "constructionRules.h"
 #include "memory"
 #include "symbol_table/reaction_table.h"
 #include "agents.h"
@@ -74,4 +74,4 @@ private:
 };
 
 
-#endif  // LAMBDAS_CONSTRUCTION_RULES_H
+#endif  // LAMBDAS_CONSTRUCTIONRULES_H

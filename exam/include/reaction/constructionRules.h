@@ -10,12 +10,13 @@
  */
 
 
-#ifndef LAMBDAS_CONSTRUCTION_RULES_H
-#define LAMBDAS_CONSTRUCTION_RULES_H
+#ifndef LAMBDAS_CONSTRUCTIONRULES_H
+#define LAMBDAS_CONSTRUCTIONRULES_H
 
 #include <memory>
 #include <vector>
 #include "agents.h"
+#include "agentOperations.h"
 
 class reaction;
 namespace ReactionCreation{
@@ -40,4 +41,4 @@ namespace ReactionCreation{
 
 
 
-#endif  // LAMBDAS_CONSTRUCTION_RULES_H
+#endif  // LAMBDAS_CONSTRUCTIONRULES_H

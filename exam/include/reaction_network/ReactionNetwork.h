@@ -9,7 +9,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "reaction/construction_rules.h"
+#include "reaction/constructionRules.h"
 #include "reaction/reaction.h"
 
 class ReactionNetwork

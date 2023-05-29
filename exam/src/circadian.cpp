@@ -1,7 +1,7 @@
 ﻿//
 // Created by rasmus on 5/27/2023.
 //
-#include "reaction/construction_rules.h"
+#include "reaction/constructionRules.h"
 #include "reaction/reaction.h"
 #include "reaction_network/ReactionNetwork.h"
 #include "reaction_network/ReactionNetworkSimulator.h"

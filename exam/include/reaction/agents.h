@@ -11,24 +11,24 @@
 class Agent{
 public:
     virtual ~Agent() = default;
-    Agent(const Agent& other) : agent_name(other.agent_name), total_agent(other.total_agent) {
+    Agent(const Agent& other) : agentName(other.agentName), totalAgent(other.totalAgent) {
         // Copy constructor implementation
     }
     
-    Agent(Agent&& other) noexcept : agent_name(std::move(other.agent_name)), total_agent(std::move(other.total_agent)) {
+    Agent(Agent&& other) noexcept : agentName(std::move(other.agentName)), totalAgent(std::move(other.totalAgent)) {
         // Move constructor implementation
     }
 
-    Agent(std::string name, double volume) : agent_name(std::move(name)), total_agent(volume) {
+    Agent(std::string name, double volume) : agentName(std::move(name)), totalAgent(volume) {
         // Constructor implementation
     }
     
     
     friend std::ostream &operator << (std::ostream& s, const Agent& agent){
-        if (agent.total_agent == 1)
-            s << agent.agent_name;
+        if (agent.totalAgent == 1)
+            s << agent.agentName;
         else
-            s << std::to_string(agent.total_agent) + agent.agent_name;
+            s << std::to_string(agent.totalAgent) + agent.agentName;
         s << " ";
         return s;
     }
@@ -37,25 +37,25 @@ public:
         return std::make_shared<Agent>(Agent{name, startValue});
     }
     static std::shared_ptr<Agent> CreateShared(const Agent&& agent){
-        return std::make_shared<Agent>(Agent{agent.agent_name, agent.total_agent});
+        return std::make_shared<Agent>(Agent{agent.agentName, agent.totalAgent});
     }
     
-    inline void increment(){ total_agent +=1;}
-    inline void add(double amount){total_agent += amount;}
+    inline void increment(){ totalAgent +=1;}
+    inline void add(double amount){ totalAgent += amount;}
     
-    inline void decrement(){ total_agent -=1;}
-    inline void remove(double amount){total_agent -= amount;}
+    inline void decrement(){ totalAgent -=1;}
+    inline void remove(double amount){ totalAgent -= amount;}
     
-    inline double total_amount() const{
-        return total_agent;
+    inline double getTotalAmount() const{
+        return totalAgent;
     }
     inline std::string getAgentName() const{
-        return agent_name;
+        return agentName;
     }
     
 private:
-    std::string agent_name;
-    double total_agent{};
+    std::string agentName;
+    double totalAgent{};
 };
 
 
@@ -75,16 +75,20 @@ private:
 public:
     [[nodiscard]] double getConsumptionAmount() const { return amount; }
     [[nodiscard]] const std::string& getName() const { return name; }
-    [[nodiscard]] double getAgentAmount() const { return this->globalAgent->total_amount() ; }
+    [[nodiscard]] double getAgentAmount() const { return this->globalAgent->getTotalAmount() ; }
 
     AgentConsumption(const std::shared_ptr<Agent>& agent, double amount): amount(amount), name(agent->getAgentName()), globalAgent(agent){}
     AgentConsumption(const std::shared_ptr<Agent>& agent): amount(1), name(agent->getAgentName()), globalAgent(agent){}
-    AgentConsumption(const AgentConsumption& other):amount(other.amount), name(other.name), globalAgent(other.globalAgent){}
+    AgentConsumption(const AgentConsumption& other) = default;
     
-    AgentConsumption& operator= (const AgentConsumption& other){
-        this->globalAgent =other.globalAgent;
-        this->amount=other.amount;
-        this->name=other.name;
+    AgentConsumption& operator=(const AgentConsumption& other) {
+        if (this == &other)
+            return *this;  // Avoid self-assignment
+        
+    
+        this->globalAgent = other.globalAgent;
+        this->amount = other.amount;
+        this->name = other.name;
         return *this;
     }
     
@@ -93,7 +97,7 @@ public:
     }
     
     [[nodiscard]] bool canBePerformed() const{
-        return (this->globalAgent->total_amount() >= this->amount);
+        return (this->globalAgent->getTotalAmount() >= this->amount);
     }
     
     void operator()() const {
@@ -101,42 +105,6 @@ public:
     }
 };
 
-class AgentProduction {
-private:
-    double amount{};
-    std::string name{};
-    std::shared_ptr<Agent> agent{};
-    static std::ostream& toString(std::ostream& s, const AgentProduction& agent){
-        if (agent.amount == 1)
-            s << agent.name;
-        else
-            s << std::to_string(agent.amount) + agent.name;
-        s << " ";
-        return s;
-    }
-public:
-    [[nodiscard]] double getAmount() const { return amount; }
-    [[nodiscard]] const std::string& getName() const { return name; }
-    [[nodiscard]] const std::shared_ptr<Agent>& getAgent() const { return agent; };
-    
-    AgentProduction(const std::shared_ptr<Agent>& agent, double amount): amount(amount), name(agent->getAgentName()), agent(agent){}
-    AgentProduction(const std::shared_ptr<Agent>& agent): amount(1), name(agent->getAgentName()), agent(agent){}
-    AgentProduction(const AgentProduction& other):amount(other.amount), name(other.name), agent(other.agent){}
-    
-    AgentProduction& operator= (const AgentProduction& other){
-        this->agent=other.agent;
-        this->amount=other.amount;
-        this->name=other.name;
-        return *this;
-    }
-    
-    friend std::ostream &operator << (std::ostream& s, const AgentProduction& agent){
-        return toString(s, agent);
-    }
-    
-    void operator()() const {
-        this->agent->add(this->amount);
-    }
-};
+
 
 #endif  // LAMBDAS_AGENTS_H
