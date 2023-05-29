@@ -7,7 +7,7 @@
 
 int main(){
     auto network = create1stSimpleNetwork();
-    ReactionNetworkRunner runner {network.first, network.second };
+    ReactionNetworkSimulator runner {network.first, network.second };
     runner.operator()(1500);
     
     CsvFactory csvFactory{};

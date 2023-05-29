@@ -2,7 +2,7 @@
 #include "reaction/construction_rules.h"
 #include "reaction/reaction.h"
 #include "reaction_network/ReactionNetwork.h"
-#include "reaction_network/ReactionNetworkRunner.h"
+#include "reaction_network/ReactionNetworkSimulator.h"
 //
 // Created by rasmus on 5/27/2023.
 //
@@ -40,7 +40,7 @@ ReactionNetwork createThirdNetwork(){
     return createNetwork(A,B,C);
 }
 
-ReactionNetworkRunner create_simulation(const std::shared_ptr<Agent>& A,
+ReactionNetworkSimulator create_simulation(const std::shared_ptr<Agent>& A,
                        const std::shared_ptr<Agent>& B,
                        const std::shared_ptr<Agent>& C){
     auto lambda = 0.001;
@@ -49,11 +49,10 @@ ReactionNetworkRunner create_simulation(const std::shared_ptr<Agent>& A,
     reaction r ( lhs >>= rhs);
     ReactionNetwork network{{r}};
     
-    return ReactionNetworkRunner {network, {A,B,C} };
+    return ReactionNetworkSimulator{network, {A,B,C} };
 }
 
-
-ReactionNetworkRunner create_simulation1(){
+ReactionNetworkSimulator create_simulation1(){
     const auto A = Agent::CreateShared("A", 100);
     const auto B = Agent::CreateShared("B", 0);
     const auto C = Agent::CreateShared("C", 1);
@@ -62,10 +61,10 @@ ReactionNetworkRunner create_simulation1(){
     RHS const rhs {{{B}, {C}}, lambda};
     reaction r ( lhs >>= rhs);
     ReactionNetwork network{{r}};
-    return ReactionNetworkRunner {network, {A,B,C} };
+    return ReactionNetworkSimulator{network, {A,B,C} };
 }
 
-ReactionNetworkRunner create_simulation2(){
+ReactionNetworkSimulator create_simulation2(){
     const auto A = Agent::CreateShared("A", 100);
     const auto B = Agent::CreateShared("B", 0);
     const auto C = Agent::CreateShared("C", 2);
@@ -74,10 +73,10 @@ ReactionNetworkRunner create_simulation2(){
     RHS const rhs {{{B}, {C}}, lambda};
     reaction r ( lhs >>= rhs);
     ReactionNetwork network{{r}};
-    return ReactionNetworkRunner {network, {A,B,C} };
+    return ReactionNetworkSimulator{network, {A,B,C} };
 }
 
-ReactionNetworkRunner create_simulation3(){
+ReactionNetworkSimulator create_simulation3(){
     const auto A = Agent::CreateShared("A", 50);
     const auto B = Agent::CreateShared("B", 50);
     const auto C = Agent::CreateShared("C", 1);
@@ -86,7 +85,7 @@ ReactionNetworkRunner create_simulation3(){
     RHS const rhs {{{B}, {C}}, lambda};
     reaction r ( lhs >>= rhs);
     ReactionNetwork network{{r}};
-    return ReactionNetworkRunner {network, {A,B,C} };
+    return ReactionNetworkSimulator{network, {A,B,C} };
 }
 
 void performSimulation(const std::shared_ptr<Agent>& A,

@@ -4,7 +4,7 @@
 #include <cmath>
 #include "reaction/reaction.h"
 #include "reaction_network/ReactionNetwork.h"
-#include "reaction_network/ReactionNetworkRunner.h"
+#include "reaction_network/ReactionNetworkSimulator.h"
 int  main(){
     double  N = 10000;
     
@@ -37,6 +37,6 @@ int  main(){
     };
     
     ReactionNetwork network{reactions};
-    ReactionNetworkRunner runner {network,{S, E, I, H, R}};
+    ReactionNetworkSimulator runner {network,{S, E, I, H, R}};
     runner.operator()(100);
 }

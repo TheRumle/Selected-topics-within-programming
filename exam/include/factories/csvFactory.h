@@ -4,11 +4,11 @@
 
 #ifndef LAMBDAS_CSVFACTORY_H
 #define LAMBDAS_CSVFACTORY_H
-#include "reaction_network/ReactionNetworkRunner.h"
+#include "reaction_network/ReactionNetworkSimulator.h"
 
 struct CsvFactory {
     
-    static std::string convert_to_csv_string(const ReactionNetworkRunner& simulation, char seperator){
+    static std::string convert_to_csv_string(const ReactionNetworkSimulator& simulation, char seperator){
         std::stringstream outStream; 
         
         const auto& agents = simulation.getAgents();
@@ -41,7 +41,7 @@ struct CsvFactory {
     }
     
 
-    static void write_state_history_to_csv(const ReactionNetworkRunner& simulation, const std::string&outputFile, char seperator) {
+    static void write_state_history_to_csv(const ReactionNetworkSimulator& simulation, const std::string&outputFile, char seperator) {
         std::ofstream file(outputFile.ends_with(".csv")? outputFile : outputFile + ".csv");
         file << convert_to_csv_string(simulation, seperator);
     }

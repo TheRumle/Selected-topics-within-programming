@@ -2,14 +2,14 @@
 // Created by rasmus on 5/29/2023.
 //
 
-#ifndef LAMBDAS_REACTIONNETWORKRUNNER_H
-#define LAMBDAS_REACTIONNETWORKRUNNER_H
+#ifndef LAMBDAS_REACTIONNETWORKSIMULATOR_H
+#define LAMBDAS_REACTIONNETWORKSIMULATOR_H
 
 #include <vector>
 #include "reaction/agents.h"
 #include "reaction/reaction.h"
 #include "ReactionNetwork.h"
-class ReactionNetworkRunner
+class ReactionNetworkSimulator
 {
     using state_history = symbol_table<double, std::vector<Agent>>;
     const std::vector<std::shared_ptr<Agent>> agents;
@@ -51,17 +51,16 @@ class ReactionNetworkRunner
         return validReactionTimes.front();
     }
     
-    friend std::ostream & operator << (std::ostream& s, const ReactionNetworkRunner& value);
+    friend std::ostream & operator << (std::ostream& s, const ReactionNetworkSimulator& value);
 
 public:
-    
-    ReactionNetworkRunner(ReactionNetwork& network, const std::initializer_list<std::shared_ptr<Agent>>& agents)
+    ReactionNetworkSimulator(ReactionNetwork& network, const std::initializer_list<std::shared_ptr<Agent>>& agents)
         : agents(agents.begin(), agents.end()), network(network)
     {
         const std::vector<Agent> val = copy_agent_state();
         stateHistory.store(time, val);
     }
-    ReactionNetworkRunner(ReactionNetwork& network, const std::vector<std::shared_ptr<Agent>>& agents)
+    ReactionNetworkSimulator(ReactionNetwork& network, const std::vector<std::shared_ptr<Agent>>& agents)
         : agents(agents.begin(), agents.end()), network(network)
     {
         const std::vector<Agent> val = copy_agent_state();
@@ -99,4 +98,4 @@ public:
     const std::vector<std::shared_ptr<Agent>>& getAgents() const;
 };
 
-#endif  // LAMBDAS_REACTIONNETWORKRUNNER_H
+#endif  // LAMBDAS_REACTIONNETWORKSIMULATOR_H

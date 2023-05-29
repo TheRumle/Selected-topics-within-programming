@@ -4,9 +4,9 @@
 #include "reaction/construction_rules.h"
 #include "reaction/reaction.h"
 #include "reaction_network/ReactionNetwork.h"
-#include "reaction_network/ReactionNetworkRunner.h"
+#include "reaction_network/ReactionNetworkSimulator.h"
 
-ReactionNetworkRunner create_simulation(){
+ReactionNetworkSimulator create_simulation(){
     auto alphaA = 50.0;
     auto alpha_A = 500.0;
     auto alphaR = 0.01;

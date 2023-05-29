@@ -3,7 +3,7 @@
 //
 
 #include <memory>
-#include "reaction_network/ReactionNetworkRunner.h"
+#include "reaction_network/ReactionNetworkSimulator.h"
 ReactionNetwork createNetwork(const std::shared_ptr<Agent>& A,
                               const std::shared_ptr<Agent>& B,
                               const std::shared_ptr<Agent>& C){
