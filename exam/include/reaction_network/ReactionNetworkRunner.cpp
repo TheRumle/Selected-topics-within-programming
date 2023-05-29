@@ -9,6 +9,7 @@ std::ostream& operator<<(std::ostream& s, const ReactionNetworkRunner& value) {
         for (const auto& agent : stateAtTime.second) {
             s << agent;
         }
+        s << " } \n";
     }
-    return s << " }";
+    return s;
 }

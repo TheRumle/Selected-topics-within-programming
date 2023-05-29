@@ -52,9 +52,6 @@ class ReactionNetworkRunner
     }
     
     friend std::ostream & operator << (std::ostream& s, const ReactionNetworkRunner& value);
-    inline void print(){
-        std::cout << *this << "\n\n";
-    }
 
 public:
     
@@ -67,11 +64,27 @@ public:
     
     void operator()(double endTime){
         while (time < endTime){
-            auto fastestReaction = findFastestReactionTime();
-            time += fastestReaction.second;
-            fastestReaction.first.operator()();
-            print();
+            std::vector<std::pair<reaction&, double>> validReactionTimes{};
+            for (auto& reaction : network) {
+                if (reaction.canBeSatisfied())
+                    validReactionTimes.emplace_back(reaction, reaction.compute_delay());
+            }
+            
+            for (auto it = validReactionTimes.begin(); it != validReactionTimes.end(); ++it) {
+                for (auto innerIt = validReactionTimes.begin(); innerIt != validReactionTimes.end() - 1; ++innerIt) {
+                    auto& lhs = *innerIt;
+                    auto& rhs = *(innerIt + 1);
+        
+                    if (lhs.second > rhs.second) {
+                        std::swap(lhs, rhs);
+                    }
+                }
+            }
+            time += validReactionTimes.front().second;
+            validReactionTimes.front().first.operator()();
+            this->addState();
         }
+            std::cout << *this;
     }
 };
 
