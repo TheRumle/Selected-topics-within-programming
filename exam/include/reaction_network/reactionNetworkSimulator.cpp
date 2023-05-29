@@ -15,3 +15,4 @@ std::ostream& operator<<(std::ostream& s, const ReactionNetworkSimulator& value)
 }
 const ReactionNetworkSimulator::state_history& ReactionNetworkSimulator::getStateHistory() const { return stateHistory; }
 const std::vector<std::shared_ptr<Agent>>& ReactionNetworkSimulator::getAgents() const { return agents; }
+const ReactionNetwork& ReactionNetworkSimulator::getNetwork() const { return network; }

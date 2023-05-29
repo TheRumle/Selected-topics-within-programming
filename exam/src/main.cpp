@@ -1,4 +1,4 @@
-﻿#include "factories/networkFactory.h"
+﻿#include "factories/reactionNetworkFactory.h"
 #include "factories/csvFactory.h"
 #include "factories/graphvizFactory.h"
 //
@@ -6,14 +6,14 @@
 //
 
 int main(){
-    auto network = create1stSimpleNetwork();
-    ReactionNetworkSimulator runner {network.first, network.second };
-    runner.operator()(1500);
+    ReactionNetworkSimulator simpleSimulation = create1stSimpleSimulation();
+    GraphVizFactory {simpleSimulation.getNetwork(), "simple_simulation"}
+             .createGraphVizPng();
+
+    simpleSimulation.operator()(1500);
+    CsvFactory csvFactory{simpleSimulation, ';'};
+    csvFactory.writeStateHistoryToCsv("simple_simulation");
     
-    CsvFactory csvFactory{};
-    csvFactory.writeStateHistoryToCsv(runner, "output", ';');
-        
-        
-    GraphVizShower::createGraphVizPng(network.first,"simple_graph.dot");
+
     return 0;
 }

@@ -17,7 +17,7 @@ private:
     const std::vector<std::shared_ptr<Agent>> agents;
     double time = 0.0;
     state_history stateHistory{};
-    reactionNetwork network;
+    ReactionNetwork network;
     
     std::vector<Agent> copy_agent_state(){
         std::vector<Agent> found{};
@@ -56,33 +56,44 @@ private:
     friend std::ostream & operator << (std::ostream& s, const ReactionNetworkSimulator& value);
 
 public:
-    ReactionNetworkSimulator(reactionNetwork& network, const std::initializer_list<std::shared_ptr<Agent>>& agents)
-        : agents(agents.begin(), agents.end()), network(network)
-    {
-        const std::vector<Agent> val = copy_agent_state();
-        stateHistory.store(time, val);
-    }
-    ReactionNetworkSimulator(reactionNetwork& network, const std::vector<std::shared_ptr<Agent>>& agents)
+    ReactionNetworkSimulator(ReactionNetwork& network, const std::initializer_list<std::shared_ptr<Agent>>& agents)
         : agents(agents.begin(), agents.end()), network(network)
     {
         const std::vector<Agent> val = copy_agent_state();
         stateHistory.store(time, val);
     }
     
+    ReactionNetworkSimulator(ReactionNetwork&& network, const std::vector<std::shared_ptr<Agent>>& agents)
+        : agents(agents.begin(), agents.end()), network(network)
+    {
+        const std::vector<Agent> val = copy_agent_state();
+        stateHistory.store(time, val);
+    }
+    
+    ReactionNetworkSimulator(ReactionNetwork& network, const std::vector<std::shared_ptr<Agent>>& agents)
+        : agents(agents.begin(), agents.end()), network(network)
+    {
+        const std::vector<Agent> val = copy_agent_state();
+        stateHistory.store(time, val);
+    }
+    
+    ReactionNetworkSimulator(ReactionNetworkSimulator&& other) noexcept
+        : agents((std::move(other.agents))), network(std::move(other.network)), stateHistory(std::move(other.stateHistory))
+    {
+    }
+    
     void operator()(double endTime){
         while (time < endTime){
-            const auto& validReactionTimes = findFastestReactionTime();
-            auto newTime = validReactionTimes.second;
-            auto fastestReaction = validReactionTimes.first;
-            
-            time += newTime;
-            fastestReaction.operator()();
+            auto validReactionTimes = findFastestReactionTime();
+            time += validReactionTimes.second;
+            validReactionTimes.first.operator()();
             this->addState();
         }
         std::cout << *this;
     }
     const state_history& getStateHistory() const;
     const std::vector<std::shared_ptr<Agent>>& getAgents() const;
+    const ReactionNetwork& getNetwork() const;
 };
 
 #endif  // LAMBDAS_REACTIONNETWORKSIMULATOR_H

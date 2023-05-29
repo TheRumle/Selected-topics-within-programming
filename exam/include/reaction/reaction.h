@@ -53,7 +53,7 @@ public:
     
     [[nodiscard]] double compute_delay() const;
     [[nodiscard]] bool canBeSatisfied() const;
-    [[nodiscard]] double getLambda(){return lambda;};
+    [[nodiscard]] double getLambda() const {return lambda;} ;
     inline void operator()() {
         consume_from_state();
         produce_to_state();

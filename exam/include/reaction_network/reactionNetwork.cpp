@@ -2,9 +2,9 @@
 //
 // Created by rasmus on 5/27/2023.
 //
-std::ostream& operator<<(std::ostream& s, const reactionNetwork& value) {
+std::ostream& operator<<(std::ostream& s, const ReactionNetwork& value) {
     if (!value.reactions.empty()) {
-            s << "reactionNetwork: time = " << value.time << ", reactions = [";
+            s << "ReactionNetwork: time = " << value.time << ", reactions = [";
             for (const auto& reaction : value.reactions)
             {
                 s << reaction << ", ";

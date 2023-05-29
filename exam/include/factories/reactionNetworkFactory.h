@@ -1,12 +1,41 @@
 ﻿//
-// Created by rasmus on 5/27/2023.
+// Created by rasmus on 5/29/2023.
 //
-#include "reaction/constructionRules.h"
-#include "reaction/reaction.h"
-#include "reaction_network/reactionNetwork.h"
-#include "reaction_network/reactionNetworkSimulator.h"
 
-ReactionNetworkSimulator create_simulation(){
+#include <memory>
+#include "reaction_network/reactionNetworkSimulator.h"
+ReactionNetwork createNetwork(const std::shared_ptr<Agent>& A,
+                              const std::shared_ptr<Agent>& B,
+                              const std::shared_ptr<Agent>& C){
+    auto lambda = 0.001;
+    LHS lhs {{{A}, {C}}};
+    RHS const rhs {{{B}, {C}}, lambda};
+    reaction r ( lhs >>= rhs);
+    return ReactionNetwork{{r}};
+}
+
+ReactionNetworkSimulator create1stSimpleSimulation() {
+    const auto A = Agent::CreateShared("A", 100);
+    const auto B = Agent::CreateShared("B", 0);
+    const auto C = Agent::CreateShared("C", 1);
+    return {createNetwork(A, B, C), std::vector<std::shared_ptr<Agent>> {A, B, C}};
+}
+
+ReactionNetwork create2ndSimpleNetwork() {
+    const auto A = Agent::CreateShared("A", 100);
+    const auto B = Agent::CreateShared("B", 0);
+    const auto C = Agent::CreateShared("C", 2);
+    return createNetwork(A, B, C);
+}
+
+ReactionNetwork create3rdSimpleNetwork() {
+    const auto A = Agent::CreateShared("A", 50);
+    const auto B = Agent::CreateShared("B", 50);
+    const auto C = Agent::CreateShared("C", 2);
+    return createNetwork(A, B, C);
+}
+
+ReactionNetworkSimulator createCircadianNetwork(){
     auto alphaA = 50.0;
     auto alpha_A = 500.0;
     auto alphaR = 0.01;
@@ -33,8 +62,11 @@ ReactionNetworkSimulator create_simulation(){
     auto R   = Agent::CreateShared("R", 0);
     auto C   = Agent::CreateShared("C", 0);
     
-    //CreateShared reactions
-    ReactionNetwork network{
+    const std::vector<std::shared_ptr<Agent>> agents {
+        DA, D_A, DR, D_R, MA, MR, A, R, C
+    };
+    
+    const std::vector<reaction>& reactions {
         reaction(LHS{{DA, A}} >>= {{D_A}, gammaA}),
         reaction(LHS{D_A} >>= {{DA,A}, thetaA}),
         reaction(LHS{A,DR} >>= {{D_R}, gammaR}),
@@ -52,11 +84,6 @@ ReactionNetworkSimulator create_simulation(){
         reaction(LHS{MA} >>= {{}, deltaMA}),
         reaction(LHS{MR} >>= {{}, deltaMR})
     };
-    
-    return {network, {DA, D_A, DR, D_R, MA, MR, A, R, C} };
-}
-
-int main(){
-    create_simulation().operator()(100);
-    return 0;
+    //CreateShared reactions
+    return ReactionNetworkSimulator{ReactionNetwork{reactions}, agents};
 }

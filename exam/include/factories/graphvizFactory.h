@@ -2,16 +2,28 @@
 // Created by rasmus on 5/29/2023.
 //
 #include "reaction_network/reactionNetwork.h"
-struct GraphVizShower{    
-    static std::basic_ofstream<char> createGraphVizPictureDotFile(reactionNetwork& network, const std::string& path){
-        std::ofstream dotfile (path);
-        dotfile << network.to_graphviz_string();
-        dotfile.close();
-        return dotfile;
+struct GraphVizFactory
+{
+    GraphVizFactory(ReactionNetwork network, const std::string& path):
+        network(std::move(network)), path(path){
+        
     }
     
-    static void createGraphVizPng(reactionNetwork& network, const std::string& path){
-        createGraphVizPictureDotFile(network, path);
-        std::system("dot -Tpng -o reaction_graph.png reaction_graph.dot");
+    void createGraphVizPictureDotFile() {
+        std::basic_ofstream<char> dotfile;
+        dotfile << network.to_graphviz_string();
+        dotfile.close();
     }
+    
+    
+    void createGraphVizPng(){
+        createGraphVizPictureDotFile();
+        std::stringstream a{};
+        a << "dot -Tpng -o " << path << ".png " << path << ".dot";
+        std::system(a.str().c_str());
+    }
+    
+private:
+    std::string path;
+    ReactionNetwork network;
 };

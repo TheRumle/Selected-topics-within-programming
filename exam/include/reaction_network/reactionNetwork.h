@@ -12,7 +12,7 @@
 #include "reaction/constructionRules.h"
 #include "reaction/reaction.h"
 
-class reactionNetwork
+class ReactionNetwork
 {
 private:
     double time = 0.0;
@@ -20,27 +20,32 @@ private:
     
 public:
     // Constructor taking an initializer list of reactions
-    reactionNetwork(const std::initializer_list<reaction>& reactions) : reactions(reactions)
+    ReactionNetwork(const std::initializer_list<reaction>& reactions) : reactions(reactions)
+    {
+        
+    }
+
+    ReactionNetwork(const std::vector<reaction>& reactions) : reactions(reactions)
     {
         
     }
 
     // Default constructor
-    reactionNetwork() = default;
+    ReactionNetwork() = default;
 
     // Copy constructor
-    reactionNetwork(const reactionNetwork& other) = default;
+    ReactionNetwork(const ReactionNetwork& other) = default;
 
     // Move constructor
-    reactionNetwork(reactionNetwork&& other) noexcept : time(std::move(other.time)), reactions(std::move(other.reactions))
+    ReactionNetwork(ReactionNetwork&& other) noexcept : time(std::move(other.time)), reactions(std::move(other.reactions))
     {
 
     }
     // Destructor
-    ~reactionNetwork() = default;
+    ~ReactionNetwork() = default;
 
     // Copy assignment operator
-    reactionNetwork& operator=(const reactionNetwork& other)
+    ReactionNetwork& operator=(const ReactionNetwork& other)
     {
         if (this != &other)
         {
@@ -51,7 +56,7 @@ public:
     }
 
     // Move assignment operator
-    reactionNetwork& operator=(reactionNetwork&& other) noexcept
+    ReactionNetwork& operator=(ReactionNetwork&& other) noexcept
     {
         if (this != &other)
         {
@@ -65,14 +70,14 @@ public:
     auto begin() const { return reactions.begin(); }
     auto end() const { return reactions.end(); }
 
-    friend std::ostream& operator<<(std::ostream& s, const reactionNetwork& value);
+    friend std::ostream& operator<<(std::ostream& s, const ReactionNetwork& value);
     
-    std::string to_graphviz_string(){
+    std::string to_graphviz_string() const{
         std::stringstream outString;
         outString << "digraph Reaction {\n";
         
         for(size_t i = 0; i < reactions.size(); ++i){
-            auto& reaction =reactions[i];
+            const reaction& reaction =reactions[i];
             outString << "    R" << i 
                       << " [label=\"" 
                       << reaction.getLambda() 

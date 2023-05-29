@@ -36,7 +36,7 @@ int  main(){
         reaction(LHS {{H}} >>= {{R}, tau})    // hospitalized becomes removed
     };
 
-    reactionNetwork network{reactions};
+    ReactionNetwork network{reactions};
     ReactionNetworkSimulator runner {network,{S, E, I, H, R}};
     runner.operator()(100);
 }

@@ -9,6 +9,9 @@
 
 struct CsvFactory {
 private:
+    const char separator;
+    const ReactionNetworkSimulator& simulation;
+    
     static void appendStateHistory(std::stringstream& outStream, const ReactionNetworkSimulator::state_history& history, char separator ){
         for (const auto& pair : history) {
             outStream << pair.first << separator;
@@ -39,18 +42,22 @@ private:
         outStream << "\n";
     }
 public:
+    CsvFactory(const ReactionNetworkSimulator& simulation) : simulation(simulation), separator(';'){
+    }
     
+    CsvFactory(const ReactionNetworkSimulator& simulation, const char separator) : simulation(simulation), separator(separator){
+    }
     
-    static std::string convertToCsvString(const ReactionNetworkSimulator& simulation, char separator) {
+    std::string convertToCsvString() {
         std::stringstream outStream;
         CsvFactory::appendAgentHeaders(outStream, simulation.getAgents(), separator);
         CsvFactory::appendStateHistory(outStream, simulation.getStateHistory(), separator);
         return outStream.str();
     }
     
-    static void writeStateHistoryToCsv(const ReactionNetworkSimulator& simulation, const std::string& outputFile, char separator) {
+    void writeStateHistoryToCsv(const std::string& outputFile) {
         std::ofstream file(outputFile.ends_with(".csv") ? outputFile : outputFile + ".csv");
-        file << convertToCsvString(simulation, separator);
+        file << convertToCsvString();
     }
 };
 #endif  // LAMBDAS_CSVFACTORY_H
