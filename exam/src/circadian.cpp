@@ -4,8 +4,9 @@
 #include "reaction/construction_rules.h"
 #include "reaction/reaction.h"
 #include "reaction_network/ReactionNetwork.h"
+#include "reaction_network/ReactionNetworkRunner.h"
 
-int main(){
+ReactionNetworkRunner create_simulation(){
     auto alphaA = 50.0;
     auto alpha_A = 500.0;
     auto alphaR = 0.01;
@@ -21,19 +22,19 @@ int main(){
     auto deltaMR = 0.5;
     auto thetaA = 50.0;
     auto thetaR = 100.0;
-
-    auto DA = Agent::CreateShared("DA", 1);
+    
+    auto DA  = Agent::CreateShared("DA", 1);
     auto D_A = Agent::CreateShared("D_A", 0);
-    auto DR = Agent::CreateShared("DR", 1);
+    auto DR  = Agent::CreateShared("DR", 1);
     auto D_R = Agent::CreateShared("D_R", 0);
-    auto MA = Agent::CreateShared("MA", 0);
-    auto MR = Agent::CreateShared("MR", 0);
-    auto A = Agent::CreateShared("A", 0);
-    auto R = Agent::CreateShared("R", 0);
-    auto C = Agent::CreateShared("C", 0);
+    auto MA  = Agent::CreateShared("MA", 0);
+    auto MR  = Agent::CreateShared("MR", 0);
+    auto A   = Agent::CreateShared("A", 0);
+    auto R   = Agent::CreateShared("R", 0);
+    auto C   = Agent::CreateShared("C", 0);
     
     //CreateShared reactions
-    ReactionNetwork q {
+    ReactionNetwork network{
         reaction(LHS{{DA, A}} >>= {{D_A}, gammaA}),
         reaction(LHS{D_A} >>= {{D_A,A}, thetaA}),
         reaction(LHS{A,DR} >>= {{D_R}, gammaR}),
@@ -52,6 +53,10 @@ int main(){
         reaction(LHS{MR} >>= {{}, deltaMR})
     };
     
-    reac
+    return {network, {DA, D_A, DR, D_R, MA, MR, A, R, C} };
+}
+
+int main(){
+    create_simulation().operator()(100);
     return 0;
 }
