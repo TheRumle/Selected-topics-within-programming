@@ -10,7 +10,7 @@ struct GraphVizFactory
     }
     
     void createGraphVizPictureDotFile() {
-        std::basic_ofstream<char> dotfile;
+        std::basic_ofstream<char> dotfile{path.ends_with(".dot") ? path : path+".dot"};
         dotfile << network.to_graphviz_string();
         dotfile.close();
     }

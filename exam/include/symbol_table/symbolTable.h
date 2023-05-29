@@ -38,22 +38,6 @@ public:
             (*found).second = object;
         }
     }
-
-    std::optional<T> tryGetValue(const TKey symbol) {
-        try{
-            auto it = table.find(symbol);
-            
-            if (it != table.end()) {
-                return it->second;
-            }
-
-            return std::nullopt;
-        } catch (...) {
-            auto q = 2;
-            
-        }
-        
-    }
     
     [[nodiscard]] size_t size() const {
         return table.size();

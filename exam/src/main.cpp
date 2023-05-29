@@ -16,11 +16,16 @@ int main(){
     ReactionNetworkSimulator simpleSimulation = create1stSimpleSimulation();
     ReactionNetworkSimulator circadianSimulator = createCircadianNetwork();
     ReactionNetworkSimulator covidSimulator = createCovidNetworkSimulation();
+
     
-    simulateAndWriteCsv(simpleSimulation, 1500, "simple");
-    simulateAndWriteCsv(circadianSimulator, 100, "circadian");
-    simulateAndWriteCsv(covidSimulator, 100, "covid");
+    GraphVizFactory {simpleSimulation.getNetwork(), "simple_simulation"}
+        .createGraphVizPng();
     
-  
+    GraphVizFactory {circadianSimulator.getNetwork(), "circadian"}
+        .createGraphVizPng();
+    
+    GraphVizFactory {covidSimulator.getNetwork(), "covidSimulator"}
+        .createGraphVizPng();
+
     return 0;
 }
