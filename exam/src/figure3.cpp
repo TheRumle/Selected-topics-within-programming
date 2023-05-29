@@ -2,7 +2,7 @@
 // Created by rasmus on 5/27/2023.
 //
 #include "reaction/reaction.h"
-#include "ReactionNetwork.h"
+#include "reaction_network/ReactionNetwork.h"
 int  main(){
     double  N = 10000;
     
