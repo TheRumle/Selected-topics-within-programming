@@ -12,7 +12,7 @@
 #include "reaction/constructionRules.h"
 #include "reaction/reaction.h"
 
-class ReactionNetwork
+class reactionNetwork
 {
 private:
     double time = 0.0;
@@ -20,27 +20,27 @@ private:
     
 public:
     // Constructor taking an initializer list of reactions
-    ReactionNetwork(const std::initializer_list<reaction>& reactions) : reactions(reactions)
+    reactionNetwork(const std::initializer_list<reaction>& reactions) : reactions(reactions)
     {
         
     }
 
     // Default constructor
-    ReactionNetwork() = default;
+    reactionNetwork() = default;
 
     // Copy constructor
-    ReactionNetwork(const ReactionNetwork& other) = default;
+    reactionNetwork(const reactionNetwork& other) = default;
 
     // Move constructor
-    ReactionNetwork(ReactionNetwork&& other) noexcept : time(std::move(other.time)), reactions(std::move(other.reactions))
+    reactionNetwork(reactionNetwork&& other) noexcept : time(std::move(other.time)), reactions(std::move(other.reactions))
     {
 
     }
     // Destructor
-    ~ReactionNetwork() = default;
+    ~reactionNetwork() = default;
 
     // Copy assignment operator
-    ReactionNetwork& operator=(const ReactionNetwork& other)
+    reactionNetwork& operator=(const reactionNetwork& other)
     {
         if (this != &other)
         {
@@ -51,7 +51,7 @@ public:
     }
 
     // Move assignment operator
-    ReactionNetwork& operator=(ReactionNetwork&& other) noexcept
+    reactionNetwork& operator=(reactionNetwork&& other) noexcept
     {
         if (this != &other)
         {
@@ -65,7 +65,7 @@ public:
     auto begin() const { return reactions.begin(); }
     auto end() const { return reactions.end(); }
 
-    friend std::ostream& operator<<(std::ostream& s, const ReactionNetwork& value);
+    friend std::ostream& operator<<(std::ostream& s, const reactionNetwork& value);
     
     std::string to_graphviz_string(){
         std::stringstream outString;

@@ -2,7 +2,7 @@
 // Created by rasmus on 5/29/2023.
 //
 
-#include "ReactionNetworkSimulator.h"
+#include "reactionNetworkSimulator.h"
 std::ostream& operator<<(std::ostream& s, const ReactionNetworkSimulator& value) {
     for (const std::pair<const double, std::vector<Agent>>& stateAtTime : value.stateHistory) {
         s << stateAtTime.first << ": { ";

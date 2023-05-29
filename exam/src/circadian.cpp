@@ -3,8 +3,8 @@
 //
 #include "reaction/constructionRules.h"
 #include "reaction/reaction.h"
-#include "reaction_network/ReactionNetwork.h"
-#include "reaction_network/ReactionNetworkSimulator.h"
+#include "reaction_network/reactionNetwork.h"
+#include "reaction_network/reactionNetworkSimulator.h"
 
 ReactionNetworkSimulator create_simulation(){
     auto alphaA = 50.0;
@@ -34,7 +34,7 @@ ReactionNetworkSimulator create_simulation(){
     auto C   = Agent::CreateShared("C", 0);
     
     //CreateShared reactions
-    ReactionNetwork network{
+    reactionNetwork network{
         reaction(LHS{{DA, A}} >>= {{D_A}, gammaA}),
         reaction(LHS{D_A} >>= {{DA,A}, thetaA}),
         reaction(LHS{A,DR} >>= {{D_R}, gammaR}),

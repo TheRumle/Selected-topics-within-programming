@@ -8,7 +8,7 @@
 #include <utility>
 #include "constructionRules.h"
 #include "memory"
-#include "symbol_table/reaction_table.h"
+#include "symbol_table/symbolTable.h"
 #include "agents.h"
 
 using namespace ReactionCreation;
@@ -52,7 +52,7 @@ public:
     }
     
     [[nodiscard]] double compute_delay() const;
-    [[nodiscard]] bool canBeSatisfied();
+    [[nodiscard]] bool canBeSatisfied() const;
     [[nodiscard]] double getLambda(){return lambda;};
     inline void operator()() {
         consume_from_state();

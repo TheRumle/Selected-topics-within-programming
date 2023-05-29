@@ -3,8 +3,8 @@
 //
 #include <cmath>
 #include "reaction/reaction.h"
-#include "reaction_network/ReactionNetwork.h"
-#include "reaction_network/ReactionNetworkSimulator.h"
+#include "reaction_network/reactionNetwork.h"
+#include "reaction_network/reactionNetworkSimulator.h"
 int  main(){
     double  N = 10000;
     
@@ -35,8 +35,8 @@ int  main(){
         reaction(LHS {{I}} >>= {{H}, kappa}), // infectious becomes hospitalized
         reaction(LHS {{H}} >>= {{R}, tau})    // hospitalized becomes removed
     };
-    
-    ReactionNetwork network{reactions};
+
+    reactionNetwork network{reactions};
     ReactionNetworkSimulator runner {network,{S, E, I, H, R}};
     runner.operator()(100);
 }

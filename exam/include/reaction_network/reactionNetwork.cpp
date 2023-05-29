@@ -1,10 +1,10 @@
-﻿#include "ReactionNetwork.h"
+﻿#include "reactionNetwork.h"
 //
 // Created by rasmus on 5/27/2023.
 //
-std::ostream& operator<<(std::ostream& s, const ReactionNetwork& value) {
+std::ostream& operator<<(std::ostream& s, const reactionNetwork& value) {
     if (!value.reactions.empty()) {
-            s << "ReactionNetwork: time = " << value.time << ", reactions = [";
+            s << "reactionNetwork: time = " << value.time << ", reactions = [";
             for (const auto& reaction : value.reactions)
             {
                 s << reaction << ", ";
@@ -12,6 +12,5 @@ std::ostream& operator<<(std::ostream& s, const ReactionNetwork& value) {
             s << "]";
             return s;
     }
-    
     return s;
 }

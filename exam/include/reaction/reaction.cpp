@@ -5,7 +5,7 @@
 #include <random>
 #include "reaction.h"
 
-bool reaction::canBeSatisfied()
+bool reaction::canBeSatisfied() const
 {
     for (const auto& consumptionAction : consumptions){
         if (!consumptionAction.canBePerformed()) return false;

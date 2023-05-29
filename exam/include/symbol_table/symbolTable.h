@@ -2,8 +2,8 @@
 // Created by rasmus on 5/26/2023.
 //
 
-#ifndef LAMBDAS_REACTION_TABLE_H
-#define LAMBDAS_REACTION_TABLE_H
+#ifndef LAMBDAS_SYMBOLTABLE_H
+#define LAMBDAS_SYMBOLTABLE_H
 
 #include <map>
 #include <stdexcept>
@@ -68,4 +68,4 @@ public:
 
 
 
-#endif  // LAMBDAS_REACTION_TABLE_H
+#endif  // LAMBDAS_SYMBOLTABLE_H
