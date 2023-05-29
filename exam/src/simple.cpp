@@ -6,18 +6,26 @@
 //
 // Created by rasmus on 5/27/2023.
 //
-void performSimulation(const std::shared_ptr<Agent>& A,
+
+ReactionNetworkRunner create_simulation(const std::shared_ptr<Agent>& A,
                        const std::shared_ptr<Agent>& B,
                        const std::shared_ptr<Agent>& C){
     auto lambda = 0.001;
-    auto endTime = 1500;
     LHS lhs {{{A}, {C}}};
-    RHS rhs {{{B}, {C}}, lambda};
+    RHS const rhs {{{B}, {C}}, lambda};
     reaction r ( lhs >>= rhs);
     ReactionNetwork network{{r}};
     
-    ReactionNetworkRunner runner{network, {A,B,C} };
-    runner.operator()(endTime);
+    return ReactionNetworkRunner {network, {A,B,C} };
+}
+
+void performSimulation(const std::shared_ptr<Agent>& A,
+                       const std::shared_ptr<Agent>& B,
+                       const std::shared_ptr<Agent>& C){
+    auto endTime = 1500;
+    
+    create_simulation(A,B,C)
+        .operator()(endTime);
 }
 
 void runFirstSimulation(){

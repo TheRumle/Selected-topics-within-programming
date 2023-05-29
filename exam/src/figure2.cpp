@@ -6,7 +6,6 @@
 #include "reaction_network/ReactionNetwork.h"
 
 int main(){
-    using vessel = reaction::state;
     auto alphaA = 50.0;
     auto alpha_A = 500.0;
     auto alphaR = 0.01;
@@ -22,7 +21,6 @@ int main(){
     auto deltaMR = 0.5;
     auto thetaA = 50.0;
     auto thetaR = 100.0;
-    auto v = vessel {};
 
     auto DA = Agent::CreateShared("DA", 1);
     auto D_A = Agent::CreateShared("D_A", 0);
@@ -34,19 +32,8 @@ int main(){
     auto R = Agent::CreateShared("R", 0);
     auto C = Agent::CreateShared("C", 0);
     
-    //Init start state_history for agents
-    v.storeOrUpdate(DA->agent_name, 1);
-    v.storeOrUpdate(D_A->agent_name, 0);
-    v.storeOrUpdate(DR->agent_name, 1);
-    v.storeOrUpdate(D_R->agent_name, 0);
-    v.storeOrUpdate(MA->agent_name, 0);
-    v.storeOrUpdate(MR->agent_name, 0);
-    v.storeOrUpdate(A->agent_name, 0);
-    v.storeOrUpdate(R->agent_name, 0);
-    v.storeOrUpdate(C->agent_name, 0);
-
     //CreateShared reactions
-    const std::initializer_list<reaction> initializerList = {
+    ReactionNetwork q {
         reaction(LHS{{DA, A}} >>= {{D_A}, gammaA}),
         reaction(LHS{D_A} >>= {{D_A,A}, thetaA}),
         reaction(LHS{A,DR} >>= {{D_R}, gammaR}),
@@ -64,8 +51,7 @@ int main(){
         reaction(LHS{MA} >>= {{}, deltaMA}),
         reaction(LHS{MR} >>= {{}, deltaMR})
     };
-
-    ReactionNetwork q {initializerList, v};
-    q.operator()(100);
+    
+    reac
     return 0;
 }

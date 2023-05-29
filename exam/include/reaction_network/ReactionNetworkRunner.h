@@ -15,7 +15,7 @@ class ReactionNetworkRunner
     const std::vector<std::shared_ptr<Agent>> agents;
     double time = 0.0;
     state_history stateHistory{};
-    ReactionNetwork& network;
+    ReactionNetwork network;
     
     std::vector<Agent> copy_agent_state(){
         std::vector<Agent> found{};

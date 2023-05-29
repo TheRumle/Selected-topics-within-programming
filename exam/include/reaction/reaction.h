@@ -9,39 +9,44 @@
 #include "construction_rules.h"
 #include "memory"
 #include "symbol_table/reaction_table.h"
+#include "agents.h"
 
 using namespace ReactionCreation;
 class reaction
 {
 public:
-    reaction(reaction const &reaction) = default;
-    reaction(reaction& other) = default;
-    reaction(reaction&& other): 
-        lambda(std::move(other.lambda)),
+    // Default constructor
+    reaction() = default;
+    
+    // Copy constructor
+    reaction(const reaction& other) = default;
+    
+    // Move constructor
+    reaction(reaction&& other) noexcept
+        : lambda(std::move(other.lambda)),
         consumptions(std::move(other.consumptions)),
-        productionActions(std::move(other.productionActions)){}
-    ~reaction()= default;
-    
-    
-    reaction(const LHS& lhs, const RHS& rhs, double lambda)
-        : lambda(lambda), consumptions(lhs.reactants), productionActions(rhs.products){}
-    
-    reaction(const std::initializer_list<AgentConsumption>& lhs, const std::initializer_list<AgentProduction>& rhs, double lambda)
-        : lambda(lambda),
-        consumptions(lhs), productionActions(rhs){}
-    
-    //Move assignment
-    reaction& operator=(reaction&& other) noexcept{
-        this->productionActions = std::move(other.productionActions);
-        this->consumptions = std::move(other.consumptions);
-        this->lambda = other.lambda;
-        return *this;
+        productionActions(std::move(other.productionActions))
+    {
     }
-    reaction& operator=(const reaction& rhs) noexcept{
-        if (&rhs != this) {
-            this->consumptions = rhs.consumptions;
-            this->productionActions = rhs.productionActions;
-            this->lambda = rhs.lambda;
+    
+    // Constructor with arguments
+    reaction(const std::vector<AgentConsumption>& reactants, const std::vector<AgentProduction>& products, double lambda)
+        : lambda(lambda),
+        consumptions(reactants),
+        productionActions(products)
+    {
+    }
+    
+    // Copy assignment operator
+    reaction& operator=(const reaction& rhs) = default;
+    
+    // Move assignment operator
+    reaction& operator=(reaction&& other) noexcept
+    {
+        if (this != &other) {
+            lambda = std::move(other.lambda);
+            consumptions = std::move(other.consumptions);
+            productionActions = std::move(other.productionActions);
         }
         return *this;
     }
@@ -59,10 +64,6 @@ private:
     double lambda;
     std::vector<AgentConsumption> consumptions{};
     std::vector<AgentProduction> productionActions{};
-    
-    reaction(const std::vector<AgentConsumption>& reactants, const std::vector<AgentProduction>& products, double lambda)
-        : lambda(lambda),
-        consumptions(reactants), productionActions(products) {}
     
     void consume_from_state();
     void produce_to_state();
