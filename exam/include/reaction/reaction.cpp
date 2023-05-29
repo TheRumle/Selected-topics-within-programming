@@ -2,23 +2,22 @@
 // Created by rasmus on 5/26/2023.
 //
 
+#include <random>
 #include "reaction.h"
 
-bool reaction::canBeSatisfied(reaction::state& state)
+bool reaction::canBeSatisfied() const
 {
-    for (const auto& reactant : reactants){
-        auto foundResult = state.tryGetValue(reactant.name);
-        if (!foundResult.has_value() || foundResult.value() < reactant.volume) 
-            return false;
+    for (const auto& consumptionAction : consumptions){
+        if (!consumptionAction.canBePerformed()) return false;
     }
     return true;
 }
 
-double reaction::compute_delay(reaction::state& state)
+double reaction::compute_delay() const
 {
     auto product = 1.0;
-    for (const auto& agent : reactants){    
-        product *= state.tryGetValue(agent.name).value();
+    for (const auto& consumptionAction : consumptions){
+        product *= consumptionAction.getAgentAmount();
     }
 
     if (product == 0) return 0;
@@ -31,28 +30,22 @@ double reaction::compute_delay(reaction::state& state)
 }
 
 
-reaction create(const std::vector<Agent>& reactants, const std::vector<Agent>& products, double lambda) {
+reaction create(const std::vector<AgentConsumption>& reactants,
+                const std::vector<AgentProduction>& products,
+                double lambda) {
     return {reactants, products, lambda};
 }
 
-void reaction::produce_to_state(state& state)
+void reaction::produce_to_state()
 {
-    for (auto& product : products) {
-        const auto& tableResult = state.tryGetValue(product.name);
-        if (tableResult.has_value()){
-            auto val = tableResult.value();
-            state.storeOrUpdate(product.name, product.volume + val);
-        } else{
-            state.storeOrUpdate(product.name, product.volume);
-        }
-
+    for (auto& product : productionActions) {
+        product();
     }
 }
-void reaction::consume_from_state(state& state)
+void reaction::consume_from_state()
 {
-    for (const Agent& reactant : reactants) {
-        const auto& previous = state.tryGetValue(reactant.name);
-        state.storeOrUpdate(reactant.name, previous.value() - reactant.volume);
+    for (const auto& reactant : consumptions) {
+       reactant.operator()();
     }
 }
 reaction LHS::operator>>=(const RHS& rhs) {
@@ -61,13 +54,15 @@ reaction LHS::operator>>=(const RHS& rhs) {
 
 std::ostream& operator<<(std::ostream& s, const reaction& value)
 {
-    s <<"{ ";
-    for (const auto& r : value.reactants){
-        s << r << " ";
+    s <<"{";
+    for (const auto& r : value.consumptions){
+        s << r;
     }
     s << " ----> ";
-    for (const auto& p : value.products)
+    for (const auto& p : value.productionActions)
         s << p << " ";
-    s << "}\n  ";
+    s << "}";
     return s;
 }
+const std::vector<AgentConsumption>& reaction::getConsumptions() const { return consumptions; }
+const std::vector<AgentProduction>& reaction::getProductionActions() const { return productionActions; }

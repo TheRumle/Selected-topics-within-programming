@@ -6,50 +6,72 @@
 #define LAMBDAS_REACTION_H
 
 #include <utility>
-#include "construction_rules.h"
+#include "constructionRules.h"
+#include "memory"
+#include "symbol_table/symbolTable.h"
+#include "agents.h"
+
+using namespace ReactionCreation;
 class reaction
 {
 public:
-    using state = symbol_table<double>;
+    // Default constructor
+    reaction() = default;
     
-    reaction(reaction const &reaction) = default;
+    // Copy constructor
+    reaction(const reaction& other) = default;
     
-    reaction(reaction& other) = default;
+    // Move constructor
+    reaction(reaction&& other) noexcept
+        : lambda(std::move(other.lambda)),
+        consumptions(std::move(other.consumptions)),
+        productionActions(std::move(other.productionActions))
+    {
+    }
     
-    reaction(const LHS& lhs, const RHS& rhs, double lambda)
-        : lambda(lambda), reactants(lhs.reactants), products(rhs.products){}
+    // Constructor with arguments
+    reaction(const std::vector<AgentConsumption>& reactants, const std::vector<AgentProduction>& products, double lambda)
+        : lambda(lambda),
+        consumptions(reactants),
+        productionActions(products)
+    {
+    }
     
-    reaction(const std::initializer_list<Agent>& lhs, const std::initializer_list<Agent>& rhs, double lambda)
-        : lambda(lambda), reactants(lhs),products(rhs){}
+    // Copy assignment operator
+    reaction& operator=(const reaction& rhs) = default;
     
-    //Move assignment
-    reaction operator=(reaction&& other) noexcept{
-        this->products = std::move(other.products);
-        this->reactants = std::move(other.reactants);
-        this->lambda = other.lambda;
+    // Move assignment operator
+    reaction& operator=(reaction&& other) noexcept
+    {
+        if (this != &other) {
+            lambda = std::move(other.lambda);
+            consumptions = std::move(other.consumptions);
+            productionActions = std::move(other.productionActions);
+        }
         return *this;
     }
     
-    [[nodiscard]] double compute_delay(reaction::state& state);
-    [[nodiscard]] bool canBeSatisfied(reaction::state& state);
-    inline void operator()(state& state) {
-        consume_from_state(state);
-        produce_to_state(state);
+    [[nodiscard]] double compute_delay() const;
+    [[nodiscard]] bool canBeSatisfied() const;
+    [[nodiscard]] double getLambda() const {return lambda;} ;
+    inline void operator()() {
+        consume_from_state();
+        produce_to_state();
     }
     
     friend std::ostream & operator << (std::ostream& s, const reaction& value);
-    
+    const std::vector<AgentConsumption>& getConsumptions() const;
+    const std::vector<AgentProduction>& getProductionActions() const;
+
 private:
     double lambda;
-    std::vector<Agent> reactants{};
-    std::vector<Agent> products{};
-    reaction(const std::vector<Agent>& reactants, const std::vector<Agent>& products, double lambda)
-        : reactants(reactants), products(products), lambda(lambda) {}
+    std::vector<AgentConsumption> consumptions{};
+    std::vector<AgentProduction> productionActions{};
     
-    void consume_from_state(state& state);
-    void produce_to_state(state& state);
-    friend reaction create(const std::vector<Agent>& reactants, const std::vector<Agent>& products, double lambda);
+    void consume_from_state();
+    void produce_to_state();
+    friend reaction create(const std::vector<AgentConsumption>& reactants, const std::vector<AgentProduction>& products, double lambda);
 };
 
 
-#endif  // LAMBDAS_CONSTRUCTION_RULES_H
+#endif  // LAMBDAS_CONSTRUCTIONRULES_H

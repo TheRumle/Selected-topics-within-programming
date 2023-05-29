@@ -1,28 +1,19 @@
-﻿//
-// Created by rasmus on 5/26/2023.
+﻿
 //
+// Created by rasmus on 5/29/2023.
+//
+#include "factories/reactionNetworkFactory.h"
+#include "factories/csvFactory.h"
+#include "factories/graphvizFactory.h"
+int main(){
+    ReactionNetworkSimulator simpleSimulation = create1stSimpleSimulation();
+    GraphVizFactory {simpleSimulation.getNetwork(), "simple_simulation"}
+             .createGraphVizPng();
 
-#include "reaction/construction_rules.h"
-#include "reaction_network/ReactionNetwork.h"
-#include "reaction/reaction.h"
-int main() {
-    auto lhs = LHS {{{"A",1}, {"C",1}}};
-    auto rhs = RHS {{{"B",1}, {"C",1}},0.001};
-    const reaction& reaction = lhs >>= rhs;
-    std::cout << reaction;
+    simpleSimulation.operator()(1500);
+    CsvFactory csvFactory{simpleSimulation, ';'};
+    csvFactory.writeStateHistoryToCsv("simple_simulation");
     
-    auto s = reaction::state{};
 
-    Agent A = Agent{"A", 100};
-    Agent B = Agent{"B", 0};
-    Agent C = Agent{"C", 1};
-
-    s.storeOrUpdate(A.name, A.volume);
-    s.storeOrUpdate(B.name, B.volume);
-    s.storeOrUpdate(C.name, C.volume);
-
-    ReactionNetwork q {{reaction},s};
-    q.operator()(1500);
     return 0;
 }
-
