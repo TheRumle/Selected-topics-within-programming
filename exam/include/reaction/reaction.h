@@ -12,17 +12,17 @@
 #include "agents.h"
 
 using namespace ReactionCreation;
-class reaction
+class Reaction
 {
 public:
     // Default constructor
-    reaction() = default;
+    Reaction() = default;
     
     // Copy constructor
-    reaction(const reaction& other) = default;
+    Reaction(const Reaction& other) = default;
     
     // Move constructor
-    reaction(reaction&& other) noexcept
+    Reaction(Reaction&& other) noexcept
         : lambda(std::move(other.lambda)),
         consumptions(std::move(other.consumptions)),
         productionActions(std::move(other.productionActions))
@@ -30,7 +30,7 @@ public:
     }
     
     // Constructor with arguments
-    reaction(const std::vector<AgentConsumption>& reactants, const std::vector<AgentProduction>& products, double lambda)
+    Reaction(const std::vector<AgentConsumption>& reactants, const std::vector<AgentProduction>& products, double lambda)
         : lambda(lambda),
         consumptions(reactants),
         productionActions(products)
@@ -38,10 +38,10 @@ public:
     }
     
     // Copy assignment operator
-    reaction& operator=(const reaction& rhs) = default;
+    Reaction& operator=(const Reaction& rhs) = default;
     
     // Move assignment operator
-    reaction& operator=(reaction&& other) noexcept
+    Reaction& operator=(Reaction&& other) noexcept
     {
         if (this != &other) {
             lambda = std::move(other.lambda);
@@ -59,7 +59,7 @@ public:
         produce_to_state();
     }
     
-    friend std::ostream & operator << (std::ostream& s, const reaction& value);
+    friend std::ostream & operator << (std::ostream& s, const Reaction& value);
     const std::vector<AgentConsumption>& getConsumptions() const;
     const std::vector<AgentProduction>& getProductionActions() const;
 
@@ -70,7 +70,7 @@ private:
     
     void consume_from_state();
     void produce_to_state();
-    friend reaction create(const std::vector<AgentConsumption>& reactants, const std::vector<AgentProduction>& products, double lambda);
+    friend Reaction create(const std::vector<AgentConsumption>& reactants, const std::vector<AgentProduction>& products, double lambda);
 };
 
 

@@ -11,7 +11,7 @@ ReactionNetwork createNetwork(const std::shared_ptr<Agent>& A,
     auto lambda = 0.001;
     LHS lhs {{{A}, {C}}};
     RHS const rhs {{{B}, {C}}, lambda};
-    reaction r ( lhs >>= rhs);
+    Reaction r ( lhs >>= rhs);
     return ReactionNetwork{{r}};
 }
 
@@ -19,25 +19,26 @@ ReactionNetworkSimulator create1stSimpleSimulation() {
     const auto A = Agent::CreateShared("A", 100);
     const auto B = Agent::CreateShared("B", 0);
     const auto C = Agent::CreateShared("C", 1);
-    return {createNetwork(A, B, C), std::vector<std::shared_ptr<Agent>> {A, B, C}};
+    return {createNetwork(A, B, C)};
 }
 
-ReactionNetwork create2ndSimpleNetwork() {
+
+
+ReactionNetworkSimulator create2ndSimpleNetwork() {
     const auto A = Agent::CreateShared("A", 100);
     const auto B = Agent::CreateShared("B", 0);
     const auto C = Agent::CreateShared("C", 2);
-    return createNetwork(A, B, C);
+    return {createNetwork(A, B, C)};
 }
 
-ReactionNetwork create3rdSimpleNetwork() {
+ReactionNetworkSimulator create3rdSimpleNetwork() {
     const auto A = Agent::CreateShared("A", 50);
     const auto B = Agent::CreateShared("B", 50);
     const auto C = Agent::CreateShared("C", 2);
-    return createNetwork(A, B, C);
+    return {createNetwork(A, B, C)};
 }
 
-ReactionNetworkSimulator createCovidNetworkSimulation() {
-    double  N = 10000;
+ReactionNetworkSimulator createCovidNetworkSimulation(double N) {
     
     
     const double eps = 0.0009; // initial fraction of infectious
@@ -59,16 +60,16 @@ ReactionNetworkSimulator createCovidNetworkSimulation() {
     auto R = Agent::CreateShared("R", 0);
     
     
-    const std::initializer_list<reaction> reactions = {
-        reaction(LHS {{S,I}} >>= {{E,I}, beta/N}), // susceptible becomes exposed through infectious
-        reaction(LHS  {{E}} >>= {{I}, alpha}),// exposed becomes infectious
-        reaction(LHS  {{I}} >>= {{R}, gamma}), // infectious becomes removed
-        reaction(LHS {{I}} >>= {{H}, kappa}), // infectious becomes hospitalized
-        reaction(LHS {{H}} >>= {{R}, tau})    // hospitalized becomes removed
+    const std::initializer_list<Reaction> reactions = {
+        Reaction(LHS {{S,I}} >>= {{E,I}, beta/N}), // susceptible becomes exposed through infectious
+        Reaction(LHS  {{E}} >>= {{I}, alpha}),// exposed becomes infectious
+        Reaction(LHS  {{I}} >>= {{R}, gamma}), // infectious becomes removed
+        Reaction(LHS {{I}} >>= {{H}, kappa}), // infectious becomes hospitalized
+        Reaction(LHS {{H}} >>= {{R}, tau})    // hospitalized becomes removed
     };
 
     ReactionNetwork network{reactions};
-    return {network,{S, E, I, H, R}};
+    return {network};
 }
 
 ReactionNetworkSimulator createCircadianNetwork(){
@@ -98,28 +99,16 @@ ReactionNetworkSimulator createCircadianNetwork(){
     auto R   = Agent::CreateShared("R", 0);
     auto C   = Agent::CreateShared("C", 0);
     
-    const std::vector<std::shared_ptr<Agent>> agents {
-        DA, D_A, DR, D_R, MA, MR, A, R, C
-    };
-    
-    const std::vector<reaction>& reactions {
-        reaction(LHS{{DA, A}} >>= {{D_A}, gammaA}),
-        reaction(LHS{D_A} >>= {{DA,A}, thetaA}),
-        reaction(LHS{A,DR} >>= {{D_R}, gammaR}),
-        reaction(LHS{D_R} >>= {{DR, A}, thetaR}),
-        reaction(LHS{D_A} >>= {{MA, D_A}, alpha_A}),
-        reaction(LHS{DA} >>= {{MA, DA}, alphaA}),
-        reaction(LHS{D_R} >>= {{MR, D_R}, alpha_R}),
-        reaction(LHS{DR} >>= {{MR, DR}, alphaR}),
-        reaction(LHS{MA} >>= {{MA, A}, betaA}),
-        reaction(LHS{MR} >>= {{MR,R}, betaR}),
-        reaction(LHS{A,R} >>= {{C}, gammaC}),
-        reaction(LHS{C} >>= {{R}, deltaA}),
-        reaction(LHS{A} >>= {{}, deltaA}),
-        reaction(LHS{R} >>= {{}, deltaR}),
-        reaction(LHS{MA} >>= {{}, deltaMA}),
-        reaction(LHS{MR} >>= {{}, deltaMR})
+    const std::vector<Reaction>& reactions {
+        Reaction(LHS{{DA, A}} >>= {{D_A}, gammaA}),  Reaction(LHS{D_A} >>= {{DA,A}, thetaA}),
+        Reaction(LHS{A,DR} >>= {{D_R}, gammaR}),    Reaction(LHS{D_R} >>= {{DR, A}, thetaR}),
+        Reaction(LHS{D_A} >>= {{MA, D_A}, alpha_A}), Reaction(LHS{DA} >>= {{MA, DA}, alphaA}),
+        Reaction(LHS{D_R} >>= {{MR, D_R}, alpha_R}), Reaction(LHS{DR} >>= {{MR, DR}, alphaR}),
+        Reaction(LHS{MA} >>= {{MA, A}, betaA}),      Reaction(LHS{MR} >>= {{MR,R}, betaR}),
+        Reaction(LHS{A,R} >>= {{C}, gammaC}),       Reaction(LHS{C} >>= {{R}, deltaA}),
+        Reaction(LHS{A} >>= {{}, deltaA}),           Reaction(LHS{R} >>= {{}, deltaR}),
+        Reaction(LHS{MA} >>= {{}, deltaMA}),         Reaction(LHS{MR} >>= {{}, deltaMR})
     };
     //CreateShared reactions
-    return ReactionNetworkSimulator{ReactionNetwork{reactions}, agents};
+    return ReactionNetworkSimulator{ReactionNetwork{reactions}};
 }

@@ -11,23 +11,44 @@
 #include <sstream>
 #include "reaction/constructionRules.h"
 #include "reaction/reaction.h"
+#include "meta/agentConstraint.h"
 
 class ReactionNetwork
 {
+public:
+    // can modify the state, so publicly it exposes const getAgents
 private:
+    symbol_table<std::string, std::shared_ptr<Agent>> agentsTable{};
     double time = 0.0;
-    std::vector<reaction> reactions;
+    std::vector<Reaction> reactions{};
+    
+    template <AgentActionConstraint T>
+    void findAllAgents(const std::vector<T>& actions) {
+        for (const T& action : actions) {
+            const auto agent = action.getAgent();
+            agentsTable.storeOrUpdate(agent->getAgentName(), agent);
+        }
+    }
+    
+    void findAgentsForReactions(){
+        for (const auto& reaction : reactions) {
+            findAllAgents(reaction.getProductionActions());
+            findAllAgents(reaction.getConsumptions());
+        }
+    }
     
 public:
+    using state = std::vector<std::shared_ptr<const Agent>>; //For all other purposes, only the network
+    
     // Constructor taking an initializer list of reactions
-    ReactionNetwork(const std::initializer_list<reaction>& reactions) : reactions(reactions)
+    ReactionNetwork(const std::initializer_list<Reaction>& reactions) : reactions(reactions)
     {
-        
+        findAgentsForReactions();
     }
 
-    ReactionNetwork(const std::vector<reaction>& reactions) : reactions(reactions)
+    ReactionNetwork(const std::vector<Reaction>& reactions) : reactions(reactions)
     {
-        
+        findAgentsForReactions();
     }
 
     // Default constructor
@@ -37,7 +58,7 @@ public:
     ReactionNetwork(const ReactionNetwork& other) = default;
 
     // Move constructor
-    ReactionNetwork(ReactionNetwork&& other) noexcept : time(std::move(other.time)), reactions(std::move(other.reactions))
+    ReactionNetwork(ReactionNetwork&& other) noexcept : time(other.time), reactions(std::move(other.reactions))
     {
 
     }
@@ -65,39 +86,23 @@ public:
         }
         return *this;
     }
-    auto begin() { return reactions.begin(); }
+    auto begin()  { return reactions.begin(); }
     auto end() { return reactions.end(); }
     auto begin() const { return reactions.begin(); }
     auto end() const { return reactions.end(); }
 
     friend std::ostream& operator<<(std::ostream& s, const ReactionNetwork& value);
     
-    std::string to_graphviz_string() const{
-        std::stringstream outString;
-        outString << "digraph Reaction {\n";
-        
-        for(size_t i = 0; i < reactions.size(); ++i){
-            const reaction& reaction =reactions[i];
-            outString << "    R" << i 
-                      << " [label=\"" 
-                      << reaction.getLambda() 
-                      << " \", shape=box,style=filled,fillcolor=white];\n";
+    std::string to_graphviz_string() const;
+    
+    /// Only exposes constant agents. Noone should modify but the network itself.
+    /// \return 
+    const std::vector<std::shared_ptr<const Agent>> getAgents() const {
+        std::vector<std::shared_ptr<const Agent>> agents{};
+        for (const auto& agent : agentsTable) {
+            agents.emplace_back(agent.second);
         }
-        
-        for (size_t i = 0; i < reactions.size(); ++i) {
-            const auto& reaction = reactions[i];
-            for (const auto& lhs : reaction.getConsumptions()){
-                outString << "    " << lhs.getName() << " -> R" << i << " [color=red];\n";
-                
-            }
-            
-            for (const auto& rhs : reaction.getProductionActions())
-                outString << "    R" << i << " -> " << rhs.getName() << " [color=blue];\n";
-            
-        }
-
-        outString << "}\n";
-        return outString.str();
+        return agents;
     }
 };
 

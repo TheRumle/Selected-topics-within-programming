@@ -5,21 +5,23 @@
 
 #ifndef LAMBDAS_CSVFACTORY_H
 #define LAMBDAS_CSVFACTORY_H
+#include <set>
 #include "reaction_network/reactionNetworkSimulator.h"
 
 struct CsvFactory {
 private:
-    char separator;
-    const ReactionNetworkSimulator& simulation;
+    char separator;    
+    AllStateCopyMonitor monitor{};
     
-    static void appendStateHistory(std::stringstream& outStream, const ReactionNetworkSimulator::state_history& history, char separator ){
-        for (const auto& pair : history) {
+    static void appendStateHistory(std::stringstream& outStream,
+                                   const Monitor::observations& observations, char separator ){
+        for (const auto& pair : observations) {
             outStream << pair.first << separator;
-            const auto& agents = pair.second;
+            const ReactionNetwork::state& agents = pair.second;
             const size_t numAgents = agents.size();
             for (size_t i = 0; i < numAgents; ++i) {
-                const Agent& agent = agents[i];
-                outStream << agent.getTotalAmount();
+                const std::shared_ptr<const Agent>& agent = agents[i];
+                outStream << agent->getAgentName();
                 if (i != numAgents - 1) {
                     outStream << separator;
                 }
@@ -28,7 +30,10 @@ private:
         }
     };
     
-    static void appendAgentHeaders(std::stringstream& outStream, const std::vector<std::shared_ptr<Agent>>& agents, char separator){
+    static void writeHeaders(std::stringstream& outStream,
+                             const Monitor::observations& observations, char separator){
+        const auto& agents = observations.front().second;
+        
         outStream << "Time" << separator;
         const size_t numAgents = agents.size();
         
@@ -42,16 +47,16 @@ private:
         outStream << "\n";
     }
 public:
-    CsvFactory(const ReactionNetworkSimulator& simulation) : simulation(simulation), separator(';'){
-    }
-    
-    CsvFactory(const ReactionNetworkSimulator& simulation, const char separator) : simulation(simulation), separator(separator){
+    CsvFactory(const AllStateCopyMonitor& monitor, const char separator) 
+        : monitor(monitor), separator(separator)
+    {
     }
     
     std::string convertToCsvString() {
         std::stringstream outStream;
-        CsvFactory::appendAgentHeaders(outStream, simulation.getAgents(), separator);
-        CsvFactory::appendStateHistory(outStream, simulation.getStateHistory(), separator);
+
+        CsvFactory::writeHeaders(outStream, monitor.getObservations(), separator);
+        CsvFactory::appendStateHistory(outStream, monitor.getObservations(), separator);
         return outStream.str();
     }
     

@@ -3,16 +3,28 @@
 //
 
 #include "reactionNetworkSimulator.h"
-std::ostream& operator<<(std::ostream& s, const ReactionNetworkSimulator& value) {
-    for (const std::pair<const double, std::vector<Agent>>& stateAtTime : value.stateHistory) {
-        s << stateAtTime.first << ": { ";
-        for (const auto& agent : stateAtTime.second) {
-            s << agent;
-        }
-        s << " } \n";
-    }
-    return s;
-}
-const ReactionNetworkSimulator::state_history& ReactionNetworkSimulator::getStateHistory() const { return stateHistory; }
-const std::vector<std::shared_ptr<Agent>>& ReactionNetworkSimulator::getAgents() const { return agents; }
+
 const ReactionNetwork& ReactionNetworkSimulator::getNetwork() const { return network; }
+
+std::pair<Reaction, double> 
+    ReactionNetworkSimulator::findFastestValidReaction()
+{
+    std::vector<std::pair<Reaction, double>> validReactionTimes{};
+    for (const auto& reaction : network) {
+        if (reaction.canBeSatisfied())
+            validReactionTimes.emplace_back(reaction, reaction.compute_delay());
+    }
+    
+    for (auto it = validReactionTimes.begin(); it != validReactionTimes.end(); ++it) {
+        for (auto innerIt = validReactionTimes.begin(); innerIt != validReactionTimes.end() - 1; ++innerIt) {
+            auto& lhs = *innerIt;
+            auto& rhs = *(innerIt + 1);
+
+            if (lhs.second > rhs.second) {
+                std::swap(lhs, rhs);
+            }
+        }
+    }
+
+    return validReactionTimes.front();
+}

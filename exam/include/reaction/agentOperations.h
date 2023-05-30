@@ -51,9 +51,9 @@ class AgentConsumption : public AgentAction {
 public:
     using AgentAction::AgentAction; //brings the ctors from the base class AgentAction into this one
 
-    [[nodiscard]] double getAgentAmount() const { return this->agent->getTotalAmount(); }
+    [[nodiscard]] double getAgentAmount() const { return this->agent->getTotalAmountAgent(); }
     [[nodiscard]] bool canBePerformed() const {
-        return (this->agent->getTotalAmount() >= this->amount);
+        return (this->agent->getTotalAmountAgent() >= this->amount);
     }
 
     void operator()() const override {

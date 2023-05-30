@@ -16,6 +16,16 @@ class symbol_table{
     std::map<TKey, T> table;
     
 public:
+    std::optional<T> getValue(const TKey &symbol) {
+        auto it = table.find(symbol);
+        
+        if (it != table.end()) {
+            return it->second;
+        }
+
+        return std::nullopt;
+    }
+    
     void storeOrUpdate(const TKey &symbol, T object) {
         const auto& found = table.find(symbol);
         if(found != table.end()){
@@ -48,6 +58,14 @@ public:
     auto end() { return table.end(); }
     auto begin() const { return table.begin(); }
     auto end() const { return table.end(); }
+    
+    std::vector<std::pair<TKey, T>> toPairVector() const {
+        std::vector<std::pair<TKey, T>> res{};
+        for (const auto& entry : this->table) {
+            res.emplace_back(std::pair{entry.first, entry.second});
+        }
+        return res;
+    }
 };
 
 
