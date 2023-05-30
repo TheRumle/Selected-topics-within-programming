@@ -59,15 +59,10 @@ public:
 
     // Default constructor
     ReactionNetwork() = default;
-
     // Copy constructor
     ReactionNetwork(const ReactionNetwork& other) = default;
-
     // Move constructor
-    ReactionNetwork(ReactionNetwork&& other) noexcept : time(other.time), reactions(std::move(other.reactions))
-    {
-
-    }
+    ReactionNetwork(ReactionNetwork&& other) noexcept = default;
     // Destructor
     ~ReactionNetwork() = default;
 

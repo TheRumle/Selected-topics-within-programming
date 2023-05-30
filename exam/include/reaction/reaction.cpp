@@ -20,7 +20,7 @@ double Reaction::compute_delay() const
         product *= consumptionAction.getAgentAmount();
     }
 
-    if (product == 0) return 0;
+    if (product == 0) return 1000000000000;
     
     std::random_device rd;
     std::mt19937 generator(rd());
