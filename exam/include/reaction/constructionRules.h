@@ -10,8 +10,8 @@
  */
 
 
-#ifndef LAMBDAS_CONSTRUCTIONRULES_H
-#define LAMBDAS_CONSTRUCTIONRULES_H
+#ifndef EXAM2023_CONSTRUCTIONRULES_H
+#define EXAM2023_CONSTRUCTIONRULES_H
 
 #include <memory>
 #include <vector>
@@ -41,4 +41,4 @@ namespace ReactionCreation{
 
 
 
-#endif  // LAMBDAS_CONSTRUCTIONRULES_H
+#endif  // EXAM2023_CONSTRUCTIONRULES_H

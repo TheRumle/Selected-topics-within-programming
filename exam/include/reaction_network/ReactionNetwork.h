@@ -2,8 +2,8 @@
 // Created by rasmus on 5/26/2023.
 //
 
-#ifndef LAMBDAS_REACTIONNETWORK_H
-#define LAMBDAS_REACTIONNETWORK_H
+#ifndef EXAM2023_REACTIONNETWORK_H
+#define EXAM2023_REACTIONNETWORK_H
 
 #include <functional>
 #include <iostream>
@@ -110,4 +110,4 @@ public:
 
 
 
-#endif  // LAMBDAS_REACTIONNETWORK_H
+#endif  // EXAM2023_REACTIONNETWORK_H

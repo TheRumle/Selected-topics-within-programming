@@ -2,8 +2,8 @@
 // Created by rasmus on 5/26/2023.
 //
 
-#ifndef LAMBDAS_REACTION_H
-#define LAMBDAS_REACTION_H
+#ifndef EXAM2023_REACTION_H
+#define EXAM2023_REACTION_H
 
 #include <utility>
 #include "constructionRules.h"
@@ -74,4 +74,4 @@ private:
 };
 
 
-#endif  // LAMBDAS_CONSTRUCTIONRULES_H
+#endif  // EXAM2023_CONSTRUCTIONRULES_H

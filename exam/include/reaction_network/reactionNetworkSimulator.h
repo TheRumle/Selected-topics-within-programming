@@ -2,8 +2,8 @@
 // Created by rasmus on 5/29/2023.
 //
 
-#ifndef LAMBDAS_REACTIONNETWORKSIMULATOR_H
-#define LAMBDAS_REACTIONNETWORKSIMULATOR_H
+#ifndef EXAM2023_REACTIONNETWORKSIMULATOR_H
+#define EXAM2023_REACTIONNETWORKSIMULATOR_H
 
 #include <utility>
 #include <vector>
@@ -69,4 +69,4 @@ public:
     const ReactionNetwork& getNetwork() const;
 };
 
-#endif  // LAMBDAS_REACTIONNETWORKSIMULATOR_H
+#endif  // EXAM2023_REACTIONNETWORKSIMULATOR_H

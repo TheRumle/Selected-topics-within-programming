@@ -2,11 +2,10 @@
 // Created by rasmus on 5/29/2023.
 //
 
+#ifndef EXAM2023_AGENTOPERATIONS_H
+#define EXAM2023_AGENTOPERATIONS_H
 #include "agents.h"
-#ifndef LAMBDAS_AGENTOPERATIONS_H
-#define LAMBDAS_AGENTOPERATIONS_H
 
-#endif  // LAMBDAS_AGENTOPERATIONS_H
 class AgentAction {
 protected:
     double amount{};
@@ -70,3 +69,5 @@ public:
         this->agent->add(this->amount);
     }
 };
+
+#endif  // EXAM2023_AGENTOPERATIONS_H

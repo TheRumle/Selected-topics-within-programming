@@ -2,8 +2,8 @@
 // Created by rasmus on 5/26/2023.
 //
 
-#ifndef LAMBDAS_SYMBOLTABLE_H
-#define LAMBDAS_SYMBOLTABLE_H
+#ifndef EXAM2023_SYMBOLTABLE_H
+#define EXAM2023_SYMBOLTABLE_H
 
 #include <map>
 #include <stdexcept>
@@ -70,4 +70,4 @@ public:
 
 
 
-#endif  // LAMBDAS_SYMBOLTABLE_H
+#endif  // EXAM2023_SYMBOLTABLE_H

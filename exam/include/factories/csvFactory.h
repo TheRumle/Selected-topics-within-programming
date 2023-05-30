@@ -3,8 +3,8 @@
 //
 
 
-#ifndef LAMBDAS_CSVFACTORY_H
-#define LAMBDAS_CSVFACTORY_H
+#ifndef EXAM2023_CSVFACTORY_H
+#define EXAM2023_CSVFACTORY_H
 #include <set>
 #include "reaction_network/reactionNetworkSimulator.h"
 
@@ -65,4 +65,4 @@ public:
         file << convertToCsvString();
     }
 };
-#endif  // LAMBDAS_CSVFACTORY_H
+#endif  // EXAM2023_CSVFACTORY_H

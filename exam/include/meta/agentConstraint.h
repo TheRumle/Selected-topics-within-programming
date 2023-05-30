@@ -2,8 +2,8 @@
 // Created by rasmus on 5/30/2023.
 //
 
-#ifndef LAMBDAS_AGENTCONSTRAINT_H
-#define LAMBDAS_AGENTCONSTRAINT_H
+#ifndef EXAM2023_AGENTCONSTRAINT_H
+#define EXAM2023_AGENTCONSTRAINT_H
 #include <valarray>
 
 template <typename T>
@@ -21,4 +21,4 @@ concept Container = requires(T&& a) //why use forward reference?
 template <typename T>
 concept AgentActionConstraint = std::is_base_of_v<AgentAction, T>;
 
-#endif  // LAMBDAS_AGENTCONSTRAINT_H
+#endif  // EXAM2023_AGENTCONSTRAINT_H

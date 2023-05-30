@@ -2,8 +2,8 @@
 // Created by rasmus on 5/26/2023.
 //
 
-#ifndef LAMBDAS_AGENTS_H
-#define LAMBDAS_AGENTS_H
+#ifndef EXAM2023_AGENTS_H
+#define EXAM2023_AGENTS_H
 #include <string>
 #include <memory>
 
@@ -76,4 +76,4 @@ private:
 
 
 
-#endif  // LAMBDAS_AGENTS_H
+#endif  // EXAM2023_AGENTS_H

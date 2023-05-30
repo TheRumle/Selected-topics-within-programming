@@ -2,8 +2,8 @@
 // Created by rasmus on 5/30/2023.
 //
 
-#ifndef LAMBDAS_MONITOR_H
-#define LAMBDAS_MONITOR_H
+#ifndef EXAM2023_MONITOR_H
+#define EXAM2023_MONITOR_H
 
 #include "reaction_network/reactionNetwork.h"
 
@@ -86,4 +86,4 @@ public:
 };
 
 
-#endif  // LAMBDAS_MONITOR_H
+#endif  // EXAM2023_MONITOR_H
