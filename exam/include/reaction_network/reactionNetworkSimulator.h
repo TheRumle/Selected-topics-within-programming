@@ -21,7 +21,6 @@ public:
 private:
     double time = 0.0;
     ReactionNetwork network{};
-    const state agents{};
     
     
     std::pair<Reaction, double> findFastestValidReaction();
@@ -32,19 +31,19 @@ private:
             time += validReactionTimes.second;
             validReactionTimes.first.operator()();
         }
-        return {time, this->agents};
+        return {time, this->network.getAgents()};
     }
     
 public:
     using changed_state = std::pair<double,state>;
     ReactionNetworkSimulator(ReactionNetwork& network)
-        : network(network), agents(network.getAgents())
+        : network(network)
     {
     }
 
     
     ReactionNetworkSimulator(ReactionNetwork&& network)
-        : agents(std::move(network.getAgents())), network(std::move(network))
+        : network(std::move(network))
     {
     }
 
@@ -63,7 +62,7 @@ public:
             auto validReactionTimes = findFastestValidReaction();
             time += validReactionTimes.second;
             validReactionTimes.first.operator()();
-            m.handleStateChange(time, this->agents);
+            m.handleStateChange(time, network.getAgents());
         }
     }
     

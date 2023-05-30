@@ -21,9 +21,10 @@ private:
     symbol_table<std::string, std::shared_ptr<Agent>> agentsTable{};
     double time = 0.0;
     std::vector<Reaction> reactions{};
+    std::vector<std::shared_ptr<const Agent>> _agents{}; 
     
     template <AgentActionConstraint T>
-    void findAllAgents(const std::vector<T>& actions) {
+    void addAgentsToSTable(const std::vector<T>& actions) {
         for (const T& action : actions) {
             const auto agent = action.getAgent();
             agentsTable.storeOrUpdate(agent->getAgentName(), agent);
@@ -32,9 +33,14 @@ private:
     
     void findAgentsForReactions(){
         for (const auto& reaction : reactions) {
-            findAllAgents(reaction.getProductionActions());
-            findAllAgents(reaction.getConsumptions());
+            addAgentsToSTable(reaction.getProductionActions());
+            addAgentsToSTable(reaction.getConsumptions());
         }
+        std::vector<std::shared_ptr<const Agent>> agents{};
+        for (const auto& agent : agentsTable) {
+            agents.emplace_back(agent.second);
+        }
+        _agents = std::move(agents);
     }
     
 public:
@@ -97,12 +103,8 @@ public:
     
     /// Only exposes constant agents. Noone should modify but the network itself.
     /// \return 
-    const std::vector<std::shared_ptr<const Agent>> getAgents() const {
-        std::vector<std::shared_ptr<const Agent>> agents{};
-        for (const auto& agent : agentsTable) {
-            agents.emplace_back(agent.second);
-        }
-        return agents;
+    std::vector<std::shared_ptr<const Agent>> getAgents() const {
+        return _agents;
     }
 };
 

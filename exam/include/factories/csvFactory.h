@@ -21,7 +21,7 @@ private:
             const size_t numAgents = agents.size();
             for (size_t i = 0; i < numAgents; ++i) {
                 const std::shared_ptr<const Agent>& agent = agents[i];
-                outStream << agent->getAgentName();
+                outStream << agent->getTotalAmountAgent();
                 if (i != numAgents - 1) {
                     outStream << separator;
                 }
