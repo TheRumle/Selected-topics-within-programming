@@ -113,12 +113,7 @@ ReactionNetworkSimulator createCircadianNetwork(){
 
 std::pair<std::basic_string<char>, double> MonitorAndGetMaxHospitalized(int N){
     ReactionNetworkSimulator covidSimulator1 = createCovidNetworkSimulation(N);
-    MaxAgentValueMonitor monitor{};
+    CovidHospitalizationMonitor monitor{};
     covidSimulator1(1000, monitor);
-    
-    for (const auto& value : monitor.getObservedValues()) {
-        if (value.first == "H") {
-            return value;
-        }
-    }
+    return monitor.extractPeakHospitalized();
 }

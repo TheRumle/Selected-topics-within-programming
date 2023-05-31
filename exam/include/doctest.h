@@ -5560,7 +5560,7 @@ namespace {
             s << Color::Cyan << "[doctest] " << Color::None;
             s << "filters use wildcards for matching strings\n";
             s << Color::Cyan << "[doctest] " << Color::None;
-            s << "something passes a filter if any of the strings in consume_from_state filter matches\n";
+            s << "something passes create_and_partition_threads filter if any of the strings in consume_from_state filter matches\n";
 #ifndef DOCTEST_CONFIG_NO_UNPREFIXED_OPTIONS
             s << Color::Cyan << "[doctest]\n" << Color::None;
             s << Color::Cyan << "[doctest] " << Color::None;
