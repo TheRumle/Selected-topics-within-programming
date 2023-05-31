@@ -73,6 +73,8 @@ public:
         {
             time = other.time;
             reactions = other.reactions;
+            this->agentsTable = other.agentsTable;
+            this->_agents = other._agents;
         }
         return *this;
     }
@@ -96,7 +98,7 @@ public:
     
     std::string to_graphviz_string() const;
     
-    /// Only exposes constant agents. Noone should modify but the network itself.
+    /// Only exposes constant _agents. Noone should modify but the network itself.
     /// \return 
     std::vector<std::shared_ptr<const Agent>> getAgents() const {
         return _agents;
