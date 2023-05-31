@@ -11,11 +11,9 @@
 class Agent{
 public:
     virtual ~Agent() = default;
-    Agent(const Agent& other) : agentName(other.agentName), totalAgent(other.totalAgent) {
-        // Copy constructor implementation
-    }
+    Agent(const Agent& other) = default;
     
-    Agent(Agent&& other) noexcept : agentName(std::move(other.agentName)), totalAgent(std::move(other.totalAgent)) {
+    Agent(Agent&& other) noexcept : agentName(std::move(other.agentName)), totalAgent(other.totalAgent) {
         // Move constructor implementation
     }
 
@@ -44,7 +42,7 @@ public:
     Agent& operator=(Agent&& other) noexcept {
         if (this != &other) {
             agentName = std::move(other.agentName);
-            totalAgent = std::move(other.totalAgent);
+            totalAgent = other.totalAgent;
         }
         return *this;
     }
