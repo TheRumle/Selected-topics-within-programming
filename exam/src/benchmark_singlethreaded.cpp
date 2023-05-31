@@ -18,8 +18,6 @@ constexpr int NUMBER_OF_BENCHMARKS = 20;
 constexpr int NUMBER_OF_SIMULATIONS = 10;
 constexpr int COVID_ENDTIME = 100.00;
 
-
-
 benchmark_result singleThreadedBenchmark(const std::function<ReactionNetworkSimulator()>&& factory){
     benchmark benchy{};
     std::cout << "--------------------Beginning benchmark--------------------";
@@ -80,16 +78,16 @@ benchmark_result multiThreadedBenchmark(const std::function<ReactionNetworkSimul
 }
 int main(){
     //Benchmarks for how long the simulation algorithm takes. 
-    //auto n1= singleThreadedBenchmark([]() { return createCovidNetworkSimulation(3000); });
-    //auto n2= singleThreadedBenchmark([]() { return createCovidNetworkSimulation(6000); });
-    //auto n3= singleThreadedBenchmark([]() { return createCovidNetworkSimulation(8000); });
-    //auto n4= singleThreadedBenchmark([]() { return createCovidNetworkSimulation(10000); });
-    //auto n5= singleThreadedBenchmark([]() { return createCovidNetworkSimulation(15000); });
-    //auto n6= singleThreadedBenchmark([]() { return createCovidNetworkSimulation(18000); });
-    //auto n7= singleThreadedBenchmark([]() { return createCovidNetworkSimulation(20000); });
-    //auto n8= singleThreadedBenchmark([]() { return createCovidNetworkSimulation(22000); });
-    //auto n9= singleThreadedBenchmark([]() { return createCovidNetworkSimulation(25000); });
-    //print_voradic(n1,n2,n3,n4,n5,n6,n7,n8,n9);
+    auto n1= singleThreadedBenchmark([]() { return createCovidNetworkSimulation(3000); });
+    auto n2= singleThreadedBenchmark([]() { return createCovidNetworkSimulation(6000); });
+    auto n3= singleThreadedBenchmark([]() { return createCovidNetworkSimulation(8000); });
+    auto n4= singleThreadedBenchmark([]() { return createCovidNetworkSimulation(10000); });
+    auto n5= singleThreadedBenchmark([]() { return createCovidNetworkSimulation(15000); });
+    auto n6= singleThreadedBenchmark([]() { return createCovidNetworkSimulation(18000); });
+    auto n7= singleThreadedBenchmark([]() { return createCovidNetworkSimulation(20000); });
+    auto n8= singleThreadedBenchmark([]() { return createCovidNetworkSimulation(22000); });
+    auto n9= singleThreadedBenchmark([]() { return createCovidNetworkSimulation(25000); });
+    print_voradic(n1,n2,n3,n4,n5,n6,n7,n8,n9);
     
     std::cout << "\n\nMMM\n";
     auto m1= multiThreadedBenchmark([]() { return createCovidNetworkSimulation(3000);}, 2 );

@@ -20,20 +20,7 @@ public:
         lambda(0),
         productionActions({}),
         consumptions({}){};
-    
-    // Copy constructor
-    Reaction(const Reaction& other) : 
-        lambda(other.lambda),
-        consumptions(other.consumptions), 
-        productionActions(other.productionActions){};
-    
-    // Move constructor
-    Reaction(Reaction&& other) noexcept
-        : lambda(std::move(other.lambda)),
-        consumptions(std::move(other.consumptions)),
-        productionActions(std::move(other.productionActions))
-    {
-    }
+
     
     // Constructor with arguments
     Reaction(const std::vector<AgentConsumption>& reactants,
@@ -45,19 +32,6 @@ public:
     {
     }
     
-    // Copy assignment operator
-    Reaction& operator=(const Reaction& rhs) = default;
-    
-    // Move assignment operator
-    Reaction& operator=(Reaction&& other) noexcept
-    {
-        if (this != &other) {
-            lambda = std::move(other.lambda);
-            consumptions = std::move(other.consumptions);
-            productionActions = std::move(other.productionActions);
-        }
-        return *this;
-    }
     
     [[nodiscard]] double compute_delay() const;
     [[nodiscard]] bool canBeSatisfied() const;

@@ -17,11 +17,11 @@ std::optional<std::pair<Reaction, double>>
     if (validReactionTimes.empty())
         return std::nullopt;;
     
-    for (auto it = validReactionTimes.begin(); it != validReactionTimes.end(); ++it) {
-        for (auto innerIt = validReactionTimes.begin(); innerIt != validReactionTimes.end() - 1; ++innerIt) {
-            auto& lhs = *innerIt;
-            auto& rhs = *(innerIt + 1);
-
+    for (size_t i = 0; i < validReactionTimes.size(); ++i) {
+        for (size_t j = 0; j < validReactionTimes.size() - 1; ++j) {
+            std::pair<Reaction, double>& lhs = validReactionTimes[j];
+            std::pair<Reaction, double>& rhs = validReactionTimes[j + 1];
+            
             if (lhs.second > rhs.second) {
                 std::swap(lhs, rhs);
             }

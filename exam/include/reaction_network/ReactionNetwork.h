@@ -15,9 +15,6 @@
 
 class ReactionNetwork
 {
-public:
-    // can modify the state, so publicly it exposes const getAgents
-private:
     symbol_table<std::string, std::shared_ptr<Agent>> agentsTable{};
     double time = 0.0;
     std::vector<Reaction> reactions{};

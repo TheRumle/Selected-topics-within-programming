@@ -28,3 +28,12 @@ void AllStateCopyMonitor::handleStateChange(double time, const ReactionNetwork::
     }
     this->addObservationVector(time, copies);
 }
+std::pair<std::basic_string<char>, double> CovidHospitalizationMonitor::extractPeakHospitalized() const
+{
+    for (const auto& value : getObservedValues()) {
+        if (value.first == "H") {
+            return value;
+        }
+    }
+    throw std::invalid_argument("The monitor never found an \"H\" value");
+}

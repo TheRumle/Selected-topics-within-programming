@@ -49,14 +49,7 @@ public:
 
 struct CovidHospitalizationMonitor : public MaxAgentValueMonitor{
     
-    std::pair<std::basic_string<char>, double> extractPeakHospitalized() const{
-        for (const auto& value : getObservedValues()) {
-            if (value.first == "H") {
-                return value;
-            }
-        }
-        throw std::invalid_argument("The monitor never found an \"H\" value");
-    }
+    std::pair<std::basic_string<char>, double> extractPeakHospitalized() const;
     
     double extractPeakHospitalizedValue() const{
         return extractPeakHospitalized().second;
