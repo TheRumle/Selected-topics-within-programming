@@ -110,3 +110,15 @@ ReactionNetworkSimulator createCircadianNetwork(){
     //CreateShared reactions
     return ReactionNetworkSimulator{ReactionNetwork{reactions}};
 }
+
+std::pair<std::basic_string<char>, double> MonitorAndGetMaxHospitalized(int N){
+    ReactionNetworkSimulator covidSimulator1 = createCovidNetworkSimulation(N);
+    MaxAgentValueMonitor monitor{};
+    covidSimulator1(1000, monitor);
+    
+    for (const auto& value : monitor.getObservedValues()) {
+        if (value.first == "H") {
+            return value;
+        }
+    }
+}

@@ -3,7 +3,7 @@
 //
 #include "../include/reaction_network/reactionNetworkSimulator.h"
 #include "../include/benchmark/benchmark.h"
-#include "factories/reactionNetworkFactory.h"
+#include "../include/factories/reactionNetworkFactory.h"
 
 void print_voradic(){}
 template<typename First, typename ...Rest>
