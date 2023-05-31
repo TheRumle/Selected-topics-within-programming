@@ -21,18 +21,7 @@ public:
 private:
     double time = 0.0;
     ReactionNetwork network{};
-    
-    
-    std::pair<Reaction, double> findFastestValidReaction();
-
-    std::pair<double,std::vector<std::shared_ptr<const Agent>>> executeSimulation(double endTime){
-        while (time < endTime){
-            auto validReactionTimes = findFastestValidReaction();
-            time += validReactionTimes.second;
-            validReactionTimes.first.operator()();
-        }
-        return {time, this->network.getAgents()};
-    }
+    std::optional<std::pair<Reaction, double>>  findFastestValidReaction();
     
 public:
     using changed_state = std::pair<double,state>;
@@ -50,7 +39,11 @@ public:
     
     void operator()(double endTime){
         while (time < endTime){
-            auto validReactionTimes = findFastestValidReaction();
+            const auto res = findFastestValidReaction();
+            if (!res.has_value())
+                break ;
+        
+            auto validReactionTimes = res.value();
             time += validReactionTimes.second;
             validReactionTimes.first.operator()();
         }    
@@ -59,7 +52,11 @@ public:
     template <MonitorConcept TMonitor>
     void operator()(double endTime, TMonitor& m){
         while (time < endTime){
-            auto validReactionTimes = findFastestValidReaction();
+            const auto res = findFastestValidReaction();
+            if (!res.has_value())
+                break ;
+            
+            auto validReactionTimes = res.value();
             time += validReactionTimes.second;
             validReactionTimes.first.operator()();
             m.handleStateChange(time, network.getAgents());

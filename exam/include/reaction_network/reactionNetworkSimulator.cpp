@@ -6,7 +6,7 @@
 
 const ReactionNetwork& ReactionNetworkSimulator::getNetwork() const { return network; }
 
-std::pair<Reaction, double> 
+std::optional<std::pair<Reaction, double>> 
     ReactionNetworkSimulator::findFastestValidReaction()
 {
     std::vector<std::pair<Reaction, double>> validReactionTimes{};
@@ -14,6 +14,8 @@ std::pair<Reaction, double>
         if (reaction.canBeSatisfied())
             validReactionTimes.emplace_back(reaction, reaction.compute_delay());
     }
+    if (validReactionTimes.empty())
+        return std::nullopt;;
     
     for (auto it = validReactionTimes.begin(); it != validReactionTimes.end(); ++it) {
         for (auto innerIt = validReactionTimes.begin(); innerIt != validReactionTimes.end() - 1; ++innerIt) {

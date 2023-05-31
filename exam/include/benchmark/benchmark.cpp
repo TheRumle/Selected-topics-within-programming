@@ -28,9 +28,10 @@ benchmark_result benchmark::getById(const int id) {
 
 benchmark_result benchmark::perform_measurements(const std::function<void()> &func, int num_measurements) {
     auto measurement = benchmark_result{};
+    measurement.id = rand();
     for (int i = 0; i < num_measurements; ++i)
         perform_measurement(func, measurement);
-
+    
     return measurement;
 }
 

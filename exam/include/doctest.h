@@ -5782,7 +5782,7 @@ namespace {
             if(tc->m_no_output)
                 return;
 
-            // log the preamble of the test case only if there is something
+            // print_voradic the preamble of the test case only if there is something
             // else to print - something other than that an assert has failed
             if(opt.duration ||
                (st.failure_flags && st.failure_flags != TestCaseFailureReason::AssertFailure))

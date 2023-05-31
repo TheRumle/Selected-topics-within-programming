@@ -52,9 +52,6 @@ public:
     static std::shared_ptr<Agent> CreateShared(const std::string& name, double startValue= 1){
         return std::make_shared<Agent>(Agent{name, startValue});
     }
-    static std::shared_ptr<Agent> CreateShared(const Agent&& agent){
-        return std::make_shared<Agent>(Agent{agent.agentName, agent.totalAgent});
-    }
     
     inline void increment(){ totalAgent +=1;}
     inline void add(double amount){ totalAgent += amount;}

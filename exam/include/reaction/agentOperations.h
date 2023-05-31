@@ -52,7 +52,7 @@ public:
 
     [[nodiscard]] double getAgentAmount() const { return this->agent->getTotalAmountAgent(); }
     [[nodiscard]] bool canBePerformed() const {
-        return (this->agent->getTotalAmountAgent() >= this->amount);
+        return (this->agent->getTotalAmountAgent() >=    this->amount);
     }
 
     void operator()() const override {

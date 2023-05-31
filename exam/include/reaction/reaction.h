@@ -16,10 +16,16 @@ class Reaction
 {
 public:
     // Default constructor
-    Reaction() = default;
+    Reaction():
+        lambda(0),
+        productionActions({}),
+        consumptions({}){};
     
     // Copy constructor
-    Reaction(const Reaction& other) = default;
+    Reaction(const Reaction& other) : 
+        lambda(other.lambda),
+        consumptions(other.consumptions), 
+        productionActions(other.productionActions){};
     
     // Move constructor
     Reaction(Reaction&& other) noexcept
@@ -30,7 +36,9 @@ public:
     }
     
     // Constructor with arguments
-    Reaction(const std::vector<AgentConsumption>& reactants, const std::vector<AgentProduction>& products, double lambda)
+    Reaction(const std::vector<AgentConsumption>& reactants,
+             const std::vector<AgentProduction>& products,
+             double lambda)
         : lambda(lambda),
         consumptions(reactants),
         productionActions(products)

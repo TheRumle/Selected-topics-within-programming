@@ -39,8 +39,6 @@ ReactionNetworkSimulator create3rdSimpleNetwork() {
 }
 
 ReactionNetworkSimulator createCovidNetworkSimulation(double N) {
-    
-    
     const double eps = 0.0009; // initial fraction of infectious
     const auto I0 = double(std::round(eps*N)); // initial infectious
     const auto E0 = double(std::round(eps*N*15)); // initial exposed
