@@ -11,7 +11,7 @@
 #include "reaction/reaction.h"
 #include "reactionNetwork.h"
 #include "meta/monitorConstraint.h"
-#include "reaction_network/monitor/monitor.h"
+#include "reactionNetwork/monitor/monitor.h"
 
 class ReactionNetworkSimulator
 {

@@ -5,8 +5,8 @@
 #ifndef EXAM2023_MONITORCONSTRAINT_H
 #define EXAM2023_MONITORCONSTRAINT_H
 #include <type_traits>
-#include "reaction_network/reactionNetwork.h"
-#include "reaction_network/monitor/monitor.h"
+#include "reactionNetwork/reactionNetwork.h"
+#include "reactionNetwork/monitor/monitor.h"
 
 template <typename TMonitor>
 concept MonitorConcept = std::is_base_of_v<Monitor, TMonitor> &&

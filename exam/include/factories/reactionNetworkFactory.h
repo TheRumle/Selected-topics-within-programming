@@ -4,7 +4,8 @@
 
 #include <memory>
 #include <cmath>
-#include "reaction_network/reactionNetworkSimulator.h"
+#include "reactionNetwork/reactionNetworkSimulator.h"
+#include "reaction/agents.h"
 ReactionNetwork createNetwork(const std::shared_ptr<Agent>& A,
                               const std::shared_ptr<Agent>& B,
                               const std::shared_ptr<Agent>& C){

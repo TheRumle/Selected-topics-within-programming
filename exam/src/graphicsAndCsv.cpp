@@ -2,12 +2,10 @@
 // Created by rasmus on 5/29/2023.
 //
 
-#include "../include/reaction_network/reactionNetworkSimulator.h"
+#include "../include/reactionNetwork/reactionNetworkSimulator.h"
 #include "../include/factories/csvFactory.h"
 #include "../include/factories/reactionNetworkFactory.h"
 #include "../include/factories/graphvizFactory.h"
-
-
 
 void simulateAndWriteCsv(ReactionNetworkSimulator& simpleSimulation, double endTime, const std::string& name){
     AllStateCopyMonitor monitor{};

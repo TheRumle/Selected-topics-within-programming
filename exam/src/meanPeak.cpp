@@ -4,7 +4,7 @@
 #include <iostream>
 #include <future>
 #include <numeric>
-#include "reaction_network/reactionNetworkSimulator.h"
+#include "reactionNetwork/reactionNetworkSimulator.h"
 #include "factories/reactionNetworkFactory.h"
 
 double findMean(std::vector<std::future<double>>& futures) {

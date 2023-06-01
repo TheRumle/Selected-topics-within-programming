@@ -2,7 +2,7 @@
 // Created by rasmus on 5/31/2023.
 //
 #include <future>
-#include "../include/reaction_network/reactionNetworkSimulator.h"
+#include "../include/reactionNetwork/reactionNetworkSimulator.h"
 #include "../include/benchmark/benchmark.h"
 #include "../include/factories/reactionNetworkFactory.h"
 
@@ -113,6 +113,6 @@ int main(){
     std::cout << "\n\nHHH\n";
     BenchMultiThread(20000);
     
-    std::cout << "\n\nPPPP\n";
+    std::cout << "\n\nPPPP\n";  
     BenchMultiThread(25000);
 }

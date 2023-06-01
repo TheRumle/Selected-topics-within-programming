@@ -3,7 +3,7 @@
 //
 #include <utility>
 
-#include "reaction_network/reactionNetwork.h"
+#include "reactionNetwork/reactionNetwork.h"
 struct GraphVizFactory
 {
     GraphVizFactory(ReactionNetwork network, std::string  path):

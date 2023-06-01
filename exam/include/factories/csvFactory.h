@@ -6,7 +6,7 @@
 #ifndef EXAM2023_CSVFACTORY_H
 #define EXAM2023_CSVFACTORY_H
 #include <set>
-#include "reaction_network/reactionNetworkSimulator.h"
+#include "reactionNetwork/reactionNetworkSimulator.h"
 
 struct CsvFactory {
 private:

@@ -5,7 +5,7 @@
 #ifndef EXAM2023_MONITOR_H
 #define EXAM2023_MONITOR_H
 
-#include "reaction_network/reactionNetwork.h"
+#include "reactionNetwork/reactionNetwork.h"
 
 struct Monitor
 {

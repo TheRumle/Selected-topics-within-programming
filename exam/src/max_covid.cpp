@@ -1,7 +1,7 @@
 ﻿//
 // Created by rasmus on 5/31/2023.
 //
-#include "reaction_network/monitor/monitor.h"
+#include "reactionNetwork/monitor/monitor.h"
 #include "factories/reactionNetworkFactory.h"
 
 
