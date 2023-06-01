@@ -34,9 +34,9 @@ public:
     AgentAction& operator=(AgentAction&& other) noexcept = default;
     virtual ~AgentAction() = default;
 
-    [[nodiscard]] double getAmount() const { return amount; }
-    [[nodiscard]] const std::string getName() const { return name; }
-    [[nodiscard]] const Agent::P_Container& getAgent() const { return agent; }
+    double getAmount() const { return amount; }
+    const std::string getName() const { return name; }
+    const Agent::P_Container& getAgent() const { return agent; }
 
     friend std::ostream& operator<<(std::ostream& s, const AgentAction& action) {
         return toString(s, action);

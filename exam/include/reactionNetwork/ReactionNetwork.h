@@ -9,7 +9,6 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "reaction/constructionRules.h"
 #include "reaction/reaction.h"
 #include "meta/agentConstraint.h"
 
@@ -21,24 +20,9 @@ class ReactionNetwork
     std::vector<std::shared_ptr<const Agent>> _agents{}; 
     
     template <AgentActionConcept T>
-    void addAgentsToSTable(const std::vector<T>& actions) {
-        for (const T& action : actions) {
-            const Agent::P_Container agent = action.getAgent();
-            agentsTable.storeOrUpdate(agent.getAgentName(), agent.p_agent);
-        }
-    }
+    void addAgentsToSTable(const std::vector<T>& actions);
     
-    void findAgentsForReactions(){
-        for (const auto& reaction : reactions) {
-            addAgentsToSTable(reaction.getProductionActions());
-            addAgentsToSTable(reaction.getConsumptions());
-        }
-        std::vector<std::shared_ptr<const Agent>> agents{};
-        for (const auto& agent : agentsTable) {
-            agents.emplace_back(agent.second);
-        }
-        _agents = std::move(agents);
-    }
+    void findAgentsForReactions();
     
 public:
     using state = std::vector<std::shared_ptr<const Agent>>; //For all other purposes, only the network
@@ -64,28 +48,10 @@ public:
     ~ReactionNetwork() = default;
 
     // Copy assignment operator
-    ReactionNetwork& operator=(const ReactionNetwork& other)
-    {
-        if (this != &other)
-        {
-            time = other.time;
-            reactions = other.reactions;
-            this->agentsTable = other.agentsTable;
-            this->_agents = other._agents;
-        }
-        return *this;
-    }
+    ReactionNetwork& operator=(const ReactionNetwork& other);
 
     // Move assignment operator
-    ReactionNetwork& operator=(ReactionNetwork&& other) noexcept
-    {
-        if (this != &other)
-        {
-            time = std::move(other.time);
-            reactions = std::move(other.reactions);
-        }
-        return *this;
-    }
+    ReactionNetwork& operator=(ReactionNetwork&& other) noexcept;
     auto begin()  { return reactions.begin(); }
     auto end() { return reactions.end(); }
     auto begin() const { return reactions.begin(); }
@@ -95,8 +61,7 @@ public:
     
     std::string to_graphviz_string() const;
     
-    /// Only exposes constant _agents. Noone should modify but the network itself.
-    /// \return 
+    /// Only exposes constant agents. Noone should modify but the network itself!
     std::vector<std::shared_ptr<const Agent>> getAgents() const {
         return _agents;
     }

@@ -33,11 +33,11 @@ public:
         if(found != table.end()){
             (*found).second = object;
         } else{
-            put(symbol, object);
+            add(symbol, object);
         }
     }
     
-    void put(const TKey & key, T item){
+    void add(const TKey & key, T item){
         if (table.contains(key))
             throw std::out_of_range("Duplicate key! ");
         
@@ -52,7 +52,7 @@ public:
         if(found != table.end()){
             (*found).second = object;
         } else{
-            this->put(symbol, object);
+            this->add(symbol, object);
         }
         
     }
@@ -76,7 +76,7 @@ public:
     }
     void remove(const TKey& key) {
         if (!this->table.contains(key)) 
-            throw std::out_of_range("No element with that key is in put, so it cannot be removed");
+            throw std::out_of_range("No element with that key is in add, so it cannot be removed");
         table.erase(key);
     }
 };

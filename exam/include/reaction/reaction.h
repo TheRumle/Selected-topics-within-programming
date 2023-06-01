@@ -6,12 +6,11 @@
 #define EXAM2023_REACTION_H
 
 #include <utility>
-#include "constructionRules.h"
 #include "memory"
 #include "symbolTable/symbolTable.h"
 #include "agents.h"
+#include "agentOperations.h"
 
-using namespace ReactionCreation;
 class Reaction
 {
 public:
@@ -39,9 +38,9 @@ public:
     }
     
     
-    [[nodiscard]] double compute_delay() const;
-    [[nodiscard]] bool canBeSatisfied() const;
-    [[nodiscard]] double getLambda() const {return lambda;} ;
+    double compute_delay() const;
+    bool canBeSatisfied() const;
+    double getLambda() const {return lambda;} ;
     inline void operator()() {
         consume_from_state();
         produce_to_state();
@@ -58,7 +57,6 @@ private:
     
     void consume_from_state();
     void produce_to_state();
-    friend Reaction create(const std::vector<AgentConsumption>& reactants, const std::vector<AgentProduction>& products, double lambda);
 };
 
 

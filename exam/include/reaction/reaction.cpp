@@ -27,13 +27,6 @@ double Reaction::compute_delay() const
     auto val =  std::move(exponentialDistribution(generator));
     return val;
 }
-
-Reaction create(const std::vector<AgentConsumption>& reactants,
-                const std::vector<AgentProduction>& products,
-                double lambda) {
-    return {reactants, products, lambda};
-}
-
 void Reaction::produce_to_state()
 {
     for (auto& product : productionActions) {
@@ -46,9 +39,7 @@ void Reaction::consume_from_state()
        reactant.operator()();
     }
 }
-Reaction LHS::operator>>=(const RHS& rhs) {
-    return create(this->reactants, rhs.products, rhs.rate);
-}
+
 
 std::ostream& operator<<(std::ostream& s, const Reaction& value)
 {

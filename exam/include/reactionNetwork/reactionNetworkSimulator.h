@@ -20,13 +20,11 @@ class ReactionNetworkSimulator
     std::optional<std::pair<Reaction, double>>  findFastestValidReaction();
 public:
     using state = std::vector<std::shared_ptr<const Agent>>;
-    ReactionNetworkSimulator(ReactionNetwork& network)
-        : network(network)
+    ReactionNetworkSimulator(ReactionNetwork& network) : network(network)
     {
     }
     
-    ReactionNetworkSimulator(ReactionNetwork&& network)
-        : network(std::move(network))
+    ReactionNetworkSimulator(ReactionNetwork&& network): network(std::move(network))
     {
     }
 
