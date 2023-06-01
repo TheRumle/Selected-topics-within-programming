@@ -45,6 +45,19 @@ public:
             vector.emplace_back(*this);
             return vector;
         }
+        struct ToRule{
+            const Agent::AgentComposition& lhs;
+            const Agent::AgentComposition& rhs;
+            ToRule(const Agent::AgentComposition& lhs,const Agent::AgentComposition& rhs)
+                :lhs(lhs), rhs(rhs){}
+        };
+        
+        ToRule operator >>=(Agent::AgentComposition& other){
+            return {*this, other};
+        }
+        ToRule operator >>=(Agent::AgentComposition&& other){
+            return {*this, other};
+        }
     };
     
     
