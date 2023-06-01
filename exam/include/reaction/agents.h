@@ -83,7 +83,7 @@ public:
         };
         
         Composite operator+(const P_Container& other) const{
-            return {std::vector<P_Container>{other}};
+            return {std::vector<P_Container>{{*this,other}}};
         }
 
         Rule operator>>=(const P_Container& other) const{

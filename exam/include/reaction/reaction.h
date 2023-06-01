@@ -14,7 +14,6 @@
 using namespace ReactionCreation;
 class Reaction
 {
-    using Rule = Agent::P_Container::Rule;
 public:
     // Default constructor
     Reaction():
@@ -24,8 +23,8 @@ public:
     
     Reaction(const Agent::P_Container::Rule& rule, double lambda)
         : lambda(lambda), 
-        consumptions(AgentAction::FromRule<AgentConsumption>(rule)),
-        productionActions(AgentProduction::FromRule<AgentProduction>(rule))
+        consumptions(AgentAction::FromRule<AgentConsumption>(rule.lhs)),
+        productionActions(AgentProduction::FromRule<AgentProduction>(rule.rhs))
     {}
 
     

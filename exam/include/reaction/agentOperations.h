@@ -45,10 +45,9 @@ public:
     virtual void operator()() const = 0;
     
     template <typename ActionType>
-    static std::vector<ActionType> FromRule(const Agent::P_Container::Rule& rule) {
+    static std::vector<ActionType> FromRule(const std::vector<Agent::P_Container>& elements) {
         std::vector<ActionType> res;
-        const auto& rhs = rule.lhs;
-        for (const auto& value : rhs) {
+        for (const auto& value : elements) {
             res.emplace_back(ActionType{ value, 1 });
         }
         return res;
