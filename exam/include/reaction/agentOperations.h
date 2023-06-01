@@ -43,6 +43,16 @@ public:
     }
 
     virtual void operator()() const = 0;
+    
+    template <AgentActionConcept T>
+    static std::vector<T> FromRule(const Agent::Rule& rule){
+        std::vector<T> res;
+        const auto& rhs = rule.lhs;
+        for (const auto& value : rhs.getReactionAmounts()) {
+            res.emplace_back(value.agent.getAgentName(), value.amount);
+        }
+        return res;
+    }
 };
 
 

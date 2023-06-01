@@ -11,6 +11,9 @@
 
 class Agent{
 public:
+    
+    
+    
     struct P_Container
     {
         std::shared_ptr<Agent> p_agent;
@@ -42,8 +45,9 @@ public:
             vector.emplace_back(*this);
             return vector;
         }
-        
     };
+    
+    
     
     
     
