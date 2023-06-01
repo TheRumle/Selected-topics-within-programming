@@ -8,7 +8,7 @@
 #include <utility>
 #include "constructionRules.h"
 #include "memory"
-#include "symbol_table/symbolTable.h"
+#include "symbolTable/symbolTable.h"
 #include "agents.h"
 
 using namespace ReactionCreation;

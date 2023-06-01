@@ -11,7 +11,6 @@
 #include <unordered_map>
 #include <string>
 #include <vector>
-#include "stdexcept"
 
 template<typename TKey, typename T>
 class SymbolTable
@@ -34,11 +33,11 @@ public:
         if(found != table.end()){
             (*found).second = object;
         } else{
-            store(symbol, object);
+            put(symbol, object);
         }
     }
     
-    void store(const TKey & key, T item){
+    void put(const TKey & key, T item){
         if (table.contains(key))
             throw std::out_of_range("Duplicate key! ");
         
@@ -53,7 +52,7 @@ public:
         if(found != table.end()){
             (*found).second = object;
         } else{
-            this->store(symbol, object);
+            this->put(symbol, object);
         }
         
     }
@@ -77,7 +76,7 @@ public:
     }
     void remove(const TKey& key) {
         if (!this->table.contains(key)) 
-            throw std::out_of_range("No element with that key is in store, so it cannot be removed");
+            throw std::out_of_range("No element with that key is in put, so it cannot be removed");
         table.erase(key);
     }
 };

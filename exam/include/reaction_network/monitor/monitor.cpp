@@ -6,10 +6,10 @@
 void MaxAgentValueMonitor::handleStateChange(double time, const ReactionNetwork::state& state)
 {
     for (const auto& agent : state) {
-        const auto prev = store.getValue(agent->getAgentName());
+        const auto prev = store.get(agent->getAgentName());
 
         if (!prev.has_value()){
-            store.store(agent->getAgentName(), agent->getTotalAmountAgent());
+            store.put(agent->getAgentName(), agent->getTotalAmountAgent());
             continue ;
         }
 

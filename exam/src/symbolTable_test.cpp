@@ -5,7 +5,7 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest/doctest.h"
 #include "functional"
-#include "symbol_table/symbolTable.h"
+#include "symbolTable/symbolTable.h"
 
 template<typename T>
 concept Throwable = std::is_base_of_v<std::exception, std::decay_t<T>>;
@@ -36,14 +36,14 @@ TEST_CASE("ADD"){
     SUBCASE("Storing duplicate key does should throw out of range"){
         CHECK(ThatItThrows<std::out_of_range>([]() {
             SymbolTable<int, std::string> table{};
-            table.store(1, "bingo");
-            table.store(1, "bango");
+            table.put(1, "bingo");
+            table.put(1, "bango");
         }));
 
     SUBCASE("Does not throw when using StoreOrUpdate")   
         CHECK(ThatItDoesNotThrow<std::out_of_range>([]() {
             SymbolTable<int, std::string> table{};
-            table.store(1, "tingo");
+            table.put(1, "tingo");
             table.storeOrUpdate(1, "tango");
         }));
         
@@ -67,7 +67,7 @@ TEST_CASE("UPDATE"){
     
     SUBCASE("Updating value that does should update"){
         SymbolTable<int, std::string> table{};
-        table.store(2, "floppity");
+        table.put(2, "floppity");
         table.update(2, "frick");
         CHECK(table.get(2).has_value());
         CHECK(table.get(2).value() == "frick");
@@ -75,37 +75,37 @@ TEST_CASE("UPDATE"){
 }
 
 TEST_CASE("GET"){
-    SUBCASE("Getting a value that is not in store gives empty optional"){
+    SUBCASE("Getting a value that is not in put gives empty optional"){
         SymbolTable<int, std::string> table{};
         CHECK(!table.get(2).has_value());
     }
     
-    SUBCASE("Getting a value that is in store gives optional with value"){
+    SUBCASE("Getting a value that is in put gives optional with value"){
         SymbolTable<int, std::string> table{};
-        table.store(2,"flip");
+        table.put(2, "flip");
         CHECK(table.get(2).has_value());
     }
 }
 
 TEST_CASE("REMOVE"){
-    SUBCASE("Removing a value that is not in store throws exception."){
+    SUBCASE("Removing a value that is not in put throws exception."){
         SymbolTable<int, std::string> table{};
         CHECK(ThatItThrows<std::exception>([&table]() {
             table.remove(2);
         }));
     }
     
-    SUBCASE("Removing a value that is in store does not throw exception."){
+    SUBCASE("Removing a value that is in put does not throw exception."){
         SymbolTable<int, std::string> table{};
         CHECK(ThatItDoesNotThrow<std::exception>([&table]() {
-            table.store(2, "flop");
+            table.put(2, "flop");
             table.remove(2);
         }));
     }
     
-    SUBCASE("The value is removed from the store"){
+    SUBCASE("The value is removed from the put"){
         SymbolTable<int, std::string> table{};
-        table.store(2, "funky");
+        table.put(2, "funky");
         table.remove(2);
         CHECK(!table.get(2).has_value());
     }
