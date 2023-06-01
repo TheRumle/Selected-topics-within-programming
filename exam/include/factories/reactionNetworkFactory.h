@@ -1,23 +1,22 @@
 ﻿//
 // Created by rasmus on 5/29/2023.
 //
-
 #include <memory>
 #include <cmath>
 #include "reactionNetwork/reactionNetworkSimulator.h"
 #include "reaction/agents.h"
+using Rule = Agent::P_Container::Rule;
 ReactionNetwork createNetwork(const Agent::P_Container& A,
                               const Agent::P_Container& B,
                               const Agent::P_Container& C){
+    
     auto lambda = 0.001;
     
-    std::vector<Agent::P_Container> a{A + B}; 
-    
-    {A + B >>= B + C}
-    
-    LHS lhs {{{A}, {C}}};
-    RHS const rhs {{{B}, {C}}, lambda};
-    Reaction r ( lhs >>= rhs);
+    auto a {A + B};
+    auto b {A + B} ;
+    auto g = A >>= A;
+    auto q  {A + C >>= C + B}; 
+    Reaction r{{A + C >>= C + B},1};
     return ReactionNetwork{{r}};
 }
 

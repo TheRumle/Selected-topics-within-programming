@@ -14,12 +14,19 @@
 using namespace ReactionCreation;
 class Reaction
 {
+    using Rule = Agent::P_Container::Rule;
 public:
     // Default constructor
     Reaction():
         lambda(0),
         productionActions({}),
         consumptions({}){};
+    
+    Reaction(const Agent::P_Container::Rule& rule, double lambda)
+        : lambda(lambda), 
+        consumptions(AgentAction::FromRule<AgentConsumption>(rule)),
+        productionActions(AgentProduction::FromRule<AgentProduction>(rule))
+    {}
 
     
     // Constructor with arguments

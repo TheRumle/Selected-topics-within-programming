@@ -20,7 +20,7 @@ class ReactionNetwork
     std::vector<Reaction> reactions{};
     std::vector<std::shared_ptr<const Agent>> _agents{}; 
     
-    template <AgentActionConstraint T>
+    template <AgentActionConcept T>
     void addAgentsToSTable(const std::vector<T>& actions) {
         for (const T& action : actions) {
             const Agent::P_Container agent = action.getAgent();

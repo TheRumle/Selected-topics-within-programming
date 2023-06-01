@@ -35,7 +35,7 @@ public:
     virtual ~AgentAction() = default;
 
     [[nodiscard]] double getAmount() const { return amount; }
-    [[nodiscard]] const std::string& getName() const { return name; }
+    [[nodiscard]] const std::string getName() const { return name; }
     [[nodiscard]] const Agent::P_Container& getAgent() const { return agent; }
 
     friend std::ostream& operator<<(std::ostream& s, const AgentAction& action) {
@@ -44,12 +44,12 @@ public:
 
     virtual void operator()() const = 0;
     
-    template <AgentActionConcept T>
-    static std::vector<T> FromRule(const Agent::Rule& rule){
-        std::vector<T> res;
+    template <typename ActionType>
+    static std::vector<ActionType> FromRule(const Agent::P_Container::Rule& rule) {
+        std::vector<ActionType> res;
         const auto& rhs = rule.lhs;
-        for (const auto& value : rhs.getReactionAmounts()) {
-            res.emplace_back(value.agent.getAgentName(), value.amount);
+        for (const auto& value : rhs) {
+            res.emplace_back(ActionType{ value, 1 });
         }
         return res;
     }

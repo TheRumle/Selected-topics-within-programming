@@ -14,6 +14,7 @@ public:
     
     
     
+    
     struct P_Container
     {
         std::shared_ptr<Agent> p_agent;
@@ -31,38 +32,69 @@ public:
             return p_agent->agentName;
         }
         
-        std::vector<P_Container> operator+(const P_Container&& other) const{
-            P_Container r(other);
-            return {{*this, r}};
-        }
-        
-        std::vector<P_Container> operator+(const P_Container& other) const {
-            P_Container r(other);
-            return {{*this, r}};
-        }
-        
-        std::vector<P_Container>& operator+(std::vector<P_Container>& vector){
-            vector.emplace_back(*this);
-            return vector;
-        }
-        struct ToRule{
-            const Agent::AgentComposition& lhs;
-            const Agent::AgentComposition& rhs;
-            ToRule(const Agent::AgentComposition& lhs,const Agent::AgentComposition& rhs)
+        struct Rule
+        {
+            const std::vector<Agent::P_Container> lhs;
+            const std::vector<Agent::P_Container> rhs;
+            Rule(const std::vector<Agent::P_Container>& lhs,const std::vector<Agent::P_Container>& rhs)
                 :lhs(lhs), rhs(rhs){}
         };
         
-        ToRule operator >>=(Agent::AgentComposition& other){
-            return {*this, other};
+        struct Composite {
+            std::vector<P_Container> elements{};
+    
+            Composite() = default;
+    
+            Composite(const std::vector<P_Container>& elements)
+                : elements(elements)
+            {}
+
+            Composite(const std::vector<P_Container>&& elements)
+                : elements(std::move(elements))
+            {}
+    
+            Composite(const Composite& other)
+                : elements(other.elements)
+            {}
+            
+            Composite(const P_Container& other)
+                : elements({other})
+            {}
+    
+            Composite(Composite&& other) noexcept
+                : elements(std::move(other.elements))
+            {}
+
+            Rule operator >>=(const Composite& other) const{
+                return Rule{{this->elements}, {other.elements}};
+            }
+            Rule operator >>=(const Composite&& other) const{
+                return Rule{{this->elements}, other.elements};
+            }
+
+            Rule operator >>=(const Agent::P_Container& other) const{
+                return Rule{{this->elements}, {other}};
+                
+            }
+            Rule operator >>=(const Agent::P_Container&& other) const{
+                return Rule{{this->elements}, {other}};
+                
+            }
+        };
+        
+        Composite operator+(const P_Container& other) const{
+            return {std::vector<P_Container>{other}};
         }
-        ToRule operator >>=(Agent::AgentComposition&& other){
-            return {*this, other};
+
+        Rule operator>>=(const P_Container& other) const{
+            return {std::vector<P_Container>{*this}, {other}};
         }
+        Rule operator>>=(const Composite& other) const{
+            return {std::vector<P_Container>{*this},other.elements};
+        }
+        
+        
     };
-    
-    
-    
-    
     
     virtual ~Agent() = default;
     Agent(const Agent& other) = default;
@@ -80,7 +112,7 @@ public:
     
     Agent& operator=(Agent&& other) noexcept;
     
-    static P_Container CreateShared(const std::string& name, double startValue= 1){
+    static P_Container CreateShared(const std::string& name, double startValue= 0){
         return {Agent{name, startValue}};
     }
     
