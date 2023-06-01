@@ -15,7 +15,7 @@
 
 class ReactionNetwork
 {
-    symbol_table<std::string, std::shared_ptr<Agent>> agentsTable{};
+    SymbolTable<std::string, std::shared_ptr<Agent>> agentsTable{};
     double time = 0.0;
     std::vector<Reaction> reactions{};
     std::vector<std::shared_ptr<const Agent>> _agents{}; 

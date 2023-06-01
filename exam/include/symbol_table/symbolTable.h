@@ -10,13 +10,16 @@
 #include <optional>
 #include <unordered_map>
 #include <string>
+#include <vector>
+#include "stdexcept"
 
 template<typename TKey, typename T>
-class symbol_table{
+class SymbolTable
+{
     std::map<TKey, T> table;
     
 public:
-    std::optional<T> getValue(const TKey &symbol) {
+    std::optional<T> get(const TKey &symbol) {
         auto it = table.find(symbol);
         
         if (it != table.end()) {
@@ -35,18 +38,24 @@ public:
         }
     }
     
-    void store(const TKey &symbol, T object){
-        table.emplace(symbol, object);
+    void store(const TKey & key, T item){
+        if (table.contains(key))
+            throw std::out_of_range("Duplicate key! ");
+        
+        table.emplace(key, item);
     }
     
-    /// Updates the storage if the value exists else does nothing.
+    /// Updates the storage if the value exists else adds it.
     /// \param symbol 
     /// \param object 
     void update(const TKey &symbol, T object){
         const auto& found = table.find(symbol);
         if(found != table.end()){
             (*found).second = object;
+        } else{
+            this->store(symbol, object);
         }
+        
     }
     
     [[nodiscard]] size_t size() const {
@@ -65,6 +74,11 @@ public:
             res.emplace_back(std::pair{entry.first, entry.second});
         }
         return res;
+    }
+    void remove(const TKey& key) {
+        if (!this->table.contains(key)) 
+            throw std::out_of_range("No element with that key is in store, so it cannot be removed");
+        table.erase(key);
     }
 };
 

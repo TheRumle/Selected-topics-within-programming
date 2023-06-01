@@ -10,7 +10,7 @@
 struct Monitor
 {
 private:
-    symbol_table<double, ReactionNetwork::state> _observations;
+    SymbolTable<double, ReactionNetwork::state> _observations;
 protected:
     inline void addObservationVector(double time, 
                                const ReactionNetwork::state& agents) {
@@ -37,7 +37,7 @@ public:
 
 class MaxAgentValueMonitor : public Monitor
 {
-    symbol_table<std::string, double> store{};
+    SymbolTable<std::string, double> store{};
 public:
     
     void handleStateChange(double time, const ReactionNetwork::state &state) override;
