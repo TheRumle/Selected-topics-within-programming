@@ -7,10 +7,9 @@
 
 bool Reaction::canBeSatisfied() const
 {
-    for (const auto& consumptionAction : consumptions){
-        if (!consumptionAction.canBePerformed()) return false;
-    }
-    return true;
+    return std::all_of(consumptions.begin(), consumptions.end(), [](const AgentConsumption& consumptionAction){
+        return consumptionAction.canBePerformed(); 
+    });
 }
 
 double Reaction::compute_delay() const
@@ -22,10 +21,10 @@ double Reaction::compute_delay() const
 
     if (product == 0) return 0;
     
+    std::exponential_distribution<> exponentialDistribution(product * lambda);
     std::random_device rd;
     std::mt19937 generator(rd());
-    std::exponential_distribution<> exponentialDistribution(product * lambda);
-    auto val =  exponentialDistribution(generator);
+    auto val =  std::move(exponentialDistribution(generator));
     return val;
 }
 

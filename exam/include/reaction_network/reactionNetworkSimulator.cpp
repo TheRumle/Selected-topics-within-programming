@@ -15,7 +15,7 @@ std::optional<std::pair<Reaction, double>>
             validReactionTimes.emplace_back(reaction, reaction.compute_delay());
     }
     if (validReactionTimes.empty())
-        return std::nullopt;;
+        return std::nullopt;
     
     for (size_t i = 0; i < validReactionTimes.size(); ++i) {
         for (size_t j = 0; j < validReactionTimes.size() - 1; ++j) {
