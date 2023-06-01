@@ -23,8 +23,8 @@ class ReactionNetwork
     template <AgentActionConstraint T>
     void addAgentsToSTable(const std::vector<T>& actions) {
         for (const T& action : actions) {
-            const auto agent = action.getAgent();
-            agentsTable.storeOrUpdate(agent->getAgentName(), agent);
+            const Agent::P_Container agent = action.getAgent();
+            agentsTable.storeOrUpdate(agent.getAgentName(), agent.p_agent);
         }
     }
     

@@ -6,10 +6,15 @@
 #include <cmath>
 #include "reactionNetwork/reactionNetworkSimulator.h"
 #include "reaction/agents.h"
-ReactionNetwork createNetwork(const std::shared_ptr<Agent>& A,
-                              const std::shared_ptr<Agent>& B,
-                              const std::shared_ptr<Agent>& C){
+ReactionNetwork createNetwork(const Agent::P_Container& A,
+                              const Agent::P_Container& B,
+                              const Agent::P_Container& C){
     auto lambda = 0.001;
+    
+    std::vector<Agent::P_Container> a{A + B}; 
+    
+    {A + B >>= B + C}
+    
     LHS lhs {{{A}, {C}}};
     RHS const rhs {{{B}, {C}}, lambda};
     Reaction r ( lhs >>= rhs);
