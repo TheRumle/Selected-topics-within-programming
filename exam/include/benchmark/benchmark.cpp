@@ -22,7 +22,7 @@ benchmarkResult benchmark::getById(const int id) {
     if (result != end)
         return results.at(result - end);
     
-    return benchmark_result{NOT_PRESENT};
+    return benchmarkResult{NOT_PRESENT};
 }
 
 benchmarkResult benchmark::perform_measurements(const std::function<void()> &func, int num_measurements) {

@@ -5,11 +5,17 @@
 
 std::ostream& operator<<(std::ostream& ostream, const ReactionNetwork& value) {
     ostream << "{";
-    for (const Reaction& reaction : value) {
-        ostream << value << ", ";
+    auto it = value.begin();
+    if (it != value.end()) {
+        ostream << *it;
+        ++it;
+    }
+    for (; it != value.end(); ++it) {
+        ostream << ", " << *it;
     }
     return ostream << "}\n";
 }
+
 std::string ReactionNetwork::to_graphviz_string() const
 {
     std::stringstream outString;

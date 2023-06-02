@@ -39,28 +39,23 @@ public:
         
         struct Composite {
             std::vector<P_Container> elements{};
-    
+            //"Rule of Zero", therefore no assign
             Composite() = default;
-    
+            Composite(const Composite& other) = default;
+            Composite(Composite&& other) = default;
+            
             Composite(const std::vector<P_Container>& elements)
                 : elements(elements)
             {}
 
-            Composite(const std::vector<P_Container>&& elements)
+            Composite(std::vector<P_Container>&& elements)
                 : elements(std::move(elements))
-            {}
-    
-            Composite(const Composite& other)
-                : elements(other.elements)
             {}
             
             Composite(const P_Container& other)
                 : elements({other})
             {}
     
-            Composite(Composite&& other) noexcept
-                : elements(std::move(other.elements))
-            {}
 
             Rule operator >>=(const Composite& other) const{
                 return Rule{{this->elements}, {other.elements}};
@@ -68,14 +63,11 @@ public:
             Rule operator >>=(const Composite&& other) const{
                 return Rule{{this->elements}, other.elements};
             }
-
-            Rule operator >>=(const Agent::P_Container& other) const{
+            Rule operator >>=(const P_Container& other) const{
                 return Rule{{this->elements}, {other}};
-                
             }
-            Rule operator >>=(const Agent::P_Container&& other) const{
+            Rule operator >>=(const P_Container&& other) const{
                 return Rule{{this->elements}, {other}};
-                
             }
         };
         
@@ -95,7 +87,6 @@ public:
     
     virtual ~Agent() = default;
     Agent(const Agent& other) = default;
-    
     Agent(Agent&& other) noexcept = default;
 
     Agent(std::string name, double volume) : agentName(std::move(name)), totalAgent(volume) {
@@ -106,17 +97,12 @@ public:
     friend std::ostream &operator << (std::ostream& s, const Agent& agent);
     
     Agent& operator=(const Agent& other);
-    
     Agent& operator=(Agent&& other) noexcept;
     
     static P_Container CreateShared(const std::string& name, double startValue= 0){
         return {Agent{name, startValue}};
     }
-    
-    inline void increment(){ totalAgent +=1;}
     inline void add(double amount){ totalAgent += amount;}
-    
-    inline void decrement(){ totalAgent -=1;}
     inline void remove(double amount){ totalAgent -= amount;}
     
     inline double getTotalAmountAgent() const{

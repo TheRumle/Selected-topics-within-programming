@@ -43,14 +43,14 @@ void Reaction::consume_from_state()
 
 std::ostream& operator<<(std::ostream& s, const Reaction& value)
 {
-    s <<"";
+    s <<"{";
     for (const auto& r : value.consumptions){
         s << r;
     }
     s << " ----> ";
     for (const auto& p : value.productionActions)
         s << p << " ";
-    s << "";
+    s << "}";
     return s;
 }
 const std::vector<AgentConsumption>& Reaction::getConsumptions() const { return consumptions; }
