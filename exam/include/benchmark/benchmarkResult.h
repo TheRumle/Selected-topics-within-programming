@@ -9,7 +9,8 @@
 #include <cstddef>
 #include <valarray>
 
-struct benchmark_result {
+struct benchmarkResult
+{
     int id = -1;
     long number_of_measurements{0};
     double sum{0}; // the sum of timings
@@ -23,7 +24,7 @@ struct benchmark_result {
     [[nodiscard]] double standard_error() const {
         return std::sqrt((sumsq - sum * sum / number_of_measurements) / (number_of_measurements - 1) / number_of_measurements);
     }
-    friend std::ostream& operator << (std::ostream &os, const benchmark_result &s);
+    friend std::ostream& operator << (std::ostream &os, const benchmarkResult&s);
 };
 
 

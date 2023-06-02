@@ -4,7 +4,7 @@
 
 #include "benchmark.h"
 
-void benchmark::perform_measurement(const std::function<void()> &func, benchmark_result &measurement) {
+void benchmark::perform_measurement(const std::function<void()> &func, benchmarkResult&measurement) {
     timer timer;
     timer.start();
     func();
@@ -12,13 +12,12 @@ void benchmark::perform_measurement(const std::function<void()> &func, benchmark
     measurement.add_measurement(time);
 }
 
-
-benchmark_result benchmark::getById(const int id) {
+benchmarkResult benchmark::getById(const int id) {
     auto begin = results.begin();
     auto end = results.end();
-    std::vector<benchmark_result>::iterator result;
+    std::vector<benchmarkResult>::iterator result;
     result = std::find_if(begin, end,
-                          [id](benchmark_result b_result){return b_result.id == id;});
+                          [id](benchmarkResult b_result){return b_result.id == id;});
 
     if (result != end)
         return results.at(result - end);
@@ -26,8 +25,8 @@ benchmark_result benchmark::getById(const int id) {
     return benchmark_result{NOT_PRESENT};
 }
 
-benchmark_result benchmark::perform_measurements(const std::function<void()> &func, int num_measurements) {
-    auto measurement = benchmark_result{};
+benchmarkResult benchmark::perform_measurements(const std::function<void()> &func, int num_measurements) {
+    auto measurement = benchmarkResult{};
     measurement.id = rand();
     for (int i = 0; i < num_measurements; ++i)
         perform_measurement(func, measurement);

@@ -11,17 +11,16 @@
 #include "timer.h"
 #include "random"
 #include "vector"
-#include "benchmark_result.h"
-
+#include "benchmarkResult.h"
 
 class benchmark {
 public:
     enum {NOT_PRESENT = -1};
-    benchmark_result getById(int id);
-    static benchmark_result perform_measurements(const std::function<void()> &func, int num_measurements);
+    benchmarkResult getById(int id);
+    static benchmarkResult perform_measurements(const std::function<void()> &func, int num_measurements);
 private:
-    static void perform_measurement(const std::function<void()> &func, benchmark_result &measurement) ;
-    std::vector<benchmark_result> results;
+    static void perform_measurement(const std::function<void()> &func, benchmarkResult&measurement) ;
+    std::vector<benchmarkResult> results;
 };
 
 #endif //SESSION2_BENCHMARK_H
