@@ -1,9 +1,6 @@
-﻿//
-// Created by rasmus on 5/26/2023.
-//
-
-#include <random>
+﻿#include <random>
 #include "reaction.h"
+#include "meta/agentConstraint.h"
 
 bool Reaction::canBeSatisfied() const
 {
@@ -19,13 +16,10 @@ double Reaction::compute_delay() const
         product *= consumptionAction.getAgentAmount();
     }
 
-    if (product == 0) return 0;
-    
+    if (product == 0) return std::numeric_limits<double>::max();
     std::exponential_distribution<> exponentialDistribution(product * lambda);
-    std::random_device rd;
-    std::mt19937 generator(rd());
-    auto val =  std::move(exponentialDistribution(generator));
-    return val;
+    std::mt19937 generator(std::random_device {}());
+    return exponentialDistribution(generator);
 }
 void Reaction::produce_to_state()
 {
@@ -40,18 +34,23 @@ void Reaction::consume_from_state()
     }
 }
 
+template <AgentActionConcept T>
+void appendPlusSeparate(std::ostream& s, std::vector<T> value){
+    for (size_t i = 0; i < value.size(); ++i) {
+       s << value[i];
+       if (i != value.size() - 1) {
+           s << "+ ";
+       }
+    }
+}
 
 std::ostream& operator<<(std::ostream& s, const Reaction& value)
 {
     s <<"{";
-    for (const auto& r : value.consumptions){
-        s << r;
-    }
-    s << " ----> ";
-    for (const auto& p : value.productionActions)
-        s << p << " ";
-    s << "}";
-    return s;
+    appendPlusSeparate(s, value.consumptions);
+    s << "----> ";
+    appendPlusSeparate(s, value.productionActions);
+    return s << "}";
 }
 const std::vector<AgentConsumption>& Reaction::getConsumptions() const { return consumptions; }
 const std::vector<AgentProduction>& Reaction::getProductionActions() const { return productionActions; }

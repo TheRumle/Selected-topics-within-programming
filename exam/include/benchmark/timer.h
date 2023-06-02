@@ -1,11 +1,5 @@
-﻿//
-// Created by rasmus on 2/12/2023.
-//
-
-#ifndef SESSION2_TIMER_H
+﻿#ifndef SESSION2_TIMER_H
 #define SESSION2_TIMER_H
-
-
 #include <chrono>
 
 class timer {

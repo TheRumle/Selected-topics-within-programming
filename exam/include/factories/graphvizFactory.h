@@ -1,7 +1,4 @@
-﻿//
-// Created by rasmus on 5/29/2023.
-//
-#include <utility>
+﻿#include <utility>
 
 #include "reactionNetwork/reactionNetwork.h"
 struct GraphVizFactory

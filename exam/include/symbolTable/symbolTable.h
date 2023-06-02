@@ -1,15 +1,9 @@
-﻿//
-// Created by rasmus on 5/26/2023.
-//
-
-#ifndef EXAM2023_SYMBOLTABLE_H
+﻿#ifndef EXAM2023_SYMBOLTABLE_H
 #define EXAM2023_SYMBOLTABLE_H
 
 #include <map>
 #include <stdexcept>
 #include <optional>
-#include <unordered_map>
-#include <string>
 #include <vector>
 
 template<typename TKey, typename T>

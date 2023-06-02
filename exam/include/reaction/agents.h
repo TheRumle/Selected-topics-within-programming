@@ -1,8 +1,4 @@
-﻿//
-// Created by rasmus on 5/26/2023.
-//
-
-#ifndef EXAM2023_AGENTS_H
+﻿#ifndef EXAM2023_AGENTS_H
 #define EXAM2023_AGENTS_H
 #include <string>
 #include <memory>

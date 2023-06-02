@@ -1,8 +1,4 @@
-﻿//
-// Created by rasmus on 5/30/2023.
-//
-
-#ifndef EXAM2023_MONITORCONSTRAINT_H
+﻿#ifndef EXAM2023_MONITORCONSTRAINT_H
 #define EXAM2023_MONITORCONSTRAINT_H
 #include <type_traits>
 #include "reactionNetwork/reactionNetwork.h"

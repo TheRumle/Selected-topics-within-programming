@@ -1,8 +1,4 @@
-﻿//
-// Created by rasmus on 5/26/2023.
-//
-
-#ifndef EXAM2023_REACTION_H
+﻿#ifndef EXAM2023_REACTION_H
 #define EXAM2023_REACTION_H
 
 #include <utility>
@@ -20,6 +16,7 @@ public:
         productionActions({}),
         consumptions({}){};
     
+    // A + C >>= C + B, lambda
     Reaction(const Agent::P_Container::Rule& rule, double lambda)
         : lambda(lambda), 
         consumptions(AgentAction::FromRule<AgentConsumption>(rule.lhs)),

@@ -1,7 +1,4 @@
-﻿//
-// Created by rasmus on 5/29/2023.
-//
-#include <memory>
+﻿#include <memory>
 #include <cmath>
 #include "reactionNetwork/reactionNetworkSimulator.h"
 #include "reaction/agents.h"

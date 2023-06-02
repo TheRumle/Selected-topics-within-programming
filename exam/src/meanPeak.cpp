@@ -1,7 +1,4 @@
-﻿//
-// Created by rasmus on 5/31/2023.
-//
-#include <iostream>
+﻿#include <iostream>
 #include <future>
 #include <numeric>
 #include "reactionNetwork/reactionNetworkSimulator.h"
@@ -37,13 +34,8 @@ double computeAndGetMeanHospitalizedForN(int n){
 }
 
 int main() {
-    std::cout << computeAndGetMeanHospitalizedForN(10000); //3.55, 3.35
+
+    std::cout << computeAndGetMeanHospitalizedForN(589755);//129.9, 127.55, 125.9, 127.95
     std::cout<<"\n \n";
-    std::cout << computeAndGetMeanHospitalizedForN(15000); //4.6, 5
-    std::cout<<"\n \n";
-    std::cout << computeAndGetMeanHospitalizedForN(250000);//57.5, 55.5
-    std::cout<<"\n \n";
-    std::cout << computeAndGetMeanHospitalizedForN(589755);//129.9, 127.55, 127.55, 125.9, 127.95
-    std::cout<<"\n \n";
-    std::cout << computeAndGetMeanHospitalizedForN(5822763);//1190.7, 1192.85 
+    std::cout << computeAndGetMeanHospitalizedForN(5822763);//1190.7, 1192.85, 1211, 1202, 1166
 }

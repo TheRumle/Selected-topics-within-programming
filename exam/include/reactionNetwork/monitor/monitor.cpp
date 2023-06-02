@@ -1,8 +1,4 @@
-﻿//
-// Created by rasmus on 5/30/2023.
-//
-
-#include "monitor.h"
+﻿#include "monitor.h"
 void MaxAgentValueMonitor::handleStateChange(double time, const ReactionNetwork::state& state)
 {
     for (const auto& agent : state) {

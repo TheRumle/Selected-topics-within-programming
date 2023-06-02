@@ -1,8 +1,4 @@
-﻿//
-// Created by rasmus on 5/29/2023.
-//
-
-#include "../include/reactionNetwork/reactionNetworkSimulator.h"
+﻿#include "../include/reactionNetwork/reactionNetworkSimulator.h"
 #include "../include/factories/csvFactory.h"
 #include "../include/factories/reactionNetworkFactory.h"
 #include "../include/factories/graphvizFactory.h"
@@ -15,6 +11,7 @@ void simulateAndWriteCsv(ReactionNetworkSimulator& simpleSimulation, double endT
 }
 
 int main(){
+       
     ReactionNetworkSimulator simpleSimulation1 = create1stSimpleSimulation();
     simulateAndWriteCsv(simpleSimulation1, 1500, "simple1");
     GraphVizFactory {simpleSimulation1.getNetwork(), "simple_simulation1"}

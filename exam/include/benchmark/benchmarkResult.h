@@ -1,8 +1,4 @@
-﻿//
-// Created by rasmus on 2/12/2023.
-//
-
-#ifndef SESSION2_BENCHMARK_RESULT_H
+﻿#ifndef SESSION2_BENCHMARK_RESULT_H
 #define SESSION2_BENCHMARK_RESULT_H
 
 

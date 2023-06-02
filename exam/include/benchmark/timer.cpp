@@ -1,8 +1,4 @@
-﻿//
-// Created by rasmus on 2/12/2023.
-//
-
-#include "timer.h"
+﻿#include "timer.h"
 
 void timer::start() {
     start_time = std::chrono::high_resolution_clock::now();

@@ -1,7 +1,4 @@
-﻿//
-// Created by rasmus on 5/31/2023.
-//
-#include <future>
+﻿#include <future>
 #include "../include/reactionNetwork/reactionNetworkSimulator.h"
 #include "../include/benchmark/benchmark.h"
 #include "../include/factories/reactionNetworkFactory.h"

@@ -1,11 +1,5 @@
-﻿//
-// Created by rasmus on 5/29/2023.
-//
-
-
-#ifndef EXAM2023_CSVFACTORY_H
+﻿#ifndef EXAM2023_CSVFACTORY_H
 #define EXAM2023_CSVFACTORY_H
-#include <set>
 #include "reactionNetwork/reactionNetworkSimulator.h"
 
 struct CsvFactory {

@@ -1,8 +1,4 @@
-﻿//
-// Created by rasmus on 5/29/2023.
-//
-
-#ifndef EXAM2023_AGENTOPERATIONS_H
+﻿#ifndef EXAM2023_AGENTOPERATIONS_H
 #define EXAM2023_AGENTOPERATIONS_H
 #include "agents.h"
 

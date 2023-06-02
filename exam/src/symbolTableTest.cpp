@@ -1,8 +1,4 @@
-﻿//
-// Created by rasmus on 6/1/2023.
-//
-
-#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+﻿#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest/doctest.h"
 #include "functional"
 #include "symbolTable/symbolTable.h"

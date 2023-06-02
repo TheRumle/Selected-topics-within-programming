@@ -1,8 +1,4 @@
-﻿//
-// Created by rasmus on 5/30/2023.
-//
-
-#ifndef EXAM2023_MONITOR_H
+﻿#ifndef EXAM2023_MONITOR_H
 #define EXAM2023_MONITOR_H
 
 #include "reactionNetwork/reactionNetwork.h"
@@ -18,7 +14,7 @@ protected:
     }
     
 public:
-    using observations = std::vector<std::pair<double, std::vector<std::shared_ptr<const Agent>>>>;
+    using observations = std::vector<std::pair<double, ReactionNetwork::state>>;
     std::vector<std::pair<double, std::vector<std::shared_ptr<const Agent>>>> getObservations() const {
         return _observations.toPairVector();
     }

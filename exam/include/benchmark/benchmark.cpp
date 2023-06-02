@@ -1,8 +1,4 @@
-﻿//
-// Created by rasmus on 2/12/2023.
-//
-
-#include "benchmark.h"
+﻿#include "benchmark.h"
 
 void benchmark::perform_measurement(const std::function<void()> &func, benchmarkResult&measurement) {
     timer timer;

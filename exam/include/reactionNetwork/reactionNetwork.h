@@ -1,8 +1,4 @@
-﻿//
-// Created by rasmus on 5/26/2023.
-//
-
-#ifndef EXAM2023_REACTIONNETWORK_H
+﻿#ifndef EXAM2023_REACTIONNETWORK_H
 #define EXAM2023_REACTIONNETWORK_H
 
 #include <functional>
@@ -49,9 +45,10 @@ public:
 
     // Copy assignment operator
     ReactionNetwork& operator=(const ReactionNetwork& other);
-
     // Move assignment operator
     ReactionNetwork& operator=(ReactionNetwork&& other) noexcept;
+    
+    
     auto begin()  { return reactions.begin(); }
     auto end() { return reactions.end(); }
     auto begin() const { return reactions.begin(); }
