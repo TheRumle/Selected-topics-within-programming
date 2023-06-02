@@ -9,12 +9,12 @@
 int main(){
 
     std::cout << "\nN_NJ\n";
-    const auto res_NJ = MonitorAndGetMaxHospitalized(589755); //112
+    const auto res_NJ = MonitorAndGetMaxHospitalized(589755); //112, 115
     std::cout << res_NJ.first << ":  " << res_NJ.second;
     std::cout << "\nN_NJ\n";
     
     std::cout << "\nN_DK\n";
-    const auto res_DK = MonitorAndGetMaxHospitalized(5822763);//1211
+    const auto res_DK = MonitorAndGetMaxHospitalized(5822763);//1211, 1202
     std::cout << res_DK.first << ":  " << res_DK.second;
     std::cout << "\nN_DK\n";
     
