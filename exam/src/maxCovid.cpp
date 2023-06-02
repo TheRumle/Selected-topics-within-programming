@@ -1,8 +1,6 @@
 ﻿#include "reactionNetwork/monitor/monitor.h"
 #include "factories/reactionNetworkFactory.h"
 
-
-
 int main(){
     std::cout << createCovidNetworkSimulation(1).getNetwork();
     
