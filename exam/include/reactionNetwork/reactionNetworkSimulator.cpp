@@ -20,3 +20,18 @@ std::optional<std::pair<Reaction, double>>
 
     return validReactionTimes.front();
 }
+
+//REQ4
+std::vector<std::shared_ptr<const Agent>> ReactionNetworkSimulator::stochasticSimulation(double endTime)
+{
+    while (time < endTime){
+        const auto res = findFastestValidReaction();
+        if (!res.has_value())
+            break ;
+
+        auto validReactionTimes = res.value();
+        time += validReactionTimes.second;
+        validReactionTimes.first.operator()();
+    }
+    return network.getAgents();
+}

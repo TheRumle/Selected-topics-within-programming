@@ -6,6 +6,7 @@
 #include <optional>
 #include <vector>
 
+//REQ3
 template<typename TKey, typename T>
 class SymbolTable
 {

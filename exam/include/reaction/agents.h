@@ -52,7 +52,7 @@ public:
                 : elements({other})
             {}
     
-
+            //REQ 1
             Rule operator >>=(const Composite& other) const{
                 return Rule{{this->elements}, {other.elements}};
             }
@@ -67,6 +67,7 @@ public:
             }
         };
         
+        //REQ 1
         Composite operator+(const P_Container& other) const{
             return {std::vector<P_Container>{{*this,other}}};
         }

@@ -14,6 +14,9 @@ class ReactionNetworkSimulator
     double time = 0.0;
     ReactionNetwork network{};
     std::optional<std::pair<Reaction, double>>  findFastestValidReaction();
+
+    std::vector<std::shared_ptr<const Agent>> stochasticSimulation(double endTime);
+    
 public:
     using state = std::vector<std::shared_ptr<const Agent>>;
     ReactionNetworkSimulator(ReactionNetwork& network) : network(network)
@@ -25,30 +28,14 @@ public:
     }
 
     
-    void operator()(double endTime){
-        while (time < endTime){
-            const auto res = findFastestValidReaction();
-            if (!res.has_value())
-                break ;
-        
-            auto validReactionTimes = res.value();
-            time += validReactionTimes.second;
-            validReactionTimes.first.operator()();
-        }    
+    void operator()(double endTime){ 
+        stochasticSimulation(endTime);
     }
     
+    //REQ 7
     template <MonitorConcept TMonitor>
     void operator()(double endTime, TMonitor& m){ //Must be lvalue - no monitor if monitor-results won't be used
-        while (time < endTime){
-            const auto res = findFastestValidReaction();
-            if (!res.has_value())
-                break ;
-            
-            auto validReactionTimes = res.value();
-            time += validReactionTimes.second;
-            validReactionTimes.first.operator()();
-            m.handleStateChange(time, network.getAgents());
-        }
+        m.handleStateChange(time, stochasticSimulation(endTime));
     }
     
     const ReactionNetwork& getNetwork() const;

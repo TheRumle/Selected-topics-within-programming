@@ -1,5 +1,6 @@
 ﻿#include "reactionNetwork.h"
 
+//REQ 2
 std::ostream& operator<<(std::ostream& ostream, const ReactionNetwork& value) {
     ostream << "{";
     auto it = value.begin();
@@ -13,6 +14,7 @@ std::ostream& operator<<(std::ostream& ostream, const ReactionNetwork& value) {
     return ostream << "}\n";
 }
 
+//REQ2
 std::string ReactionNetwork::to_graphviz_string() const
 {
     std::stringstream outString;

@@ -15,6 +15,7 @@ constexpr int NUMBER_OF_BENCHMARKS = 20;
 constexpr int NUMBER_OF_SIMULATIONS = 10;
 constexpr int COVID_ENDTIME = 100.00;
 
+//REQ 8
 benchmarkResult singleThreadedBenchmark(const std::function<ReactionNetworkSimulator()>&& factory){
     benchmark benchy{};
     std::cout << "--------------------Beginning benchmark--------------------";
@@ -32,6 +33,7 @@ benchmarkResult singleThreadedBenchmark(const std::function<ReactionNetworkSimul
     return res;
 }
 
+//REQ 10
 void create_and_partition_threads(const std::function<ReactionNetworkSimulator()>& factory, int numThreads){
     const int numSimulations = NUMBER_OF_SIMULATIONS;
     const int simulationsPerThread = numSimulations / numThreads;

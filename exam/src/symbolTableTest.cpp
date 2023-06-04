@@ -28,6 +28,7 @@ bool ThatItThrows(std::function<void()>&& statements) {
     return DidThrow<T>(std::forward<std::function<void()>>(statements)) == true;
 }
 
+//REQ. 9
 TEST_CASE("ADD"){
     SUBCASE("Storing duplicate key does should throw out of range"){
         CHECK(ThatItThrows<std::out_of_range>([]() {

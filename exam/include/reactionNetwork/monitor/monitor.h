@@ -31,6 +31,7 @@ public:
 };
 
 
+//REQ 7
 class MaxAgentValueMonitor : public Monitor
 {
     SymbolTable<std::string, double> store{};
@@ -43,6 +44,7 @@ public:
     }
 };
 
+//REQ 7
 struct CovidHospitalizationMonitor : public MaxAgentValueMonitor{
     
     std::pair<std::basic_string<char>, double> extractPeakHospitalized() const;
