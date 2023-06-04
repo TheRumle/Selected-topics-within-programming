@@ -14,12 +14,11 @@ class SymbolTable
 public:
     std::optional<T> get(const TKey &symbol) noexcept {
         try {
-            
-            auto it = table.find(symbol);
+            const auto it = table.find(symbol);
         
-        if (it != table.end()) {
-            return it->second;
-        }
+            if (it != table.end()) {
+                return it->second;
+            }
             return std::nullopt;
         } catch (const std::exception& any){
             return std::nullopt;

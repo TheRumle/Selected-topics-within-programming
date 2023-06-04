@@ -12,10 +12,20 @@ void simulateAndWriteCsv(ReactionNetworkSimulator& simpleSimulation, double endT
 
 int main(){
        
-    ReactionNetworkSimulator simpleSimulation1 = create1stSimpleSimulation();
-    simulateAndWriteCsv(simpleSimulation1, 1500, "simple1");
-    GraphVizFactory {simpleSimulation1.getNetwork(), "simple_simulation1"}
-        .createGraphVizPng();
+    const Agent::P_Container A = Agent::CreateShared("A", 100);
+    const Agent::P_Container B = Agent::CreateShared("B", 0);
+    const Agent::P_Container C = Agent::CreateShared("C", 1);
+    double lambda = 0.001;
+    const Agent::P_Container::Composite composite = A + C;
+    Reaction reaction{composite >>= C + B,lambda}; //alternatively, A + C is written directly in the reaction
+    
+    ReactionNetwork simpleNetwork{{reaction}}; //The above is encapsulated in functions createNthSimpleSimulation
+    ReactionNetworkSimulator simpleSimulator(simpleNetwork);
+    AllStateCopyMonitor monitor{};
+    simpleSimulator(1500, monitor); // perform the simulation
+    CsvFactory csvFactory{monitor, ';'};
+    csvFactory.writeStateHistoryToCsv("simple_simulation1");//Above is encapsulated in simulateAndWriteCsv
+    
     
     ReactionNetworkSimulator simpleSimulation2 = create2ndSimpleNetwork();
     simulateAndWriteCsv(simpleSimulation2, 1500, "simple2");
@@ -37,7 +47,5 @@ int main(){
     GraphVizFactory {circadianSimulator.getNetwork(), "circadian"}
         .createGraphVizPng();
     
-
-
     return 0;
 }

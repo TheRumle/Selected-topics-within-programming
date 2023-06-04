@@ -38,7 +38,7 @@ public:
     }
     
     template <MonitorConcept TMonitor>
-    void operator()(double endTime, TMonitor& m){
+    void operator()(double endTime, TMonitor& m){ //Must be lvalue - no monitor if monitor-results won't be used
         while (time < endTime){
             const auto res = findFastestValidReaction();
             if (!res.has_value())
